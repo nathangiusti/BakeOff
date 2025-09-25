@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(mkdir:*)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "Bash(grep:*)",
+      "Bash(/dev/null)"
+    ],
+    "defaultMode": "acceptEdits"
+  }
+}
