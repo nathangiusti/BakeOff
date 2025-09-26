@@ -880,7 +880,7 @@ class GBBOAnalyzer:
         """Print series winners analysis"""
         print(f"\nSeries Winners (by average strength):")
         
-        # Find series winners and calculate their average strengths
+        # Find series winners from our pre-calculated stats
         final_rounds = output_df.groupby('Series')['Round'].max().reset_index()
         series_winners = []
         
@@ -892,21 +892,23 @@ class GBBOAnalyzer:
                                    (output_df['Result'] == 'Winner')]
             if len(final_winner) > 0:
                 winner_name = final_winner.iloc[0]['Contestant']
-                winner_rounds = output_df[(output_df['Contestant'] == winner_name) & 
-                                        (output_df['Series'] == series)]
-                avg_strength = winner_rounds['Strength_Score'].mean()
                 
-                # Get corrected stats using helper method
-                stats = self._get_contestant_stats(winner_name, series, winner_rounds)
+                # Get winner stats from pre-calculated data
+                winner_stats = self.contestant_stats_df[
+                    (self.contestant_stats_df['contestant'] == winner_name) & 
+                    (self.contestant_stats_df['series'] == series)
+                ]
                 
-                series_winners.append({
-                    'Contestant': winner_name,
-                    'Series': series,
-                    'Average_Strength': avg_strength,
-                    'Star_Baker_Wins': stats['star_baker_wins'],
-                    'Sig_Handshakes': stats['sig_handshakes'],
-                    'Show_Handshakes': stats['show_handshakes']
-                })
+                if len(winner_stats) > 0:
+                    winner = winner_stats.iloc[0]
+                    series_winners.append({
+                        'Contestant': winner_name,
+                        'Series': series,
+                        'Average_Strength': winner['avg_strength'],
+                        'Star_Baker_Wins': winner['star_baker_wins'],
+                        'Sig_Handshakes': winner['sig_handshakes'],
+                        'Show_Handshakes': winner['show_handshakes']
+                    })
         
         series_winners_df = pd.DataFrame(series_winners).sort_values('Average_Strength', ascending=False)
         
@@ -931,28 +933,17 @@ class GBBOAnalyzer:
         """Print top 10 non-series-winners"""
         print(f"\nTop Non-Series-Winners (by average strength):")
         
-        # Calculate contestant averages with corrected star baker wins and handshakes
-        contestant_data = []
-        for (contestant, series), group in output_df.groupby(['Contestant', 'Series']):
-            avg_strength = group['Strength_Score'].mean()
-            total_rounds = len(group)
-            was_eliminated = 1 if (group['Result'] == 'Eliminated').any() else 0
-            
-            # Get corrected stats using helper method
-            stats = self._get_contestant_stats(contestant, series, group)
-            
-            contestant_data.append({
-                'Contestant': contestant,
-                'Series': series,
-                'Average_Strength': avg_strength,
-                'Total_Rounds': total_rounds,
-                'Star_Baker_Wins': stats['star_baker_wins'],
-                'Sig_Handshakes': stats['sig_handshakes'],
-                'Show_Handshakes': stats['show_handshakes'],
-                'Was_Eliminated': was_eliminated
-            })
-        
-        contestant_averages = pd.DataFrame(contestant_data)
+        # Use pre-calculated contestant stats
+        contestant_averages = self.contestant_stats_df.copy()
+        contestant_averages = contestant_averages.rename(columns={
+            'contestant': 'Contestant',
+            'series': 'Series',
+            'avg_strength': 'Average_Strength',
+            'total_rounds': 'Total_Rounds',
+            'star_baker_wins': 'Star_Baker_Wins',
+            'sig_handshakes': 'Sig_Handshakes',
+            'show_handshakes': 'Show_Handshakes'
+        })
         
         # Filter out series winners
         non_series_winners = contestant_averages[
@@ -962,11 +953,6 @@ class GBBOAnalyzer:
         top_non_winners = non_series_winners.sort_values('Average_Strength', ascending=False).head(10)
         
         for i, (_, contestant) in enumerate(top_non_winners.iterrows(), 1):
-            # Get detailed elimination status
-            contestant_group = output_df[(output_df['Contestant'] == contestant['Contestant']) & 
-                                       (output_df['Series'] == contestant['Series'])]
-            elim_status = self._get_elimination_status(contestant['Series'], contestant_group)
-            
             # Build handshake info string (only show if they have handshakes)
             handshake_info = ""
             if contestant['Sig_Handshakes'] > 0 or contestant['Show_Handshakes'] > 0:
@@ -978,7 +964,7 @@ class GBBOAnalyzer:
                 handshake_info = f", {' + '.join(handshake_parts)} handshakes"
             
             print(f"  {i:2}. {contestant['Contestant']:12} (S{contestant['Series']}): {contestant['Average_Strength']:.2f}/10 avg "
-                  f"({contestant['Star_Baker_Wins']} wins{handshake_info}, {elim_status})")
+                  f"({contestant['Star_Baker_Wins']} wins{handshake_info}, {contestant['elimination_status']})")
     
     def _print_performance_insights(self, output_df: pd.DataFrame) -> None:
         """Print performance insights by strength ranges"""
@@ -1170,54 +1156,11 @@ class GBBOAnalyzer:
         print("\nTOP 5 QUARTERFINALIST+ RANKINGS")
         print("-" * 40)
         
-        # Identify quarterfinalists+ (contestants who reached at least Round 7/8)
-        # Assuming 10-round series, quarterfinalists typically reach R8+
-        quarterfinalists_data = []
+        qf_df = self.quarterfinalist_stats_df
         
-        for (contestant, series), group in output_df.groupby(['Contestant', 'Series']):
-            max_round = group['Round'].max()
-            # Consider quarterfinalists+ as those reaching Round 7 or later (covers different series lengths)
-            if max_round >= 7:
-                # Get original data for this contestant to calculate averages from signature/showstopper components
-                contestant_original_data = self.df[(self.df['Contestant'] == contestant) & (self.df['Series'] == series)]
-                
-                # Calculate averages for different categories
-                
-                # For now, use the normalized technical scores from the processed data
-                # Calculate technical average using the original normalized data
-                tech_avg = contestant_original_data['Tech_Normalized'].mean()
-                
-                # Calculate signature and showstopper averages
-                sig_bake_avg = contestant_original_data[['Signature Bake', 'Signature Flavor', 'Signature Looks']].mean().mean()
-                show_bake_avg = contestant_original_data[['Showstopper Bake', 'Showstopper Flavor', 'Showstopper Looks']].mean().mean()
-                
-                # Calculate combined averages
-                sig_flavor_avg = contestant_original_data['Signature Flavor'].mean()
-                show_flavor_avg = contestant_original_data['Showstopper Flavor'].mean()
-                flavor_avg = (sig_flavor_avg + show_flavor_avg) / 2
-                
-                sig_looks_avg = contestant_original_data['Signature Looks'].mean()
-                show_looks_avg = contestant_original_data['Showstopper Looks'].mean()
-                looks_avg = (sig_looks_avg + show_looks_avg) / 2
-                
-                bake_avg = (sig_bake_avg + show_bake_avg) / 2
-                
-                quarterfinalists_data.append({
-                    'contestant': contestant,
-                    'series': series,
-                    'tech_avg': tech_avg,
-                    'sig_avg': contestant_original_data[['Signature Bake', 'Signature Flavor', 'Signature Looks']].mean().mean(),
-                    'show_avg': contestant_original_data[['Showstopper Bake', 'Showstopper Flavor', 'Showstopper Looks']].mean().mean(),
-                    'flavor_avg': flavor_avg,
-                    'bake_avg': bake_avg,
-                    'looks_avg': looks_avg
-                })
-        
-        if not quarterfinalists_data:
+        if len(qf_df) == 0:
             print("No quarterfinalist data available")
             return
-        
-        qf_df = pd.DataFrame(quarterfinalists_data)
         
         # Print top 5 for each category
         categories = [
@@ -1234,40 +1177,42 @@ class GBBOAnalyzer:
             top_5 = qf_df.nlargest(5, col)
             for i, (_, row) in enumerate(top_5.iterrows(), 1):
                 print(f"  {i}. {row['contestant']:12} (S{int(row['series'])}): {row[col]:.2f} avg {score_name.lower()}")
+            
+            # Calculate and display overall average from ALL bakers (not just quarterfinalists)
+            # Skip average calculation for technical
+            if col != 'tech_avg':
+                all_bakers_data = []
+                for (contestant, series), group in output_df.groupby(['Contestant', 'Series']):
+                    contestant_original_data = self.df[(self.df['Contestant'] == contestant) & (self.df['Series'] == series)]
+                    
+                    if col == 'sig_avg':
+                        avg_value = contestant_original_data[['Signature Bake', 'Signature Flavor', 'Signature Looks']].mean().mean()
+                    elif col == 'show_avg':
+                        avg_value = contestant_original_data[['Showstopper Bake', 'Showstopper Flavor', 'Showstopper Looks']].mean().mean()
+                    elif col == 'flavor_avg':
+                        sig_flavor_avg = contestant_original_data['Signature Flavor'].mean()
+                        show_flavor_avg = contestant_original_data['Showstopper Flavor'].mean()
+                        avg_value = (sig_flavor_avg + show_flavor_avg) / 2
+                    elif col == 'bake_avg':
+                        sig_bake_avg = contestant_original_data[['Signature Bake', 'Signature Flavor', 'Signature Looks']].mean().mean()
+                        show_bake_avg = contestant_original_data[['Showstopper Bake', 'Showstopper Flavor', 'Showstopper Looks']].mean().mean()
+                        avg_value = (sig_bake_avg + show_bake_avg) / 2
+                    elif col == 'looks_avg':
+                        sig_looks_avg = contestant_original_data['Signature Looks'].mean()
+                        show_looks_avg = contestant_original_data['Showstopper Looks'].mean()
+                        avg_value = (sig_looks_avg + show_looks_avg) / 2
+                    
+                    all_bakers_data.append(avg_value)
+                
+                overall_avg_all_bakers = sum(all_bakers_data) / len(all_bakers_data)
+                print(f"     Overall average (all bakers): {overall_avg_all_bakers:.2f}")
 
     def print_variance_analysis(self, output_df: pd.DataFrame) -> None:
         """Print performance variance analysis for contestants."""
         print("\nPERFORMACE VARIANCE ANALYSIS")
         print("----------------------------------------")
         
-        # Calculate variance for each contestant
-        contestant_variance_data = []
-        for (contestant, series), group in output_df.groupby(['Contestant', 'Series']):
-            if len(group) >= 2:  # Need at least 2 performances to calculate variance
-                variance = group['Strength_Score'].var()
-                mean_performance = group['Strength_Score'].mean()
-                num_rounds = len(group)
-                
-                # Determine how far they got
-                max_round = group['Round'].max()
-                if max_round >= 8:  # Quarterfinals or beyond (assuming 10 episodes)
-                    reached_quarters = True
-                elif max_round >= 7:
-                    reached_quarters = True  # Close enough for series with different structures
-                else:
-                    reached_quarters = False
-                
-                contestant_variance_data.append({
-                    'contestant': contestant,
-                    'series': series,
-                    'variance': variance,
-                    'mean_performance': mean_performance,
-                    'num_rounds': num_rounds,
-                    'max_round': max_round,
-                    'reached_quarters': reached_quarters
-                })
-        
-        variance_df = pd.DataFrame(contestant_variance_data)
+        variance_df = self.variance_stats_df
         
         if len(variance_df) == 0:
             print("No variance data available.")
@@ -1277,8 +1222,12 @@ class GBBOAnalyzer:
         highest_variance = variance_df.nlargest(5, 'variance')
         print("Top 5 Most Inconsistent Contestants (Highest Variance):")
         for _, row in highest_variance.iterrows():
+            handshake_info = f", {int(row['total_handshakes'])} handshakes" if row['total_handshakes'] > 0 else ""
+            
             print(f"  {row['contestant']:12} (S{int(row['series'])}): {row['variance']:.2f} variance "
-                  f"(avg: {row['mean_performance']:.2f}, {int(row['num_rounds'])} rounds)")
+                  f"(avg: {row['mean_performance']:.2f}, {int(row['num_rounds'])} rounds, "
+                  f"{int(row['star_baker_wins'])} star bakers, {int(row['positive_reviews'])} high reviews, "
+                  f"{int(row['negative_reviews'])} low reviews{handshake_info})")
         
         # Top 5 lowest variance among quarterfinalists+ only
         quarterfinalists_df = variance_df[variance_df['reached_quarters'] == True]
@@ -1287,13 +1236,21 @@ class GBBOAnalyzer:
             lowest_variance_quarters = quarterfinalists_df.nsmallest(5, 'variance')
             print(f"\nTop 5 Most Consistent Contestants (Lowest Variance, Quarterfinalists+):")
             for _, row in lowest_variance_quarters.iterrows():
+                handshake_info = f", {int(row['total_handshakes'])} handshakes" if row['total_handshakes'] > 0 else ""
+                
                 print(f"  {row['contestant']:12} (S{int(row['series'])}): {row['variance']:.2f} variance "
-                      f"(avg: {row['mean_performance']:.2f}, {int(row['num_rounds'])} rounds)")
+                      f"(avg: {row['mean_performance']:.2f}, {int(row['num_rounds'])} rounds, "
+                      f"{int(row['star_baker_wins'])} star bakers, {int(row['positive_reviews'])} high reviews, "
+                      f"{int(row['negative_reviews'])} low reviews{handshake_info})")
         else:
             print(f"\nTop {len(quarterfinalists_df)} Most Consistent Contestants (Lowest Variance, Quarterfinalists+):")
             for _, row in quarterfinalists_df.nsmallest(len(quarterfinalists_df), 'variance').iterrows():
+                handshake_info = f", {int(row['total_handshakes'])} handshakes" if row['total_handshakes'] > 0 else ""
+                
                 print(f"  {row['contestant']:12} (S{int(row['series'])}): {row['variance']:.2f} variance "
-                      f"(avg: {row['mean_performance']:.2f}, {int(row['num_rounds'])} rounds)")
+                      f"(avg: {row['mean_performance']:.2f}, {int(row['num_rounds'])} rounds, "
+                      f"{int(row['star_baker_wins'])} star bakers, {int(row['positive_reviews'])} high reviews, "
+                      f"{int(row['negative_reviews'])} low reviews{handshake_info})")
         
         # Summary statistics
         print(f"\nVariance Analysis Summary:")
@@ -1324,6 +1281,113 @@ class GBBOAnalyzer:
         print(f"Dataset: {len(output_df)} records, {output_df['Contestant'].nunique()} contestants, Series {min(output_df['Series'])}-{max(output_df['Series'])}")
         print("=" * 60)
     
+    def _calculate_all_contestant_statistics(self, output_df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+        """Calculate all contestant statistics once to avoid duplication"""
+        
+        # Basic contestant statistics
+        contestant_stats_data = []
+        variance_data = []
+        quarterfinalist_data = []
+        
+        for (contestant, series), group in output_df.groupby(['Contestant', 'Series']):
+            # Basic statistics
+            avg_strength = group['Strength_Score'].mean()
+            total_rounds = len(group)
+            max_round = group['Round'].max()
+            
+            # Get additional stats using existing helper method
+            stats = self._get_contestant_stats(contestant, series, group)
+            
+            # Count reviews
+            positive_reviews = len(group[group['Result'] == 'Positive Review'])
+            negative_reviews = len(group[group['Result'] == 'Negative Review'])
+            neutral_reviews = len(group[group['Result'] == 'Neutral Review'])
+            eliminations = len(group[group['Result'] == 'Eliminated'])
+            
+            # Check if they reached quarterfinalist level
+            reached_quarters = max_round >= 7
+            
+            # Get elimination status
+            elim_status = self._get_elimination_status(series, group)
+            
+            # Basic contestant stats
+            contestant_stats_data.append({
+                'contestant': contestant,
+                'series': series,
+                'avg_strength': avg_strength,
+                'total_rounds': total_rounds,
+                'max_round': max_round,
+                'star_baker_wins': stats['star_baker_wins'],
+                'sig_handshakes': stats['sig_handshakes'],
+                'show_handshakes': stats['show_handshakes'],
+                'total_handshakes': stats['sig_handshakes'] + stats['show_handshakes'],
+                'positive_reviews': positive_reviews,
+                'negative_reviews': negative_reviews,
+                'neutral_reviews': neutral_reviews,
+                'eliminations': eliminations,
+                'reached_quarters': reached_quarters,
+                'elimination_status': elim_status
+            })
+            
+            # Variance statistics (need at least 2 performances)
+            if len(group) >= 2:
+                variance = group['Strength_Score'].var()
+                variance_data.append({
+                    'contestant': contestant,
+                    'series': series,
+                    'variance': variance,
+                    'mean_performance': avg_strength,
+                    'num_rounds': total_rounds,
+                    'max_round': max_round,
+                    'reached_quarters': reached_quarters,
+                    'star_baker_wins': stats['star_baker_wins'],
+                    'sig_handshakes': stats['sig_handshakes'],
+                    'show_handshakes': stats['show_handshakes'],
+                    'total_handshakes': stats['sig_handshakes'] + stats['show_handshakes'],
+                    'positive_reviews': positive_reviews,
+                    'negative_reviews': negative_reviews
+                })
+            
+            # Quarterfinalist statistics (for specialized rankings)
+            if reached_quarters:
+                # Get original data for category averages
+                contestant_original_data = self.df[(self.df['Contestant'] == contestant) & (self.df['Series'] == series)]
+                
+                # Calculate category averages
+                tech_avg = contestant_original_data['Tech_Normalized'].mean()
+                sig_avg = contestant_original_data[['Signature Bake', 'Signature Flavor', 'Signature Looks']].mean().mean()
+                show_avg = contestant_original_data[['Showstopper Bake', 'Showstopper Flavor', 'Showstopper Looks']].mean().mean()
+                
+                # Combined averages
+                sig_flavor_avg = contestant_original_data['Signature Flavor'].mean()
+                show_flavor_avg = contestant_original_data['Showstopper Flavor'].mean()
+                flavor_avg = (sig_flavor_avg + show_flavor_avg) / 2
+                
+                sig_looks_avg = contestant_original_data['Signature Looks'].mean()
+                show_looks_avg = contestant_original_data['Showstopper Looks'].mean()
+                looks_avg = (sig_looks_avg + show_looks_avg) / 2
+                
+                sig_bake_avg = contestant_original_data[['Signature Bake', 'Signature Flavor', 'Signature Looks']].mean().mean()
+                show_bake_avg = contestant_original_data[['Showstopper Bake', 'Showstopper Flavor', 'Showstopper Looks']].mean().mean()
+                bake_avg = (sig_bake_avg + show_bake_avg) / 2
+                
+                quarterfinalist_data.append({
+                    'contestant': contestant,
+                    'series': series,
+                    'tech_avg': tech_avg,
+                    'sig_avg': sig_avg,
+                    'show_avg': show_avg,
+                    'flavor_avg': flavor_avg,
+                    'bake_avg': bake_avg,
+                    'looks_avg': looks_avg
+                })
+        
+        return (
+            pd.DataFrame(contestant_stats_data),
+            pd.DataFrame(variance_data),
+            pd.DataFrame(quarterfinalist_data)
+        )
+
     def run_complete_analysis(self) -> None:
         """Run the complete analysis pipeline"""
         print("=" * 60)
@@ -1342,6 +1406,9 @@ class GBBOAnalyzer:
             
             # Calculate strength scores
             output_df = self.calculate_strength_scores()
+            
+            # Calculate all contestant statistics once
+            self.contestant_stats_df, self.variance_stats_df, self.quarterfinalist_stats_df = self._calculate_all_contestant_statistics(output_df)
             
             # Generate analysis in organized sections
             self.generate_performance_analysis(output_df)

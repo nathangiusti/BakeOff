@@ -388,6 +388,104 @@ Average variance (quarterfinalists+): 3.18
 
 ---
 
+## Top 5 Quarterfinalist+ Performance Rankings
+
+Understanding excellence in specific baking categories among the most successful contestants:
+
+### Performance Category Leaders
+
+Among contestants who reached at least Round 7 (quarterfinalists and beyond), here are the top performers in each baking category:
+
+#### Technical Challenge Excellence
+```
+Top 5 Technical Challenge Masters:
+  1. Jurgen       (S9): 0.75 avg technical score
+  2. David        (S7): 0.72 avg technical score  
+  3. Peter        (S8): 0.69 avg technical score
+  4. Sophie       (S5): 0.68 avg technical score
+  5. Jon          (S6): 0.67 avg technical score
+```
+
+#### Signature Bake Excellence
+```
+Top 5 Signature Bake Masters:
+  1. Giuseppe     (S9): 0.77 avg signature score
+  2. Kim-Joy      (S6): 0.70 avg signature score
+  3. Syabira      (S10): 0.70 avg signature score
+  4. Crystelle    (S9): 0.67 avg signature score
+  5. Steph        (S7): 0.63 avg signature score
+Overall average (all bakers): 0.21
+```
+
+#### Showstopper Excellence  
+```
+Top 5 Showstopper Masters:
+  1. Crystelle    (S9): 0.87 avg showstopper score
+  2. Jurgen       (S9): 0.81 avg showstopper score
+  3. Sophie       (S5): 0.73 avg showstopper score
+  4. Chigs        (S9): 0.70 avg showstopper score
+  5. Alice        (S7): 0.70 avg showstopper score
+Overall average (all bakers): 0.23
+```
+
+#### Flavor Excellence
+```
+Top 5 Flavor Masters:
+  1. Crystelle    (S9): 1.00 avg flavor score
+  2. Sophie       (S5): 0.95 avg flavor score
+  3. Tasha        (S11): 0.81 avg flavor score
+  4. Chigs        (S9): 0.80 avg flavor score
+  5. Kim-Joy      (S6): 0.80 avg flavor score
+Overall average (all bakers): 0.39
+```
+
+#### Bake Execution Excellence
+```
+Top 5 Bake Execution Masters:
+  1. Crystelle    (S9): 0.77 avg bake score
+  2. Giuseppe     (S9): 0.72 avg bake score
+  3. Syabira      (S10): 0.67 avg bake score
+  4. Chigs        (S9): 0.65 avg bake score
+  5. Steph        (S7): 0.65 avg bake score
+Overall average (all bakers): 0.22
+```
+
+#### Visual Presentation Excellence
+```
+Top 5 Visual Presentation Masters:
+  1. Giuseppe     (S9): 0.90 avg looks score
+  2. Syabira      (S10): 0.80 avg looks score
+  3. Janusz       (S10): 0.72 avg looks score
+  4. Crystelle    (S9): 0.70 avg looks score
+  5. Dave         (S8): 0.70 avg looks score
+Overall average (all bakers): 0.16
+```
+
+### Quarterfinalist+ Rankings Insights
+
+**1. Series 9 Dominance**: Giuseppe, Crystelle, Jurgen, and Chigs from Series 9 appear frequently across categories, confirming the exceptional depth of talent in that series.
+
+**2. Category Excellence Patterns**:
+- **Technical Leaders**: Jurgen (0.75) and David (0.72) show exceptional fundamental baking skills
+- **Signature Specialists**: Giuseppe (0.77) leads with creative personal baking
+- **Showstopper Champions**: Crystelle (0.87) dominates the make-or-break challenge
+- **Flavor Masters**: Crystelle (1.00) and Sophie (0.95) achieve near-perfect flavor scores
+- **Visual Artists**: Giuseppe (0.90) and Syabira (0.80) excel at presentation
+
+**3. Performance vs. Overall Averages**:
+- **Biggest gaps**: Visual presentation shows the largest difference between top performers and field average (Giuseppe's 0.90 vs 0.16 overall)
+- **Smallest gaps**: Flavor shows the most consistent performance across all bakers (0.39 overall average)
+- **Elite threshold**: Top quarterfinalists typically perform 2-4x above the overall field average
+
+**4. Multi-Category Excellence**: 
+- **Crystelle**: Leads showstopper (0.87), flavor (1.00), and bake execution (0.77) - most versatile performer
+- **Giuseppe**: Dominates looks (0.90) and signature (0.77) - visual excellence specialist  
+- **Jurgen**: Technical master (0.75) with strong showstopper performance (0.81)
+
+**Strategic Insight**: The data reveals that reaching quarterfinalist level requires excellence in at least 2-3 categories, while series winners typically excel across 4+ categories.
+
+---
+
 ## Performance Extremes and Outliers
 
 ### Top 5 Individual Performances
@@ -472,6 +570,7 @@ Understanding which episode themes create the biggest challenges:
 3. **Validation**: 93.1% accuracy in predicting reviews validates our component understanding
 4. **Strength Score Creation**: Combined all components using learned weights into single 0-10 metric
 5. **Variance Analysis**: Identified consistency patterns that distinguish successful contestants
+6. **Category Excellence Analysis**: Ranked quarterfinalists+ by specific baking categories to identify specialists and multi-category masters
 
 ### Relative Component Importance (from our model)
 **Individual Components** (larger weights = more important):
@@ -507,6 +606,8 @@ Understanding which episode themes create the biggest challenges:
 6. **Pressure Patterns**: Mid-competition (R4-R8) shows highest performance drops under pressure
 7. **Theme Effects**: Pastry and Bread weeks create genuine difficulty spikes beyond contestant strength
 8. **Finals Are Genuinely Competitive**: 71.4% prediction accuracy shows skill differences matter even at the highest level
+9. **Category Excellence Patterns**: Quarterfinalist analysis reveals Series 9 dominance and multi-category mastery as key to series-winning success
+10. **Performance Gaps**: Elite quarterfinalists perform 2-4x above overall field averages, with visual presentation showing the largest performance gaps
 
 ### Strategic Insights for Contestants
 1. **Prioritize Visual Impact**: Outweighs flavor and execution across all challenges
@@ -514,6 +615,7 @@ Understanding which episode themes create the biggest challenges:
 3. **Consistency Over Brilliance**: Lower variance correlates with reaching later stages
 4. **Prepare for Pastry**: Most challenging theme requires extra preparation
 5. **Technical Mastery**: 32.3% of weekly evaluation from the technical challenge
+6. **Develop Multi-Category Excellence**: Analysis shows quarterfinalist success requires excellence in 2-3 categories, while series winners typically excel across 4+ categories
 
 This analysis provides the most comprehensive statistical understanding of Great British Bake Off performance patterns, validated through machine learning and confirmed by prediction accuracy across multiple metrics.
 

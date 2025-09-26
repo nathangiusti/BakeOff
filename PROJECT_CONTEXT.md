@@ -91,13 +91,31 @@ See ANALYSIS_RESULTS.md for complete findings, model performance details, and pr
 - **Performance Insights**: Analysis by strength ranges (high/mid/low performers)
 - **Series Winner Analysis**: Ranking series winners by average strength scores
 - **Top Performer Rankings**: Identification of strongest non-series-winners
+- **Top 5 Quarterfinalist+ Rankings**: Category-specific excellence rankings with overall field averages
 
 ### Advanced Elimination Analysis
 - **Round-by-Round Patterns**: Analysis of elimination patterns across different rounds
 - **Performance Drop Tracking**: Quantifies how much contestants underperform in elimination rounds
 - **Contestant Strength Metrics**: Average strength vs. elimination round performance comparison
-- **Performance Variance Analysis**: Top 5 most/least consistent contestants with variance metrics
+- **Performance Variance Analysis**: Top 5 most/least consistent contestants with detailed statistics including star bakers, positive/negative reviews, and handshakes
 - **Elimination Statistics**: Comprehensive statistics on elimination patterns and performance drops
+
+### Category-Specific Excellence Analysis
+- **Technical Challenge Excellence**: Rankings of quarterfinalists+ by technical performance
+- **Signature Bake Excellence**: Rankings by signature bake performance with field averages
+- **Showstopper Excellence**: Rankings by showstopper performance with field averages
+- **Flavor Excellence**: Rankings by combined flavor performance with field averages
+- **Bake Execution Excellence**: Rankings by overall bake execution with field averages
+- **Visual Presentation Excellence**: Rankings by visual presentation with field averages
+
+### Enhanced Statistical Reporting
+- **Comprehensive Contestant Statistics**: Pre-calculated dataframes with all contestant metrics to eliminate duplicate calculations
+- **Centralized Data Processing**: Single calculation pass for all contestant statistics including:
+  - Average strength scores, total rounds, maximum round reached
+  - Star baker wins, handshakes (signature + showstopper), positive/negative reviews
+  - Elimination status and quarterfinalist qualification
+  - Performance variance statistics
+  - Category-specific averages (technical, signature, showstopper, flavor, bake, looks)
 
 ### Output Reports
 - **Performance Data**: Complete round-by-round strength scores and outcomes (gbbo_complete_analysis.csv)
@@ -114,16 +132,24 @@ See ANALYSIS_RESULTS.md for complete findings, model performance details, and pr
 6. **Elimination Pattern Analysis**: Understanding performance drops and elimination dynamics ✓
 7. **Component Variance Validation**: Statistical validation that model weights reflect genuine predictive power ✓
 8. **Theme Difficulty Analysis**: Understanding which episode themes create performance challenges ✓
+9. **Category Excellence Rankings**: Top 5 quarterfinalist+ rankings across baking categories with field comparisons ✓
+10. **Code Optimization**: Eliminate duplicate calculations through centralized statistical computation ✓
 
 ## Technical Approach
 - **Modular Architecture**: Clean package structure with separation of concerns
 - **Data Validation**: Automated checks for tech score patterns, review completeness, and data uniqueness
 - **Python-based Analysis**: Uses pandas for data manipulation and scikit-learn for machine learning
+- **Centralized Calculation Architecture**: Single-pass computation of all contestant statistics to eliminate duplication
+- **Pre-calculated Dataframes**: Three core dataframes store all computed statistics:
+  - `contestant_stats_df`: Basic contestant statistics and outcomes
+  - `variance_stats_df`: Performance variance analysis data
+  - `quarterfinalist_stats_df`: Category-specific performance averages
 - **Strength Score Calculation**: Weighted performance metric on 0-10 scale using ML-derived weights
 - **Statistical Analysis**: Logistic regression models to determine component importance weights
 - **Component Variance Analysis**: Statistical validation of weights through variance and distribution analysis
 - **Performance Prediction**: Machine learning models for judge reviews, winner/elimination outcomes
 - **Theme Analysis**: Statistical difficulty assessment across different episode themes
+- **Optimized Performance**: Eliminates duplicate calculations by computing statistics once and referencing throughout analysis
 
 ### Code Architecture
 The analysis is implemented as a modular Python package:
