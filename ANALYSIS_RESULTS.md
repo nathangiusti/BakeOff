@@ -51,25 +51,27 @@ Our machine learning model reveals the hidden structure of how judges evaluate c
 - **Showstopper**: 44.2% of total weight
 - **Ratio**: 0.79 (showstopper is 79% as important as the first two bakes combined)
 
-### Detailed Component Breakdown
+### Detailed Component Breakdown with Variance Analysis
 
 **Signature Bake Components** (23.5% total, larger weights = higher importance):
 
-| Component | Weight | Percentage of Signature |
-|-----------|--------|------------------------|
-| **Signature Looks** | 0.898 | 42.2% |
-| **Signature Bake** | 0.554 | 26.0% |
-| **Signature Handshake** | 0.470 | 22.1% |
-| **Signature Flavor** | 0.209 | 9.8% |
+| Component | Weight | Mean | Variance | %-1 | %0 | %+1 | % of Signature |
+|-----------|--------|------|----------|-----|----|----|----------------|
+| **Signature Looks** | 0.898 | 0.21 | 0.752 | 29.1% | 20.4% | 50.5% | 42.2% |
+| **Signature Bake** | 0.554 | 0.17 | 0.783 | 32.1% | 19.1% | 48.8% | 26.0% |
+| **Signature Handshake** | 0.470 | - | - | - | - | - | 22.1% |
+| **Signature Flavor** | 0.209 | 0.51 | 0.618 | 18.3% | 12.7% | 69.0% | 9.8% |
 
 **Showstopper Components** (44.2% total, larger weights = higher importance):
 
-| Component | Weight | Percentage of Showstopper |
-|-----------|--------|---------------------------|
-| **Showstopper Looks** | 1.457 | 36.3% |
-| **Showstopper Flavor** | 1.315 | 32.8% |
-| **Showstopper Bake** | 1.139 | 28.4% |
-| **Showstopper Handshake** | 0.099 | 2.5% |
+| Component | Weight | Mean | Variance | %-1 | %0 | %+1 | % of Showstopper |
+|-----------|--------|------|----------|-----|----|----|------------------|
+| **Showstopper Looks** | 1.457 | 0.36 | 0.715 | 24.2% | 15.7% | 60.1% | 36.3% |
+| **Showstopper Flavor** | 1.315 | 0.48 | 0.663 | 20.6% | 10.4% | 69.0% | 32.8% |
+| **Showstopper Bake** | 1.139 | 0.22 | 0.815 | 32.1% | 13.8% | 54.1% | 28.4% |
+| **Showstopper Handshake** | 0.099 | - | - | - | - | - | 2.5% |
+
+**Column Explanation**: Weight = model importance; Mean = average score across all performances; Variance = performance variability; %-1/%0/%+1 = distribution of negative/neutral/positive scores; Handshakes show only weight data as they are binary (received/not received) rather than scored components.
 
 ### Handshake Analysis
 Paul Hollywood handshakes are rare but impactful:
@@ -87,27 +89,9 @@ The low showstopper handshake weight (2.5%) reflects their extreme rarity across
 
 **Strategic Conclusion**: Contestants should prioritize visual presentation across all challenges, master technical skills, and treat the showstopper as make-or-break for weekly success.
 
-### Component Variance Analysis: Understanding Weight Distribution
+### Variance Analysis Key Findings
 
-To validate our component weights, we analyzed the variance and distribution patterns of each component. This reveals why certain components receive higher model weights than others.
-
-#### Signature Bake Component Analysis
-
-| Component | Model Weight | Mean | Variance | %-1 | %0 | %+1 |
-|-----------|--------------|------|----------|-----|----|----|
-| **Signature Looks** | 0.898 | 0.21 | 0.752 | 29.1% | 20.4% | 50.5% |
-| **Signature Bake** | 0.554 | 0.17 | 0.783 | 32.1% | 19.1% | 48.8% |
-| **Signature Flavor** | 0.209 | 0.51 | 0.618 | 18.3% | 12.7% | 69.0% |
-
-#### Showstopper Bake Component Analysis
-
-| Component | Model Weight | Mean | Variance | %-1 | %0 | %+1 |
-|-----------|--------------|------|----------|-----|----|----|
-| **Showstopper Looks** | 1.457 | 0.36 | 0.715 | 24.2% | 15.7% | 60.1% |
-| **Showstopper Flavor** | 1.315 | 0.48 | 0.663 | 20.6% | 10.4% | 69.0% |
-| **Showstopper Bake** | 1.139 | 0.22 | 0.815 | 32.1% | 13.8% | 54.1% |
-
-#### Variance Analysis Key Findings
+The combined component breakdown above reveals why certain components receive higher model weights through variance and distribution patterns:
 
 **1. Weight-Variance Correlation**
 - Components with higher variance typically receive higher model weights

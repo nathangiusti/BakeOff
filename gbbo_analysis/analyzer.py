@@ -84,11 +84,8 @@ class GBBOAnalyzer:
         # Calculate correlations (needed for model weights) but don't print
         self.trainer.analyze_correlations()
         
-        # Analyze component weights (this prints output)
+        # Analyze component weights (this prints output including variance analysis)
         self.trainer.analyze_component_weights()
-        
-        # Analyze component variance (this prints output)
-        self.trainer.analyze_component_variance()
         
         # Store accuracy for later printing
         self._second_accuracy = second_accuracy

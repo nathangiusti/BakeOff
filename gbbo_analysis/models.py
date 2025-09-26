@@ -127,10 +127,10 @@ class GBBOModelTrainer:
     
     def _print_component_breakdown(self, title: str, weights: Dict[str, float], 
                                  component_keys: List[str], total_weight: float) -> None:
-        """Helper method to print component breakdown"""
+        """Helper method to print component breakdown with variance analysis"""
         print(f"\n{title}:")
         
-        # Create readable names
+        # Create readable names and column mapping
         name_map = {
             'signature_looks': 'Signature Looks',
             'signature_handshake': 'Signature Handshake', 
@@ -142,82 +142,64 @@ class GBBOModelTrainer:
             'showstopper_handshake': 'Showstopper Handshake'
         }
         
-        components = [(name_map[key], weights[key]) for key in component_keys]
-        components_sorted = sorted(components, key=lambda x: x[1], reverse=True)
-        
-        for name, weight in components_sorted:
-            percentage = weight / total_weight * 100 if total_weight > 0 else 0
-            category = "signature" if "Signature" in name else "showstopper"
-            print(f"    {name:18}: {weight:.3f} ({percentage:.1f}% of {category})")
-    
-    def analyze_component_variance(self) -> None:
-        """Analyze variance and distributions for signature and showstopper components"""
-        if self.second_model is None:
-            raise ValueError("Second model must be trained before analyzing variance")
-        
-        print(f"\nCOMPONENT VARIANCE ANALYSIS")
-        print("-" * 40)
-        print("Understanding component weights through variance analysis")
-        
-        # Get model weights
-        weights = self.get_model_weights()
-        
-        # Define signature and showstopper components (exclude handshakes as requested)
-        component_groups = {
-            'Signature Components': ['Signature Bake', 'Signature Flavor', 'Signature Looks'],
-            'Showstopper Components': ['Showstopper Bake', 'Showstopper Flavor', 'Showstopper Looks']
-        }
-        
         # Column name mapping for data access
         col_mapping = {
-            'Signature Bake': 'Signature Bake',
-            'Signature Flavor': 'Signature Flavor', 
-            'Signature Looks': 'Signature Looks',
-            'Showstopper Bake': 'Showstopper Bake',
-            'Showstopper Flavor': 'Showstopper Flavor',
-            'Showstopper Looks': 'Showstopper Looks'
+            'signature_looks': 'Signature Looks',
+            'signature_handshake': 'Signature Handshake', 
+            'signature_bake': 'Signature Bake',
+            'signature_flavor': 'Signature Flavor',
+            'showstopper_looks': 'Showstopper Looks',
+            'showstopper_flavor': 'Showstopper Flavor',
+            'showstopper_bake': 'Showstopper Bake',
+            'showstopper_handshake': 'Showstopper Handshake'
         }
         
-        # Weight key mapping
-        weight_mapping = {
-            'Signature Bake': 'signature_bake',
-            'Signature Flavor': 'signature_flavor',
-            'Signature Looks': 'signature_looks', 
-            'Showstopper Bake': 'showstopper_bake',
-            'Showstopper Flavor': 'showstopper_flavor',
-            'Showstopper Looks': 'showstopper_looks'
-        }
+        # Check if this is a handshake-only component or has variance data
+        has_variance_data = any(key in ['signature_looks', 'signature_bake', 'signature_flavor', 
+                                      'showstopper_looks', 'showstopper_bake', 'showstopper_flavor'] 
+                              for key in component_keys)
         
-        for group_name, components in component_groups.items():
-            print(f"\n{group_name}:")
+        components = [(name_map[key], weights[key], key) for key in component_keys]
+        components_sorted = sorted(components, key=lambda x: x[1], reverse=True)
+        
+        if has_variance_data:
+            # Print header with variance columns
             print(f"{'Component':<18} {'Weight':<8} {'Mean':<6} {'Variance':<9} {'%-1':<6} {'%0':<6} {'%+1':<6}")
             print("-" * 65)
             
-            # Sort components by weight for display
-            component_weights = [(comp, weights[weight_mapping[comp]]) for comp in components]
-            component_weights.sort(key=lambda x: x[1], reverse=True)
-            
-            for component, weight in component_weights:
-                col_name = col_mapping[component]
+            for name, weight, key in components_sorted:
+                percentage = weight / total_weight * 100 if total_weight > 0 else 0
+                col_name = col_mapping.get(key, name)
                 
-                if col_name in self.df.columns:
-                    # Get non-null values for this component
+                # Get variance data if available
+                if key in ['signature_looks', 'signature_bake', 'signature_flavor', 
+                          'showstopper_looks', 'showstopper_bake', 'showstopper_flavor'] and col_name in self.df.columns:
                     values = self.df[col_name].dropna()
                     
                     if len(values) > 0:
-                        # Calculate statistics
                         mean_val = values.mean()
                         variance = values.var()
                         
                         # Calculate distribution percentages
                         total_count = len(values)
                         pct_neg = (values == -1).sum() / total_count * 100
-                        pct_zero = (values == 0).sum() / total_count * 100  
+                        pct_zero = (values == 0).sum() / total_count * 100
                         pct_pos = (values == 1).sum() / total_count * 100
                         
-                        print(f"{component:<18} {weight:<8.3f} {mean_val:<6.2f} {variance:<9.3f} {pct_neg:<6.1f} {pct_zero:<6.1f} {pct_pos:<6.1f}")
+                        print(f"{name:<18} {weight:<8.3f} {mean_val:<6.2f} {variance:<9.3f} {pct_neg:<6.1f} {pct_zero:<6.1f} {pct_pos:<6.1f}")
                     else:
-                        print(f"{component:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {'N/A':<6} {'N/A':<6}")
+                        print(f"{name:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {'N/A':<6} {'N/A':<6}")
                 else:
-                    print(f"{component:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {'N/A':<6} {'N/A':<6}")
-        
+                    # For handshakes, show only weight and percentage
+                    print(f"{name:<18} {weight:<8.3f} ({percentage:.1f}% of {'signature' if 'Signature' in name else 'showstopper'})")
+        else:
+            # Simple format for components without variance data
+            for name, weight, key in components_sorted:
+                percentage = weight / total_weight * 100 if total_weight > 0 else 0
+                category = "signature" if "Signature" in name else "showstopper"
+                print(f"    {name:18}: {weight:.3f} ({percentage:.1f}% of {category})")
+    
+    def analyze_component_variance(self) -> None:
+        """This method is now integrated into analyze_component_weights - no longer used"""
+        # Variance analysis is now part of the component breakdown in analyze_component_weights
+        pass
