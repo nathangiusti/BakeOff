@@ -59,7 +59,7 @@ Our machine learning model reveals the hidden structure of how judges evaluate c
 |-----------|--------|------|----------|-----|----|----|----------------|
 | **Signature Looks** | 0.898 | 0.21 | 0.752 | 29.1% | 20.4% | 50.5% | 42.2% |
 | **Signature Bake** | 0.554 | 0.17 | 0.783 | 32.1% | 19.1% | 48.8% | 26.0% |
-| **Signature Handshake** | 0.470 | - | - | - | - | - | 22.1% |
+| **Signature Handshake** | 0.470 | - | - | - | 92.8% | 7.2% | 22.1% |
 | **Signature Flavor** | 0.209 | 0.51 | 0.618 | 18.3% | 12.7% | 69.0% | 9.8% |
 
 **Showstopper Components** (44.2% total, larger weights = higher importance):
@@ -69,16 +69,16 @@ Our machine learning model reveals the hidden structure of how judges evaluate c
 | **Showstopper Looks** | 1.457 | 0.36 | 0.715 | 24.2% | 15.7% | 60.1% | 36.3% |
 | **Showstopper Flavor** | 1.315 | 0.48 | 0.663 | 20.6% | 10.4% | 69.0% | 32.8% |
 | **Showstopper Bake** | 1.139 | 0.22 | 0.815 | 32.1% | 13.8% | 54.1% | 28.4% |
-| **Showstopper Handshake** | 0.099 | - | - | - | - | - | 2.5% |
+| **Showstopper Handshake** | 0.099 | - | - | - | 98.7% | 1.1% | 2.5% |
 
-**Column Explanation**: Weight = model importance; Mean = average score across all performances; Variance = performance variability; %-1/%0/%+1 = distribution of negative/neutral/positive scores; Handshakes show only weight data as they are binary (received/not received) rather than scored components.
+**Column Explanation**: Weight = model importance; Mean = average score across all performances; Variance = performance variability; %-1/%0/%+1 = distribution of negative/neutral/positive scores; Handshakes show weight and %0/%+1 distribution data as they are binary (not received/received) rather than scored components.
 
 ### Handshake Analysis
 Paul Hollywood handshakes are rare but impactful:
-- **Signature Handshakes**: Significant impact with 22.1% weight within signature bakes
-- **Showstopper Handshakes**: Minimal impact with 2.5% weight, reflecting their extreme rarity
+- **Signature Handshakes**: Significant impact with 22.1% weight within signature bakes (7.2% of performances receive handshakes)
+- **Showstopper Handshakes**: Minimal impact with 2.5% weight, reflecting their extreme rarity (only 1.1% of performances receive handshakes)
 
-The low showstopper handshake weight (2.5%) reflects their extreme rarity across our dataset. When they do occur, they carry significant individual impact, but their statistical influence is limited by scarcity.
+The distribution data confirms handshake scarcity: signature handshakes occur in 7.2% of performances while showstopper handshakes are extraordinarily rare at just 1.1%. This explains why showstopper handshakes have such low model weight (2.5%) - their statistical influence is severely limited by scarcity, despite their individual significance when they occur.
 
 ### Competition Structure Insights
 

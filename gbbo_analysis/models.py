@@ -189,9 +189,20 @@ class GBBOModelTrainer:
                         print(f"{name:<18} {weight:<8.3f} {mean_val:<6.2f} {variance:<9.3f} {pct_neg:<6.1f} {pct_zero:<6.1f} {pct_pos:<6.1f}")
                     else:
                         print(f"{name:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {'N/A':<6} {'N/A':<6}")
+                elif key in ['signature_handshake', 'showstopper_handshake'] and col_name in self.df.columns:
+                    # For handshakes, show weight and distribution (they're binary: 0 or 1)
+                    values = self.df[col_name].dropna()
+                    if len(values) > 0:
+                        total_count = len(values)
+                        pct_zero = (values == 0).sum() / total_count * 100
+                        pct_pos = (values == 1).sum() / total_count * 100
+                        
+                        print(f"{name:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {pct_zero:<6.1f} {pct_pos:<6.1f}")
+                    else:
+                        print(f"{name:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {'N/A':<6} {'N/A':<6}")
                 else:
-                    # For handshakes, show only weight and percentage
-                    print(f"{name:<18} {weight:<8.3f} ({percentage:.1f}% of {'signature' if 'Signature' in name else 'showstopper'})")
+                    # For other components not in the data
+                    print(f"{name:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {'N/A':<6} {'N/A':<6}")
         else:
             # Simple format for components without variance data
             for name, weight, key in components_sorted:
