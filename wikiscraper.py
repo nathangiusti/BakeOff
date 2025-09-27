@@ -726,6 +726,40 @@ class GBBOWikiScraper:
         
         return None
 
+    def normalize_theme(self, title: str) -> str:
+        """Normalize theme names to group spelling variations."""
+        if not title:
+            return title
+
+        title_lower = str(title).lower().strip()
+
+        # Handle cake variations
+        if 'cake' in title_lower:
+            return 'Cake'
+
+        # Handle patisserie variations (with and without accent)
+        if 'patisserie' in title_lower or 'pâtisserie' in title_lower:
+            return 'Patisserie'
+
+        # Ethnic themes → Ethnic
+        if title_lower in ['italian', 'danish', 'mexican', 'german', 'japanese']:
+            return 'Ethnic'
+
+        # Temporal themes → Temporal
+        if title_lower in ['the \'70s', 'the \'80s', 'the roaring twenties', 'forgotten bakes', 'autumn']:
+            return 'Temporal'
+
+        # Celebration themes → Celebration
+        if title_lower in ['halloween', 'festivals', 'party']:
+            return 'Celebration'
+
+        # Ingredient themes → Ingredient
+        if title_lower in ['custard', 'dairy', 'vegan', 'spice', 'puddings']:
+            return 'Ingredient'
+
+        # Return title case for consistency
+        return str(title).strip().title()
+
     def scrape_all_series(self, start_series: int = 8, end_series: int = 15) -> None:
         """Scrape all series from start_series to end_series (inclusive)."""
         for series_num in range(start_series, end_series + 1):
@@ -780,6 +814,8 @@ class GBBOWikiScraper:
             episodes_df = pd.DataFrame(self.episodes_data)
             # Subtract 3 from series numbers to match other data source labeling
             episodes_df['Series'] = episodes_df['Series'] - 3
+            # Add normalized theme column
+            episodes_df['Parsed_Theme'] = episodes_df['Title'].apply(self.normalize_theme)
             episodes_df.to_csv(episodes_filename, index=False)
             print(f"Episodes saved to {episodes_filename} ({len(episodes_df)} rows)")
 

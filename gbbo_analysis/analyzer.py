@@ -1257,9 +1257,91 @@ class GBBOAnalyzer:
             print(f"  Average variance (quarterfinalists+): {quarterfinalists_df['variance'].mean():.2f}")
     
     def generate_theme_analysis(self, output_df: pd.DataFrame) -> None:
-        """Theme performance analysis is now integrated into ANALYSIS_RESULTS.md"""
-        # Theme analysis has been moved to ANALYSIS_RESULTS.md - no processing needed
-        pass
+        """Generate theme performance analysis for recurring themes (3+ appearances) using normalized theme names"""
+        try:
+            # Load episode theme data with normalized themes
+            episodes_df = pd.read_csv('gbbo_episodes.csv')
+
+            # Check if Parsed_Theme column exists, fallback to Title if not
+            theme_column = 'Parsed_Theme' if 'Parsed_Theme' in episodes_df.columns else 'Title'
+
+            # Merge with performance data
+            merged_df = output_df.merge(
+                episodes_df[['Series', 'Episode', theme_column]],
+                left_on=['Series', 'Round'],
+                right_on=['Series', 'Episode'],
+                how='left'
+            )
+
+            # Calculate overall average performance for comparison
+            overall_avg = output_df['Strength_Score'].mean()
+
+            # First, determine which themes have 3+ episode appearances (not contestant performances)
+            theme_episode_counts = episodes_df['Parsed_Theme'].value_counts()
+            qualifying_themes = theme_episode_counts[theme_episode_counts >= 3].index
+
+            # Filter merged data to only include qualifying themes
+            merged_df_filtered = merged_df[merged_df[theme_column].isin(qualifying_themes)]
+
+            # Calculate theme performance statistics using only qualifying themes
+            theme_stats = merged_df_filtered.groupby(theme_column).agg({
+                'Strength_Score': ['mean', 'count'],
+                'Result': lambda x: sum(x.str.contains('Eliminated|Low Review', na=False))
+            })
+
+            theme_stats.columns = ['Avg_Strength', 'Count', 'Poor_Outcomes']
+            theme_stats = theme_stats.round(3)
+
+            # Calculate performance difference from overall average
+            theme_stats['Avg_Difference'] = (theme_stats['Avg_Strength'] - overall_avg)
+            theme_stats['Avg_Difference'] = theme_stats['Avg_Difference'].round(3)
+            theme_stats['Underperform_Pct'] = ((theme_stats['Avg_Strength'] < overall_avg).astype(int) * 100)
+
+            # Calculate percentage of contestants who underperform in each theme
+            underperform_rates = []
+            for theme in theme_stats.index:
+                theme_data = merged_df_filtered[merged_df_filtered[theme_column] == theme]
+                underperform_count = sum(theme_data['Strength_Score'] < overall_avg)
+                underperform_rate = round(underperform_count / len(theme_data) * 100, 1)
+                underperform_rates.append(underperform_rate)
+
+            theme_stats['Underperform_Pct'] = underperform_rates
+
+            # Sort by difficulty (lowest average = most difficult)
+            theme_stats = theme_stats.sort_values('Avg_Difference')
+
+            print(f"\n" + "=" * 70)
+            print("THEME WEEK ANALYSIS (3+ Appearances)")
+            print("=" * 70)
+            if theme_column == 'Parsed_Theme':
+                print("Using normalized themes (Cake/Cakes -> Cake, Patisserie/Pâtisserie -> Patisserie)")
+            print(f"Overall average performance: {overall_avg:.2f}/10")
+            print(f"\n{'Rank':<4} {'Theme':<15} {'Avg Diff':<10} {'% Under':<10} {'Count':<6} {'Difficulty':<12}")
+            print("-" * 70)
+
+            for i, (theme, row) in enumerate(theme_stats.iterrows(), 1):
+                # Determine difficulty level
+                if row['Avg_Difference'] <= -0.5:
+                    difficulty = "Most Difficult"
+                elif row['Avg_Difference'] <= -0.2:
+                    difficulty = "Moderate"
+                else:
+                    difficulty = "Easiest"
+
+                print(f"{i:<4} {str(theme):<15} {row['Avg_Difference']:>+.2f}{'':4} "
+                      f"{row['Underperform_Pct']:>5.1f}%{'':4} {int(row['Count']):<6} {difficulty:<12}")
+
+            # Analysis insights
+            most_difficult = theme_stats.index[0]
+            easiest = theme_stats.index[-1]
+
+            print(f"\nTheme Insights:")
+            print(f"  Most challenging: {most_difficult} ({theme_stats.loc[most_difficult, 'Avg_Difference']:+.2f} vs average)")
+            print(f"  Easiest: {easiest} ({theme_stats.loc[easiest, 'Avg_Difference']:+.2f} vs average)")
+
+        except Exception as e:
+            print(f"Warning: Could not generate theme analysis: {e}")
+            print("Make sure 'gbbo_episodes.csv' file exists and has proper structure.")
     
     def save_results(self, output_df: pd.DataFrame) -> None:
         """Save results to CSV files"""
