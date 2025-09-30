@@ -1,530 +1,604 @@
 Contestant,Series,Round,Strength_Score,Result
 Kate,5,1,6.85,Neutral Review
-Peter,5,1,3.04,Eliminated
-Tom,5,1,5.05,Neutral Review
-Julia,5,1,4.6,Neutral Review
-Flo,5,1,8.22,Positive Review
-Chris,5,1,3.33,Negative Review
-Liam,5,1,6.81,Neutral Review
-Yan,5,1,6.88,Neutral Review
-Steven,5,1,9.06,Winner
-Stacey,5,1,4.73,Negative Review
-James,5,1,3.99,Neutral Review
-Sophie,5,1,7.74,Positive Review
-Kate,5,2,1.23,Negative Review
-Tom,5,2,7.36,Positive Review
-Julia,5,2,5.9,Neutral Review
-Flo,5,2,3.52,Negative Review
-Chris,5,2,3.29,Eliminated
-Liam,5,2,5.83,Neutral Review
-Yan,5,2,4.99,Neutral Review
-Steven,5,2,7.48,Winner
-Stacey,5,2,4.86,Negative Review
-James,5,2,8.65,Neutral Review
-Sophie,5,2,9.43,Positive Review
-Kate,5,3,5.79,Neutral Review
-Tom,5,3,5.55,Neutral Review
-Julia,5,3,8.46,Winner
-Flo,5,3,4.06,Eliminated
-Liam,5,3,3.31,Negative Review
-Yan,5,3,4.03,Neutral Review
-Steven,5,3,7.15,Positive Review
-Stacey,5,3,6.81,Neutral Review
-James,5,3,5.59,Neutral Review
-Sophie,5,3,4.42,Neutral Review
-Kate,5,4,8.42,Winner
-Tom,5,4,1.98,Eliminated
-Julia,5,4,6.24,Neutral Review
-Liam,5,4,9.45,Positive Review
-Yan,5,4,5.71,Neutral Review
-Steven,5,4,4.45,Neutral Review
-Stacey,5,4,8.03,Neutral Review
-James,5,4,4.07,Negative Review
-Sophie,5,4,6.99,Neutral Review
-Kate,5,5,6.47,Neutral Review
-Julia,5,5,4.9,Negative Review
-Liam,5,5,4.23,Negative Review
-Yan,5,5,7.06,Neutral Review
-Steven,5,5,7.34,Neutral Review
-Stacey,5,5,9.11,Positive Review
-James,5,5,3.43,Eliminated
-Sophie,5,5,7.72,Winner
-Kate,5,6,6.16,Neutral Review
-Julia,5,6,0.96,Eliminated
-Liam,5,6,6.75,Winner
-Yan,5,6,7.44,Positive Review
-Steven,5,6,5.92,Neutral Review
-Stacey,5,6,2.88,Negative Review
-Sophie,5,6,9.3,Positive Review
-Kate,5,7,3.49,Negative Review
-Liam,5,7,8.88,Positive Review
-Yan,5,7,4.47,Eliminated
-Steven,5,7,9.63,Winner
-Stacey,5,7,3.74,Negative Review
-Sophie,5,7,8.85,Positive Review
-Kate,5,8,3.57,Negative Review
-Liam,5,8,1.83,Eliminated
-Steven,5,8,8.62,Positive Review
-Stacey,5,8,8.97,Winner
-Sophie,5,8,6.25,Neutral Review
-Kate,5,9,6.74,Positive Review
-Steven,5,9,3.02,Negative Review
-Stacey,5,9,5.19,Eliminated
-Sophie,5,9,7.94,Winner
-Kate,5,10,7.7,Neutral Review
-Steven,5,10,4.31,Neutral Review
-Sophie,5,10,7.93,Winner
-Antony,6,1,7.7,Neutral Review
-Karen,6,1,5.91,Neutral Review
-Kim-Joy,6,1,6.44,Neutral Review
-Jon,6,1,4.83,Neutral Review
-Manon,6,1,9.28,Winner
-Rahul,6,1,8.07,Neutral Review
-Ruby,6,1,3.03,Negative Review
-Dan,6,1,7.19,Neutral Review
-Terry,6,1,6.32,Negative Review
-Luke,6,1,6.4,Neutral Review
-Imelda,6,1,2.73,Eliminated
-Briony,6,1,7.72,Positive Review
-Antony,6,2,4.43,Neutral Review
-Karen,6,2,6.69,Neutral Review
-Kim-Joy,6,2,6.69,Neutral Review
-Jon,6,2,9.49,Positive Review
-Manon,6,2,7.07,Neutral Review
-Rahul,6,2,9.5,Winner
-Ruby,6,2,6.64,Neutral Review
-Dan,6,2,9.55,Positive Review
-Terry,6,2,5.21,Negative Review
-Luke,6,2,3.01,Eliminated
-Briony,6,2,6.18,Negative Review
-Antony,6,3,4.08,Eliminated
-Karen,6,3,5.54,Neutral Review
-Kim-Joy,6,3,6.2,Neutral Review
-Jon,6,3,5.27,Neutral Review
-Manon,6,3,5.24,Neutral Review
-Rahul,6,3,8.39,Winner
-Ruby,6,3,6.88,Neutral Review
-Dan,6,3,7.13,Positive Review
-Terry,6,3,8.13,Neutral Review
-Briony,6,3,1.59,Negative Review
-Karen,6,4,5.06,Negative Review
-Kim-Joy,6,4,6.7,Neutral Review
-Jon,6,4,9.38,Positive Review
-Manon,6,4,7.11,Neutral Review
-Rahul,6,4,7.48,Positive Review
-Ruby,6,4,4.21,Neutral Review
-Dan,6,4,8.98,Winner
-Briony,6,4,4.7,Negative Review
-Karen,6,5,2.67,Eliminated
-Kim-Joy,6,5,9.21,Winner
-Jon,6,5,5.54,Negative Review
-Manon,6,5,7.24,Neutral Review
-Rahul,6,5,9.45,Positive Review
-Ruby,6,5,7.67,Neutral Review
-Dan,6,5,4.86,Neutral Review
-Briony,6,5,4.85,Negative Review
-Terry,6,5,0.62,Eliminated
-Kim-Joy,6,6,6.25,Neutral Review
-Jon,6,6,4.58,Neutral Review
-Manon,6,6,1.34,Negative Review
-Rahul,6,6,7.8,Positive Review
-Ruby,6,6,8.01,Positive Review
-Dan,6,6,5.2,Eliminated
-Briony,6,6,7.76,Winner
-Kim-Joy,6,7,8.01,Winner
-Jon,6,7,3.51,Eliminated
-Manon,6,7,6.02,Neutral Review
-Rahul,6,7,4.76,Positive Review
-Ruby,6,7,6.66,Negative Review
-Briony,6,7,6.85,Neutral Review
-Kim-Joy,6,8,7.28,Negative Review
-Manon,6,8,4.5,Eliminated
-Rahul,6,8,3.2,Negative Review
-Ruby,6,8,7.8,Winner
-Briony,6,8,6.49,Positive Review
-Kim-Joy,6,9,5.45,Positive Review
-Rahul,6,9,5.03,Negative Review
-Ruby,6,9,6.76,Winner
-Briony,6,9,3.34,Eliminated
+Peter,5,1,3.08,Eliminated
+Tom,5,1,4.94,Neutral Review
+Julia,5,1,4.57,Neutral Review
+Flo,5,1,8.05,Positive Review
+Chris,5,1,3.46,Negative Review
+Liam,5,1,6.54,Neutral Review
+Yan,5,1,6.98,Neutral Review
+Steven,5,1,8.98,Winner
+Stacey,5,1,4.65,Negative Review
+James,5,1,4.17,Neutral Review
+Sophie,5,1,7.84,Positive Review
+Kate,5,2,1.41,Negative Review
+Tom,5,2,7.38,Positive Review
+Julia,5,2,5.87,Neutral Review
+Flo,5,2,3.34,Negative Review
+Chris,5,2,3.35,Eliminated
+Liam,5,2,5.64,Neutral Review
+Yan,5,2,5.11,Neutral Review
+Steven,5,2,7.49,Winner
+Stacey,5,2,4.88,Negative Review
+James,5,2,8.59,Neutral Review
+Sophie,5,2,9.3,Positive Review
+Kate,5,3,5.61,Neutral Review
+Tom,5,3,5.58,Neutral Review
+Julia,5,3,8.33,Winner
+Flo,5,3,3.88,Eliminated
+Liam,5,3,3.47,Negative Review
+Yan,5,3,3.93,Neutral Review
+Steven,5,3,7.01,Positive Review
+Stacey,5,3,6.69,Neutral Review
+James,5,3,5.51,Neutral Review
+Sophie,5,3,4.63,Neutral Review
+Kate,5,4,8.25,Winner
+Tom,5,4,2.24,Eliminated
+Julia,5,4,6.19,Neutral Review
+Liam,5,4,9.39,Positive Review
+Yan,5,4,5.56,Neutral Review
+Steven,5,4,4.39,Neutral Review
+Stacey,5,4,7.86,Neutral Review
+James,5,4,4.26,Negative Review
+Sophie,5,4,6.86,Neutral Review
+Kate,5,5,6.25,Neutral Review
+Julia,5,5,4.96,Negative Review
+Liam,5,5,4.19,Negative Review
+Yan,5,5,7.14,Neutral Review
+Steven,5,5,7.43,Neutral Review
+Stacey,5,5,9.03,Positive Review
+James,5,5,3.44,Eliminated
+Sophie,5,5,7.6,Winner
+Kate,5,6,5.97,Neutral Review
+Julia,5,6,1.01,Eliminated
+Liam,5,6,6.72,Winner
+Yan,5,6,7.3,Positive Review
+Steven,5,6,5.96,Neutral Review
+Stacey,5,6,3.03,Negative Review
+Sophie,5,6,9.16,Positive Review
+Kate,5,7,3.61,Negative Review
+Liam,5,7,8.66,Positive Review
+Yan,5,7,4.46,Eliminated
+Steven,5,7,9.5,Winner
+Stacey,5,7,3.82,Negative Review
+Sophie,5,7,8.7,Positive Review
+Kate,5,8,3.66,Negative Review
+Liam,5,8,1.82,Eliminated
+Steven,5,8,8.31,Positive Review
+Stacey,5,8,8.89,Winner
+Sophie,5,8,6.33,Neutral Review
+Kate,5,9,6.61,Positive Review
+Steven,5,9,3.18,Negative Review
+Stacey,5,9,5.12,Eliminated
+Sophie,5,9,7.73,Winner
+Kate,5,10,7.5,Neutral Review
+Steven,5,10,4.5,Neutral Review
+Sophie,5,10,7.62,Winner
+Antony,6,1,7.5,Neutral Review
+Karen,6,1,5.79,Neutral Review
+Kim-Joy,6,1,6.36,Neutral Review
+Jon,6,1,4.79,Neutral Review
+Manon,6,1,9.13,Winner
+Rahul,6,1,7.82,Neutral Review
+Ruby,6,1,3.15,Negative Review
+Dan,6,1,7.06,Neutral Review
+Terry,6,1,6.15,Negative Review
+Luke,6,1,6.32,Neutral Review
+Imelda,6,1,2.88,Eliminated
+Briony,6,1,7.61,Positive Review
+Antony,6,2,4.52,Neutral Review
+Karen,6,2,6.32,Neutral Review
+Kim-Joy,6,2,6.73,Neutral Review
+Jon,6,2,9.34,Positive Review
+Manon,6,2,6.81,Neutral Review
+Rahul,6,2,9.41,Winner
+Ruby,6,2,6.65,Neutral Review
+Dan,6,2,9.49,Positive Review
+Terry,6,2,5.23,Negative Review
+Luke,6,2,3.16,Eliminated
+Briony,6,2,6.37,Negative Review
+Antony,6,3,4.01,Eliminated
+Karen,6,3,5.59,Neutral Review
+Kim-Joy,6,3,6.19,Neutral Review
+Jon,6,3,5.3,Neutral Review
+Manon,6,3,5.15,Neutral Review
+Rahul,6,3,8.33,Winner
+Ruby,6,3,6.63,Neutral Review
+Dan,6,3,7.07,Positive Review
+Terry,6,3,8.18,Neutral Review
+Briony,6,3,1.91,Negative Review
+Karen,6,4,4.89,Negative Review
+Kim-Joy,6,4,6.62,Neutral Review
+Jon,6,4,9.32,Positive Review
+Manon,6,4,7.0,Neutral Review
+Rahul,6,4,7.26,Positive Review
+Ruby,6,4,4.41,Neutral Review
+Dan,6,4,8.99,Winner
+Briony,6,4,4.68,Negative Review
+Karen,6,5,2.56,Eliminated
+Kim-Joy,6,5,9.14,Winner
+Jon,6,5,5.34,Negative Review
+Manon,6,5,7.18,Neutral Review
+Rahul,6,5,9.39,Positive Review
+Ruby,6,5,7.6,Neutral Review
+Dan,6,5,4.84,Neutral Review
+Briony,6,5,4.67,Negative Review
+Terry,6,5,0.75,Eliminated
+Kim-Joy,6,6,6.34,Neutral Review
+Jon,6,6,4.68,Neutral Review
+Manon,6,6,1.5,Negative Review
+Rahul,6,6,7.9,Positive Review
+Ruby,6,6,7.89,Positive Review
+Dan,6,6,5.13,Eliminated
+Briony,6,6,7.64,Winner
+Kim-Joy,6,7,7.89,Winner
+Jon,6,7,3.47,Eliminated
+Manon,6,7,6.07,Neutral Review
+Rahul,6,7,5.04,Positive Review
+Ruby,6,7,6.62,Negative Review
+Briony,6,7,6.65,Neutral Review
+Kim-Joy,6,8,7.24,Negative Review
+Manon,6,8,4.49,Eliminated
+Rahul,6,8,3.25,Negative Review
+Ruby,6,8,7.65,Winner
+Briony,6,8,6.41,Positive Review
+Kim-Joy,6,9,5.36,Positive Review
+Rahul,6,9,5.07,Negative Review
+Ruby,6,9,6.71,Winner
+Briony,6,9,3.56,Eliminated
 Kim-Joy,6,10,6.25,Neutral Review
-Rahul,6,10,7.8,Winner
-Ruby,6,10,4.92,Neutral Review
-Priya,7,1,6.0,Neutral Review
-Jamie,7,1,2.92,Negative Review
-Henry,7,1,7.7,Neutral Review
-Amelia,7,1,4.96,Neutral Review
-Phil,7,1,4.43,Neutral Review
-Helena,7,1,6.31,Neutral Review
-Michelle,7,1,8.09,Winner
-Steph,7,1,7.81,Positive Review
-Rosie,7,1,6.32,Neutral Review
-David,7,1,8.04,Neutral Review
-Alice,7,1,8.48,Neutral Review
-Michael,7,1,6.29,Neutral Review
-Dan,7,1,3.96,Eliminated
-Priya,7,2,3.53,Neutral Review
-Jamie,7,2,4.14,Eliminated
-Henry,7,2,4.97,Neutral Review
+Rahul,6,10,7.57,Winner
+Ruby,6,10,4.91,Neutral Review
+Priya,7,1,6.06,Neutral Review
+Jamie,7,1,3.08,Negative Review
+Henry,7,1,7.82,Neutral Review
+Amelia,7,1,5.09,Neutral Review
+Phil,7,1,4.34,Neutral Review
+Helena,7,1,6.22,Neutral Review
+Michelle,7,1,7.79,Winner
+Steph,7,1,7.85,Positive Review
+Rosie,7,1,6.24,Neutral Review
+David,7,1,7.85,Neutral Review
+Alice,7,1,8.24,Neutral Review
+Michael,7,1,6.13,Neutral Review
+Dan,7,1,3.91,Eliminated
+Priya,7,2,3.63,Neutral Review
+Jamie,7,2,4.15,Eliminated
+Henry,7,2,5.05,Neutral Review
 Amelia,7,2,2.67,Negative Review
-Phil,7,2,5.73,Neutral Review
-Helena,7,2,6.24,Neutral Review
-Michelle,7,2,6.48,Neutral Review
-Steph,7,2,5.91,Neutral Review
-Rosie,7,2,8.18,Positive Review
-David,7,2,8.27,Positive Review
-Alice,7,2,9.63,Winner
-Michael,7,2,5.79,Neutral Review
-Priya,7,3,4.45,Neutral Review
-Henry,7,3,5.58,Negative Review
-Amelia,7,3,1.97,Eliminated
-Phil,7,3,6.93,Neutral Review
-Helena,7,3,1.59,Neutral Review
-Michelle,7,3,6.18,Neutral Review
-Steph,7,3,8.51,Positive Review
-Rosie,7,3,6.63,Neutral Review
-David,7,3,4.16,Neutral Review
-Alice,7,3,6.88,Negative Review
-Michael,7,3,8.97,Winner
-Priya,7,4,5.78,Negative Review
-Henry,7,4,5.79,Neutral Review
-Phil,7,4,4.62,Eliminated
-Helena,7,4,7.91,Neutral Review
-Michelle,7,4,6.29,Neutral Review
-Steph,7,4,9.63,Winner
-Rosie,7,4,8.98,Neutral Review
-David,7,4,9.41,Positive Review
-Alice,7,4,7.85,Neutral Review
-Michael,7,4,7.16,Negative Review
-Priya,7,5,5.56,Negative Review
-Henry,7,5,6.92,Positive Review
-Helena,7,5,5.34,Eliminated
-Michelle,7,5,3.36,Eliminated
-Steph,7,5,7.94,Winner
-Rosie,7,5,5.8,Negative Review
-David,7,5,8.01,Positive Review
-Alice,7,5,5.28,Neutral Review
-Michael,7,5,5.62,Neutral Review
-Priya,7,6,4.65,Eliminated
-Henry,7,6,4.26,Negative Review
-Steph,7,6,8.85,Winner
-Rosie,7,6,2.98,Negative Review
-David,7,6,7.53,Neutral Review
-Alice,7,6,8.99,Positive Review
-Michael,7,6,4.84,Negative Review
-Henry,7,7,9.16,Winner
-Steph,7,7,7.82,Positive Review
-Rosie,7,7,6.96,Negative Review
-David,7,7,5.92,Positive Review
-Alice,7,7,6.83,Neutral Review
-Michael,7,7,3.81,Eliminated
-Henry,7,8,2.56,Eliminated
-Steph,7,8,6.63,Winner
-Rosie,7,8,5.46,Negative Review
-David,7,8,4.49,Positive Review
-Alice,7,8,4.48,Neutral Review
-Steph,7,9,7.98,Positive Review
-Rosie,7,9,5.58,Eliminated
-David,7,9,4.62,Negative Review
-Alice,7,9,5.61,Winner
-Steph,7,10,3.81,Negative Review
-David,7,10,9.35,Winner
-Alice,7,10,7.34,Positive Review
-Peter,8,1,9.45,Winner
-Mak,8,1,6.26,Neutral Review
-Hermine,8,1,8.92,Positive Review
-Laura,8,1,6.56,Neutral Review
-Dave,8,1,5.0,Neutral Review
-Linda,8,1,5.28,Negative Review
-Loriea,8,1,2.65,Eliminated
-Mark,8,1,7.85,Neutral Review
-Marc,8,1,4.12,Negative Review
-Lottie,8,1,6.42,Neutral Review
-Rowan,8,1,8.41,Neutral Review
-Sura,8,1,9.63,Positive Review
-Peter,8,2,7.53,Neutral Review
-Mak,8,2,4.67,Eliminated
-Hermine,8,2,4.33,Neutral Review
-Laura,8,2,5.67,Neutral Review
-Dave,8,2,9.63,Winner
-Linda,8,2,5.51,Neutral Review
-Mark,8,2,6.87,Positive Review
-Marc,8,2,7.72,Positive Review
-Lottie,8,2,8.58,Neutral Review
-Rowan,8,2,3.34,Negative Review
-Sura,8,2,6.75,Neutral Review
-Hermine,8,3,6.92,Neutral Review
-Laura,8,3,6.33,Neutral Review
-Dave,8,3,5.18,Negative Review
-Linda,8,3,5.67,Neutral Review
+Phil,7,2,5.95,Neutral Review
+Helena,7,2,5.97,Neutral Review
+Michelle,7,2,6.45,Neutral Review
+Steph,7,2,5.8,Neutral Review
+Rosie,7,2,8.11,Positive Review
+David,7,2,8.3,Positive Review
+Alice,7,2,9.5,Winner
+Michael,7,2,5.84,Neutral Review
+Priya,7,3,4.47,Neutral Review
+Henry,7,3,5.65,Negative Review
+Amelia,7,3,2.14,Eliminated
+Phil,7,3,6.81,Neutral Review
+Helena,7,3,1.85,Neutral Review
+Michelle,7,3,6.37,Neutral Review
+Steph,7,3,8.22,Positive Review
+Rosie,7,3,6.54,Neutral Review
+David,7,3,4.28,Neutral Review
+Alice,7,3,6.57,Negative Review
+Michael,7,3,8.89,Winner
+Priya,7,4,5.72,Negative Review
+Henry,7,4,5.96,Neutral Review
+Phil,7,4,4.71,Eliminated
+Helena,7,4,7.73,Neutral Review
+Michelle,7,4,6.07,Neutral Review
+Steph,7,4,9.5,Winner
+Rosie,7,4,8.83,Neutral Review
+David,7,4,9.27,Positive Review
+Alice,7,4,7.64,Neutral Review
+Michael,7,4,7.15,Negative Review
+Priya,7,5,5.57,Negative Review
+Henry,7,5,6.8,Positive Review
+Helena,7,5,5.27,Eliminated
+Michelle,7,5,3.35,Eliminated
+Steph,7,5,7.86,Winner
+Rosie,7,5,5.72,Negative Review
+David,7,5,7.89,Positive Review
+Alice,7,5,5.22,Neutral Review
+Michael,7,5,5.54,Neutral Review
+Priya,7,6,4.45,Eliminated
+Henry,7,6,4.46,Negative Review
+Steph,7,6,8.68,Winner
+Rosie,7,6,3.24,Negative Review
+David,7,6,7.54,Neutral Review
+Alice,7,6,8.75,Positive Review
+Michael,7,6,4.75,Negative Review
+Henry,7,7,9.09,Winner
+Steph,7,7,7.8,Positive Review
+Rosie,7,7,7.06,Negative Review
+David,7,7,6.04,Positive Review
+Alice,7,7,6.69,Neutral Review
+Michael,7,7,3.9,Eliminated
+Henry,7,8,2.7,Eliminated
+Steph,7,8,6.55,Winner
+Rosie,7,8,5.48,Negative Review
+David,7,8,4.58,Positive Review
+Alice,7,8,4.53,Neutral Review
+Steph,7,9,7.73,Positive Review
+Rosie,7,9,5.56,Eliminated
+David,7,9,4.79,Negative Review
+Alice,7,9,5.68,Winner
+Steph,7,10,3.77,Negative Review
+David,7,10,9.19,Winner
+Alice,7,10,7.33,Positive Review
+Peter,8,1,9.32,Winner
+Mak,8,1,6.17,Neutral Review
+Hermine,8,1,8.77,Positive Review
+Laura,8,1,6.45,Neutral Review
+Dave,8,1,5.02,Neutral Review
+Linda,8,1,5.08,Negative Review
+Loriea,8,1,2.54,Eliminated
+Mark,8,1,7.75,Neutral Review
+Marc,8,1,4.15,Negative Review
+Lottie,8,1,6.62,Neutral Review
+Rowan,8,1,8.1,Neutral Review
+Sura,8,1,9.5,Positive Review
+Peter,8,2,7.26,Neutral Review
+Mak,8,2,4.77,Eliminated
+Hermine,8,2,4.29,Neutral Review
+Laura,8,2,5.71,Neutral Review
+Dave,8,2,9.5,Winner
+Linda,8,2,5.71,Neutral Review
+Mark,8,2,6.88,Positive Review
+Marc,8,2,7.46,Positive Review
+Lottie,8,2,8.49,Neutral Review
+Rowan,8,2,3.4,Negative Review
+Sura,8,2,6.72,Neutral Review
+Hermine,8,3,6.85,Neutral Review
+Laura,8,3,6.19,Neutral Review
+Dave,8,3,5.21,Negative Review
+Linda,8,3,5.59,Neutral Review
 Mark,8,3,6.42,Neutral Review
-Marc,8,3,9.27,Winner
-Lottie,8,3,7.9,Neutral Review
-Rowan,8,3,2.56,Eliminated
-Sura,8,3,6.81,Positive Review
-Peter,8,3,6.55,Negative Review
-Hermine,8,4,5.88,Neutral Review
-Laura,8,4,4.75,Neutral Review
-Dave,8,4,7.21,Neutral Review
-Linda,8,4,6.39,Neutral Review
-Mark,8,4,7.05,Winner
-Marc,8,4,5.02,Neutral Review
-Lottie,8,4,4.16,Negative Review
-Sura,8,4,0.99,Eliminated
-Peter,8,4,8.26,Positive Review
-Hermine,8,5,8.76,Positive Review
-Laura,8,5,8.25,Winner
-Dave,8,5,7.66,Positive Review
-Linda,8,5,3.1,Eliminated
-Mark,8,5,5.66,Negative Review
-Marc,8,5,4.57,Negative Review
-Lottie,8,5,6.66,Neutral Review
-Peter,8,5,8.9,Positive Review
-Hermine,8,6,4.66,Negative Review
-Laura,8,6,4.83,Negative Review
-Dave,8,6,8.39,Positive Review
-Mark,8,6,5.11,Eliminated
-Marc,8,6,7.43,Positive Review
-Lottie,8,6,9.3,Winner
-Peter,8,6,6.58,Neutral Review
-Hermine,8,7,8.9,Winner
-Laura,8,7,4.49,Negative Review
-Dave,8,7,4.55,Neutral Review
-Marc,8,7,7.52,Positive Review
-Lottie,8,7,3.69,Eliminated
-Peter,8,7,7.61,Neutral Review
-Hermine,8,8,7.66,Winner
-Laura,8,8,7.49,Positive Review
-Dave,8,8,6.2,Neutral Review
-Marc,8,8,3.14,Eliminated
-Peter,8,8,3.22,Negative Review
-Hermine,8,9,4.84,Eliminated
-Laura,8,9,5.05,Negative Review
-Dave,8,9,8.34,Positive Review
-Peter,8,9,9.93,Winner
-Laura,8,10,3.81,Neutral Review
-Dave,8,10,7.6,Neutral Review
-Peter,8,10,8.73,Winner
-Maggie,9,1,6.35,Neutral Review
-Jairzeno,9,1,5.13,Negative Review
-Amanda,9,1,1.83,Negative Review
-Tom,9,1,3.08,Eliminated
-Crystelle,9,1,7.81,Positive Review
-George,9,1,4.43,Negative Review
-Rochica,9,1,6.14,Neutral Review
-Jurgen,9,1,7.57,Winner
-Freya,9,1,8.13,Neutral Review
-Chigs,9,1,6.91,Neutral Review
-Lizzie,9,1,5.0,Neutral Review
+Marc,8,3,9.12,Winner
+Lottie,8,3,7.76,Neutral Review
+Rowan,8,3,2.59,Eliminated
+Sura,8,3,6.56,Positive Review
+Peter,8,3,6.4,Negative Review
+Hermine,8,4,5.85,Neutral Review
+Laura,8,4,4.84,Neutral Review
+Dave,8,4,6.87,Neutral Review
+Linda,8,4,6.33,Neutral Review
+Mark,8,4,6.85,Winner
+Marc,8,4,5.04,Neutral Review
+Lottie,8,4,4.14,Negative Review
+Sura,8,4,1.15,Eliminated
+Peter,8,4,8.01,Positive Review
+Hermine,8,5,8.7,Positive Review
+Laura,8,5,8.07,Winner
+Dave,8,5,7.33,Positive Review
+Linda,8,5,3.39,Eliminated
+Mark,8,5,5.83,Negative Review
+Marc,8,5,4.58,Negative Review
+Lottie,8,5,6.74,Neutral Review
+Peter,8,5,8.62,Positive Review
+Hermine,8,6,4.9,Negative Review
+Laura,8,6,4.72,Negative Review
+Dave,8,6,8.33,Positive Review
+Mark,8,6,5.15,Eliminated
+Marc,8,6,7.33,Positive Review
+Lottie,8,6,9.16,Winner
+Peter,8,6,6.4,Neutral Review
+Hermine,8,7,8.62,Winner
+Laura,8,7,4.48,Negative Review
+Dave,8,7,4.47,Neutral Review
+Marc,8,7,7.53,Positive Review
+Lottie,8,7,3.76,Eliminated
+Peter,8,7,7.63,Neutral Review
+Hermine,8,8,7.32,Winner
+Laura,8,8,7.59,Positive Review
+Dave,8,8,6.19,Neutral Review
+Marc,8,8,3.33,Eliminated
+Peter,8,8,3.45,Negative Review
+Hermine,8,9,4.85,Eliminated
+Laura,8,9,5.07,Negative Review
+Dave,8,9,8.17,Positive Review
+Peter,8,9,9.88,Winner
+Laura,8,10,3.72,Neutral Review
+Dave,8,10,7.79,Neutral Review
+Peter,8,10,8.62,Winner
+Maggie,9,1,6.39,Neutral Review
+Jairzeno,9,1,5.25,Negative Review
+Amanda,9,1,1.99,Negative Review
+Tom,9,1,3.31,Eliminated
+Crystelle,9,1,7.72,Positive Review
+George,9,1,4.5,Negative Review
+Rochica,9,1,5.98,Neutral Review
+Jurgen,9,1,7.58,Winner
+Freya,9,1,7.93,Neutral Review
+Chigs,9,1,6.8,Neutral Review
+Lizzie,9,1,4.98,Neutral Review
 Giuseppe,9,1,6.55,Positive Review
-Maggie,9,2,2.67,Negative Review
-Jairzeno,9,2,4.35,Eliminated
-Amanda,9,2,5.59,Negative Review
-Crystelle,9,2,7.3,Neutral Review
-George,9,2,7.1,Neutral Review
-Rochica,9,2,6.52,Neutral Review
-Jurgen,9,2,9.63,Winner
-Freya,9,2,8.24,Neutral Review
-Chigs,9,2,8.47,Positive Review
-Lizzie,9,2,5.66,Neutral Review
-Giuseppe,9,2,9.43,Positive Review
-Maggie,9,3,2.62,Negative Review
-Amanda,9,3,7.74,Neutral Review
-Crystelle,9,3,7.32,Neutral Review
-George,9,3,6.25,Neutral Review
-Rochica,9,3,3.65,Eliminated
-Jurgen,9,3,5.68,Neutral Review
-Freya,9,3,8.39,Positive Review
-Chigs,9,3,7.24,Neutral Review
-Lizzie,9,3,8.55,Positive Review
-Giuseppe,9,3,9.93,Winner
-Maggie,9,4,2.38,Eliminated
-Amanda,9,4,3.66,Negative Review
-Crystelle,9,4,8.3,Neutral Review
-George,9,4,1.88,Neutral Review
-Jurgen,9,4,9.04,Positive Review
-Freya,9,4,3.39,Negative Review
-Chigs,9,4,9.45,Winner
-Lizzie,9,4,5.02,Neutral Review
-Giuseppe,9,4,8.18,Positive Review
-Amanda,9,5,5.56,Neutral Review
-Crystelle,9,5,7.97,Neutral Review
-George,9,5,6.02,Negative Review
-Jurgen,9,5,8.36,Positive Review
-Freya,9,5,3.2,Eliminated
-Chigs,9,5,7.26,Neutral Review
-Lizzie,9,5,6.76,Neutral Review
-Giuseppe,9,5,9.63,Winner
-Amanda,9,6,1.97,Eliminated
-Crystelle,9,6,8.05,Winner
+Maggie,9,2,2.86,Negative Review
+Jairzeno,9,2,4.37,Eliminated
+Amanda,9,2,5.66,Negative Review
+Crystelle,9,2,7.2,Neutral Review
+George,9,2,7.09,Neutral Review
+Rochica,9,2,6.49,Neutral Review
+Jurgen,9,2,9.5,Winner
+Freya,9,2,8.09,Neutral Review
+Chigs,9,2,8.3,Positive Review
+Lizzie,9,2,5.74,Neutral Review
+Giuseppe,9,2,9.3,Positive Review
+Maggie,9,3,2.7,Negative Review
+Amanda,9,3,7.52,Neutral Review
+Crystelle,9,3,7.22,Neutral Review
+George,9,3,6.34,Neutral Review
+Rochica,9,3,3.66,Eliminated
+Jurgen,9,3,5.6,Neutral Review
+Freya,9,3,8.33,Positive Review
+Chigs,9,3,7.0,Neutral Review
+Lizzie,9,3,8.42,Positive Review
+Giuseppe,9,3,9.88,Winner
+Maggie,9,4,2.51,Eliminated
+Amanda,9,4,3.53,Negative Review
+Crystelle,9,4,8.06,Neutral Review
+George,9,4,1.97,Neutral Review
+Jurgen,9,4,8.99,Positive Review
+Freya,9,4,3.36,Negative Review
+Chigs,9,4,9.39,Winner
+Lizzie,9,4,5.15,Neutral Review
+Giuseppe,9,4,7.87,Positive Review
+Amanda,9,5,5.6,Neutral Review
+Crystelle,9,5,7.79,Neutral Review
+George,9,5,5.88,Negative Review
+Jurgen,9,5,8.37,Positive Review
+Freya,9,5,3.37,Eliminated
+Chigs,9,5,7.39,Neutral Review
+Lizzie,9,5,6.54,Neutral Review
+Giuseppe,9,5,9.5,Winner
+Amanda,9,6,2.11,Eliminated
+Crystelle,9,6,7.89,Winner
 George,9,6,4.66,Negative Review
-Jurgen,9,6,8.17,Neutral Review
-Chigs,9,6,5.73,Neutral Review
-Lizzie,9,6,6.95,Neutral Review
-Giuseppe,9,6,8.07,Positive Review
-Crystelle,9,7,6.97,Positive Review
-George,9,7,5.49,Eliminated
-Jurgen,9,7,7.19,Winner
-Chigs,9,7,5.76,Positive Review
-Lizzie,9,7,3.68,Negative Review
-Giuseppe,9,7,7.85,Positive Review
-Crystelle,9,8,7.7,Negative Review
-Jurgen,9,8,7.0,Positive Review
-Chigs,9,8,9.35,Winner
-Lizzie,9,8,7.48,Eliminated
-Giuseppe,9,8,5.83,Neutral Review
-Crystelle,9,9,8.65,Winner
-Jurgen,9,9,8.53,Eliminated
-Chigs,9,9,8.01,Positive Review
-Giuseppe,9,9,7.56,Negative Review
-Crystelle,9,10,6.59,Neutral Review
-Chigs,9,10,7.93,Neutral Review
-Giuseppe,9,10,6.97,Winner
-Maxy,10,1,4.22,Neutral Review
-James,10,1,5.02,Neutral Review
-Carole,10,1,5.92,Neutral Review
-Kevin,10,1,7.41,Neutral Review
-Maisam,10,1,4.33,Negative Review
-Sandro,10,1,5.81,Positive Review
-Dawn,10,1,8.68,Neutral Review
-Abdul,10,1,6.83,Neutral Review
-Syabira,10,1,6.72,Positive Review
-Rebs,10,1,5.53,Negative Review
-Will,10,1,3.09,Eliminated
-Janusz,10,1,8.57,Winner
-Maxy,10,2,9.16,Winner
-James,10,2,9.43,Positive Review
-Carole,10,2,5.73,Negative Review
-Kevin,10,2,5.71,Neutral Review
-Maisam,10,2,6.06,Eliminated
-Sandro,10,2,9.24,Neutral Review
-Dawn,10,2,8.39,Neutral Review
-Abdul,10,2,6.24,Neutral Review
-Syabira,10,2,7.89,Positive Review
-Rebs,10,2,4.26,Negative Review
-Janusz,10,2,7.93,Neutral Review
-Maxy,10,3,7.05,Neutral Review
-James,10,3,7.48,Neutral Review
-Carole,10,3,3.79,Negative Review
-Kevin,10,3,5.15,Negative Review
-Sandro,10,3,6.88,Positive Review
-Dawn,10,3,2.84,Negative Review
-Syabira,10,3,8.25,Positive Review
-Janusz,10,3,8.4,Winner
-Abdul,10,4,6.73,Neutral Review
-Rebs,10,4,1.61,Eliminated
-Maxy,10,4,9.63,Winner
-James,10,4,5.21,Eliminated
-Carole,10,4,4.06,Negative Review
-Kevin,10,4,5.8,Neutral Review
-Sandro,10,4,6.74,Positive Review
-Dawn,10,4,6.86,Neutral Review
-Syabira,10,4,6.32,Neutral Review
-Janusz,10,4,6.21,Positive Review
-Abdul,10,5,6.99,Neutral Review
-Maxy,10,5,6.76,Neutral Review
-Carole,10,5,4.84,Eliminated
-Kevin,10,5,5.12,Neutral Review
-Sandro,10,5,8.8,Winner
-Dawn,10,5,4.51,Negative Review
-Syabira,10,5,5.47,Negative Review
-Janusz,10,5,8.4,Positive Review
-Abdul,10,6,6.95,Neutral Review
-Maxy,10,6,6.41,Neutral Review
-Kevin,10,6,3.55,Negative Review
-Sandro,10,6,4.57,Neutral Review
-Dawn,10,6,1.38,Eliminated
-Syabira,10,6,9.07,Winner
-Janusz,10,6,6.71,Neutral Review
-Abdul,10,7,7.72,Neutral Review
-Maxy,10,7,5.24,Neutral Review
+Jurgen,9,6,8.14,Neutral Review
+Chigs,9,6,5.89,Neutral Review
+Lizzie,9,6,6.85,Neutral Review
+Giuseppe,9,6,7.99,Positive Review
+Crystelle,9,7,6.98,Positive Review
+George,9,7,5.53,Eliminated
+Jurgen,9,7,7.05,Winner
+Chigs,9,7,5.75,Positive Review
+Lizzie,9,7,3.87,Negative Review
+Giuseppe,9,7,7.87,Positive Review
+Crystelle,9,8,7.5,Negative Review
+Jurgen,9,8,6.99,Positive Review
+Chigs,9,8,9.19,Winner
+Lizzie,9,8,7.49,Eliminated
+Giuseppe,9,8,5.94,Neutral Review
+Crystelle,9,9,8.56,Winner
+Jurgen,9,9,8.45,Eliminated
+Chigs,9,9,7.89,Positive Review
+Giuseppe,9,9,7.52,Negative Review
+Crystelle,9,10,6.72,Neutral Review
+Chigs,9,10,7.62,Neutral Review
+Giuseppe,9,10,6.63,Winner
+Maxy,10,1,4.19,Neutral Review
+James,10,1,5.17,Neutral Review
+Carole,10,1,5.86,Neutral Review
+Kevin,10,1,7.18,Neutral Review
+Maisam,10,1,4.66,Negative Review
+Sandro,10,1,5.83,Positive Review
+Dawn,10,1,8.63,Neutral Review
+Abdul,10,1,6.81,Neutral Review
+Syabira,10,1,6.78,Positive Review
+Rebs,10,1,5.34,Negative Review
+Will,10,1,3.23,Eliminated
+Janusz,10,1,8.41,Winner
+Maxy,10,2,9.09,Winner
+James,10,2,9.3,Positive Review
+Carole,10,2,5.82,Negative Review
+Kevin,10,2,5.68,Neutral Review
+Maisam,10,2,6.09,Eliminated
+Sandro,10,2,9.1,Neutral Review
+Dawn,10,2,8.29,Neutral Review
+Abdul,10,2,6.19,Neutral Review
+Syabira,10,2,7.7,Positive Review
+Rebs,10,2,4.57,Negative Review
+Janusz,10,2,7.62,Neutral Review
+Maxy,10,3,7.16,Neutral Review
+James,10,3,7.42,Neutral Review
+Carole,10,3,3.88,Negative Review
+Kevin,10,3,5.14,Negative Review
+Sandro,10,3,6.86,Positive Review
+Dawn,10,3,2.85,Negative Review
+Syabira,10,3,8.05,Positive Review
+Janusz,10,3,8.25,Winner
+Abdul,10,4,6.47,Neutral Review
+Rebs,10,4,1.69,Eliminated
+Maxy,10,4,9.5,Winner
+James,10,4,4.98,Eliminated
+Carole,10,4,3.91,Negative Review
+Kevin,10,4,5.74,Neutral Review
+Sandro,10,4,6.47,Positive Review
+Dawn,10,4,6.72,Neutral Review
+Syabira,10,4,6.22,Neutral Review
+Janusz,10,4,6.11,Positive Review
+Abdul,10,5,7.04,Neutral Review
+Maxy,10,5,6.72,Neutral Review
+Carole,10,5,4.86,Eliminated
+Kevin,10,5,5.15,Neutral Review
+Sandro,10,5,8.64,Winner
+Dawn,10,5,4.56,Negative Review
+Syabira,10,5,5.21,Negative Review
+Janusz,10,5,8.25,Positive Review
+Abdul,10,6,6.85,Neutral Review
+Maxy,10,6,6.45,Neutral Review
+Kevin,10,6,3.65,Negative Review
+Sandro,10,6,4.67,Neutral Review
+Dawn,10,6,1.61,Eliminated
+Syabira,10,6,9.03,Winner
+Janusz,10,6,6.65,Neutral Review
+Abdul,10,7,7.64,Neutral Review
+Maxy,10,7,5.12,Neutral Review
 Kevin,10,7,5.03,Eliminated
-Sandro,10,7,8.49,Positive Review
-Syabira,10,7,7.7,Winner
-Janusz,10,7,6.35,Negative Review
-Abdul,10,8,4.56,Positive Review
-Maxy,10,8,4.08,Eliminated
-Sandro,10,8,6.22,Negative Review
-Syabira,10,8,6.86,Winner
-Janusz,10,8,5.69,Positive Review
-Abdul,10,9,7.8,Winner
-Sandro,10,9,6.01,Negative Review
-Syabira,10,9,8.88,Positive Review
-Janusz,10,9,5.16,Eliminated
-Abdul,10,10,4.17,Neutral Review
-Sandro,10,10,3.56,Neutral Review
-Syabira,10,10,7.7,Winner
-Matty,11,1,5.11,Neutral Review
-Dan,11,1,9.63,Winner
-Josh,11,1,6.06,Neutral Review
-Tasha,11,1,6.69,Neutral Review
-Cristy,11,1,8.61,Positive Review
-Saku,11,1,5.61,Neutral Review
-Dana,11,1,1.76,Negative Review
-Nicky,11,1,5.19,Negative Review
-Rowan,11,1,8.22,Neutral Review
-Abbi,11,1,9.28,Positive Review
-Keith,11,1,7.18,Positive Review
-Amos,11,1,3.45,Eliminated
-Matty,11,2,8.49,Neutral Review
-Dan,11,2,7.5,Neutral Review
-Josh,11,2,8.73,Positive Review
-Tasha,11,2,8.58,Winner
-Cristy,11,2,7.58,Neutral Review
-Saku,11,2,5.61,Neutral Review
-Dana,11,2,5.83,Neutral Review
-Nicky,11,2,7.3,Negative Review
-Rowan,11,2,6.58,Neutral Review
-Abbi,11,2,8.76,Neutral Review
-Keith,11,2,5.02,Eliminated
-Matty,11,3,6.41,Neutral Review
-Dan,11,3,1.97,Negative Review
-Josh,11,3,8.98,Positive Review
-Tasha,11,3,8.82,Winner
-Cristy,11,3,7.92,Neutral Review
-Saku,11,3,5.67,Neutral Review
-Dana,11,3,4.84,Neutral Review
-Nicky,11,3,4.7,Neutral Review
-Rowan,11,3,3.0,Negative Review
-Abbi,11,3,3.28,Eliminated
-Matty,11,4,7.44,Winner
-Dan,11,4,7.13,Positive Review
-Josh,11,4,3.29,Neutral Review
-Cristy,11,4,4.88,Negative Review
-Saku,11,4,3.34,Negative Review
-Dana,11,4,4.52,Neutral Review
-Nicky,11,4,8.3,Positive Review
-Rowan,11,4,4.32,Negative Review
-Matty,11,5,2.0,Negative Review
-Dan,11,5,5.4,Neutral Review
-Josh,11,5,6.62,Positive Review
-Tasha,11,5,6.48,Positive Review
-Cristy,11,5,8.97,Winner
-Saku,11,5,4.9,Negative Review
-Dana,11,5,5.34,Negative Review
-Nicky,11,5,5.34,Eliminated
-Rowan,11,5,2.58,Eliminated
-Matty,11,6,4.25,Negative Review
-Dan,11,6,6.3,Neutral Review
-Josh,11,6,9.3,Winner
-Tasha,11,6,7.7,Positive Review
-Cristy,11,6,8.13,Positive Review
-Saku,11,6,5.88,Negative Review
-Dana,11,6,2.97,Eliminated
-Matty,11,7,5.24,Neutral Review
-Dan,11,7,8.06,Winner
-Josh,11,7,7.54,Positive Review
-Tasha,11,7,7.42,Neutral Review
-Cristy,11,7,4.42,Negative Review
-Saku,11,7,2.96,Eliminated
-Matty,11,8,7.47,Winner
-Dan,11,8,5.7,Negative Review
-Josh,11,8,6.63,Positive Review
-Tasha,11,8,6.33,Neutral Review
-Cristy,11,8,5.16,Eliminated
-Matty,11,9,4.84,Negative Review
-Dan,11,9,7.78,Positive Review
-Josh,11,9,9.12,Winner
-Tasha,11,9,4.65,Eliminated
-Matty,11,10,5.42,Winner
-Dan,11,10,4.09,Neutral Review
-Josh,11,10,7.06,Neutral Review
+Sandro,10,7,8.34,Positive Review
+Syabira,10,7,7.5,Winner
+Janusz,10,7,6.2,Negative Review
+Abdul,10,8,4.52,Positive Review
+Maxy,10,8,4.06,Eliminated
+Sandro,10,8,6.28,Negative Review
+Syabira,10,8,6.67,Winner
+Janusz,10,8,5.61,Positive Review
+Abdul,10,9,7.82,Winner
+Sandro,10,9,5.96,Negative Review
+Syabira,10,9,8.84,Positive Review
+Janusz,10,9,5.08,Eliminated
+Abdul,10,10,4.53,Neutral Review
+Sandro,10,10,3.53,Neutral Review
+Syabira,10,10,7.61,Winner
+Matty,11,1,5.18,Neutral Review
+Dan,11,1,9.5,Winner
+Josh,11,1,5.84,Neutral Review
+Tasha,11,1,6.67,Neutral Review
+Cristy,11,1,8.44,Positive Review
+Saku,11,1,5.65,Neutral Review
+Dana,11,1,1.91,Negative Review
+Nicky,11,1,5.1,Negative Review
+Rowan,11,1,8.05,Neutral Review
+Abbi,11,1,9.13,Positive Review
+Keith,11,1,7.17,Positive Review
+Amos,11,1,3.64,Eliminated
+Matty,11,2,8.26,Neutral Review
+Dan,11,2,7.62,Neutral Review
+Josh,11,2,8.62,Positive Review
+Tasha,11,2,8.49,Winner
+Cristy,11,2,7.31,Neutral Review
+Saku,11,2,5.48,Neutral Review
+Dana,11,2,5.81,Neutral Review
+Nicky,11,2,7.23,Negative Review
+Rowan,11,2,6.66,Neutral Review
+Abbi,11,2,8.68,Neutral Review
+Keith,11,2,5.17,Eliminated
+Matty,11,3,6.49,Neutral Review
+Dan,11,3,2.19,Negative Review
+Josh,11,3,8.83,Positive Review
+Tasha,11,3,8.77,Winner
+Cristy,11,3,7.65,Neutral Review
+Saku,11,3,5.59,Neutral Review
+Dana,11,3,4.95,Neutral Review
+Nicky,11,3,4.56,Neutral Review
+Rowan,11,3,3.1,Negative Review
+Abbi,11,3,3.31,Eliminated
+Matty,11,4,7.37,Winner
+Dan,11,4,6.99,Positive Review
+Josh,11,4,3.2,Neutral Review
+Cristy,11,4,4.78,Negative Review
+Saku,11,4,3.4,Negative Review
+Dana,11,4,4.43,Neutral Review
+Nicky,11,4,8.05,Positive Review
+Rowan,11,4,4.34,Negative Review
+Matty,11,5,2.16,Negative Review
+Dan,11,5,5.45,Neutral Review
+Josh,11,5,6.37,Positive Review
+Tasha,11,5,6.56,Positive Review
+Cristy,11,5,8.89,Winner
+Saku,11,5,4.85,Negative Review
+Dana,11,5,5.31,Negative Review
+Nicky,11,5,5.15,Eliminated
+Rowan,11,5,2.93,Eliminated
+Matty,11,6,4.22,Negative Review
+Dan,11,6,6.18,Neutral Review
+Josh,11,6,9.16,Winner
+Tasha,11,6,7.5,Positive Review
+Cristy,11,6,8.18,Positive Review
+Saku,11,6,5.58,Negative Review
+Dana,11,6,3.06,Eliminated
+Matty,11,7,4.92,Neutral Review
+Dan,11,7,8.08,Winner
+Josh,11,7,7.31,Positive Review
+Tasha,11,7,7.52,Neutral Review
+Cristy,11,7,4.4,Negative Review
+Saku,11,7,2.88,Eliminated
+Matty,11,8,7.57,Winner
+Dan,11,8,5.59,Negative Review
+Josh,11,8,6.55,Positive Review
+Tasha,11,8,6.22,Neutral Review
+Cristy,11,8,5.17,Eliminated
+Matty,11,9,4.85,Negative Review
+Dan,11,9,7.7,Positive Review
+Josh,11,9,8.9,Winner
+Tasha,11,9,4.79,Eliminated
+Matty,11,10,5.45,Winner
+Dan,11,10,4.17,Neutral Review
+Josh,11,10,7.09,Neutral Review
+Andy,12,1,5.9,Neutral Review
+Christiaan,12,1,5.09,Negative Review
+Dylan,12,1,8.02,Neutral Review
+Georgie,12,1,7.38,Positive Review
+Gill,12,1,7.49,Neutral Review
+Hazel,12,1,3.07,Negative Review
+Illiyin,12,1,7.8,Neutral Review
+John,12,1,8.59,Winner
+Mike,12,1,6.05,Neutral Review
+Nelly,12,1,7.3,Neutral Review
+Sumayah,12,1,7.9,Positive Review
+Andy,12,2,6.81,Neutral Review
+Christiaan,12,2,8.11,Positive Review
+Dylan,12,2,7.5,Neutral Review
+Georgie,12,2,2.76,Negative Review
+Gill,12,2,8.9,Neutral Review
+Hazel,12,2,3.44,Eliminated
+Illiyin,12,2,5.61,Negative Review
+John,12,2,7.31,Neutral Review
+Mike,12,2,7.67,Neutral Review
+Nelly,12,2,7.29,Neutral Review
+Sumayah,12,2,9.1,Winner
+Andy,12,3,4.91,Negative Review
+Christiaan,12,3,5.74,Neutral Review
+Dylan,12,3,7.89,Winner
+Georgie,12,3,8.17,Positive Review
+Gill,12,3,7.95,Neutral Review
+Illiyin,12,3,8.33,Neutral Review
+John,12,3,6.19,Eliminated
+Mike,12,3,4.93,Neutral Review
+Nelly,12,3,9.5,Positive Review
+Sumayah,12,3,6.38,Neutral Review
+Andy,12,4,6.85,Neutral Review
+Christiaan,12,4,7.93,Neutral Review
+Dylan,12,4,7.1,Positive Review
+Georgie,12,4,8.61,Winner
+Gill,12,4,7.09,Neutral Review
+Illiyin,12,4,6.12,Neutral Review
+Mike,12,4,4.45,Eliminated
+Nelly,12,4,7.37,Neutral Review
+Sumayah,12,4,4.21,Negative Review
+Andy,12,5,2.6,Eliminated
+Christiaan,12,5,6.35,Neutral Review
+Dylan,12,5,7.87,Neutral Review
+Georgie,12,5,5.87,Neutral Review
+Gill,12,5,7.5,Winner
+Illiyin,12,5,5.78,Negative Review
+Nelly,12,5,5.72,Neutral Review
+Sumayah,12,5,7.1,Positive Review
+Christiaan,12,6,7.84,Neutral Review
+Dylan,12,6,5.18,Negative Review
+Georgie,12,6,6.97,Neutral Review
+Gill,12,6,7.5,Positive Review
+Illiyin,12,6,7.6,Neutral Review
+Nelly,12,6,4.64,Eliminated
+Sumayah,12,6,8.64,Winner
+Christiaan,12,7,7.3,Neutral Review
+Dylan,12,7,9.88,Winner
+Georgie,12,7,8.15,Positive Review
+Gill,12,7,7.56,Negative Review
+Illiyin,12,7,6.45,Negative Review
+Sumayah,12,7,3.66,Eliminated
+Christiaan,12,8,6.4,Negative Review
+Dylan,12,8,8.04,Positive Review
+Georgie,12,8,9.06,Winner
+Gill,12,8,5.9,Negative Review
+Illiyin,12,8,3.96,Eliminated
+Christiaan,12,9,7.73,Winner
+Dylan,12,9,6.79,Positive Review
+Georgie,12,9,6.63,Negative Review
+Gill,12,9,7.45,Eliminated
+Christiaan,12,10,6.89,Neutral Review
+Dylan,12,10,3.1,Neutral Review
+Georgie,12,10,7.05,Winner

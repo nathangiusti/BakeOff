@@ -117,7 +117,7 @@ class GBBODataValidator:
     
     def _validate_contestant_counts(self) -> None:
         """Validate that each series has the expected number of contestants"""
-        expected_counts = {7: 13}  # Series 7 has 13, all others should have 12
+        expected_counts = {7: 13, 12: 11}  # Series 7 has 13, Series 12 has 11, all others have 12
         default_count = 12
         
         for series in sorted(self.df['Series'].unique()):

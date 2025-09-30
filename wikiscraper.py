@@ -826,7 +826,7 @@ def main() -> None:
     print("Starting GBBO Wikipedia scraping...")
     print("Scraping all series 8-15...")
     
-    scraper.scrape_all_series(8, 15)
+    scraper.scrape_all_series(8, 16)
     
     print("\nScraping complete. Validating data...")
     validation_passed = scraper.validate_data()
