@@ -746,7 +746,7 @@ class GBBOWikiScraper:
             return 'Ethnic'
 
         # Temporal themes → Temporal
-        if title_lower in ['the \'70s', 'the \'80s', 'the roaring twenties', 'forgotten bakes', 'autumn']:
+        if title_lower in ['the \'70s', 'the \'80s', 'the roaring twenties', 'forgotten bakes', 'autumn', 'back to school']:
             return 'Temporal'
 
         # Celebration themes → Celebration

@@ -5,6 +5,7 @@ Machine learning model training and analysis for GBBO.
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from typing import Dict, List, Tuple, Optional
 
@@ -13,10 +14,11 @@ from .config import Config
 
 class GBBOModelTrainer:
     """Handles model training and analysis"""
-    
-    def __init__(self, df: pd.DataFrame, config: Config):
+
+    def __init__(self, df: pd.DataFrame, config: Config, use_random_forest: bool = False):
         self.df = df
         self.config = config
+        self.use_random_forest = use_random_forest
         self.second_model: Optional[LogisticRegression] = None
 
         
@@ -29,13 +31,24 @@ class GBBOModelTrainer:
         """Train second half review prediction model"""
         second_half_data = self.df[self.df['Second Half Review'] != 0].copy()
         second_features = self.config.SIGNATURE_COLS + ['Tech_Normalized'] + self.config.SHOWSTOPPER_COLS
-        
+
         X_second = second_half_data[second_features]
         y_second = second_half_data['Second Half Review']
-        
-        self.second_model = LogisticRegression(random_state=42)
+
+        if self.use_random_forest:
+            self.second_model = RandomForestClassifier(
+                n_estimators=100,
+                max_depth=5,
+                min_samples_split=10,
+                min_samples_leaf=5,
+                random_state=42,
+                class_weight='balanced'
+            )
+        else:
+            self.second_model = LogisticRegression(random_state=42)
+
         self.second_model.fit(X_second, y_second)
-        
+
         return accuracy_score(y_second, self.second_model.predict(X_second))
     
     def analyze_correlations(self) -> Dict[str, float]:
@@ -62,19 +75,34 @@ class GBBOModelTrainer:
         """Extract weights from the trained second model"""
         if self.second_model is None:
             raise ValueError("Second model must be trained before extracting weights")
-        
-        # Calculate individual component weights from model coefficients
-        individual_weights = {
-            'signature_bake': abs(self.second_model.coef_[0][0]),
-            'signature_flavor': abs(self.second_model.coef_[0][1]),
-            'signature_looks': abs(self.second_model.coef_[0][2]),
-            'signature_handshake': abs(self.second_model.coef_[0][3]),
-            'tech_normalized': abs(self.second_model.coef_[0][4]),
-            'showstopper_bake': abs(self.second_model.coef_[0][5]),
-            'showstopper_flavor': abs(self.second_model.coef_[0][6]),
-            'showstopper_looks': abs(self.second_model.coef_[0][7]),
-            'showstopper_handshake': abs(self.second_model.coef_[0][8])
-        }
+
+        if self.use_random_forest:
+            # Use feature importances for Random Forest
+            importances = self.second_model.feature_importances_
+            individual_weights = {
+                'signature_bake': importances[0],
+                'signature_flavor': importances[1],
+                'signature_looks': importances[2],
+                'signature_handshake': importances[3],
+                'tech_normalized': importances[4],
+                'showstopper_bake': importances[5],
+                'showstopper_flavor': importances[6],
+                'showstopper_looks': importances[7],
+                'showstopper_handshake': importances[8]
+            }
+        else:
+            # Calculate individual component weights from model coefficients (Logistic Regression)
+            individual_weights = {
+                'signature_bake': abs(self.second_model.coef_[0][0]),
+                'signature_flavor': abs(self.second_model.coef_[0][1]),
+                'signature_looks': abs(self.second_model.coef_[0][2]),
+                'signature_handshake': abs(self.second_model.coef_[0][3]),
+                'tech_normalized': abs(self.second_model.coef_[0][4]),
+                'showstopper_bake': abs(self.second_model.coef_[0][5]),
+                'showstopper_flavor': abs(self.second_model.coef_[0][6]),
+                'showstopper_looks': abs(self.second_model.coef_[0][7]),
+                'showstopper_handshake': abs(self.second_model.coef_[0][8])
+            }
         return individual_weights
 
     def analyze_component_weights(self) -> None:
