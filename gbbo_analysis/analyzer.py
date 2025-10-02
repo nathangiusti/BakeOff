@@ -3,6 +3,7 @@ Main analysis orchestration for GBBO analysis.
 """
 
 import pandas as pd
+import numpy as np
 from pathlib import Path
 from typing import Optional
 
@@ -1348,8 +1349,72 @@ class GBBOAnalyzer:
             print(f"Warning: Could not generate theme analysis: {e}")
             print("Make sure 'gbbo_episodes.csv' file exists and has proper structure.")
 
+    def _monte_carlo_simulation(self, contestants_df: pd.DataFrame, n_simulations: int = 10000, n_finalists: int = 3) -> pd.DataFrame:
+        """
+        Run Monte Carlo simulation to predict finalist and winner probabilities.
+
+        Each simulation:
+        - Samples performance each round from N(strength, sqrt(variance))
+        - Eliminates weakest performer each round
+        - Continues until n_finalists remain (these are the finalists)
+        - Final round: All finalists compete, winner has highest score in that final round
+        """
+        np.random.seed(42)
+
+        # Initialize counters
+        finalist_counts = {name: 0 for name in contestants_df['Contestant']}
+        winner_counts = {name: 0 for name in contestants_df['Contestant']}
+
+        for sim in range(n_simulations):
+            # Start with all active contestants
+            remaining = contestants_df[~contestants_df['Eliminated']].copy()
+
+            # Simulate rounds until only n_finalists remain
+            while len(remaining) > n_finalists:
+                # Sample this round's performance from N(strength, sqrt(variance))
+                performances = {}
+                for _, contestant in remaining.iterrows():
+                    # Use sqrt(variance) as std deviation
+                    std_dev = np.sqrt(contestant['Variance']) if contestant['Variance'] > 0 else 0.1
+                    performance = np.random.normal(contestant['Avg_Strength'], std_dev)
+                    performances[contestant['Contestant']] = performance
+
+                # Eliminate weakest performer
+                weakest = min(performances, key=performances.get)
+                remaining = remaining[remaining['Contestant'] != weakest]
+
+            # Record finalists (all remaining contestants)
+            for _, finalist in remaining.iterrows():
+                finalist_counts[finalist['Contestant']] += 1
+
+            # Final round: All finalists compete, winner has highest score in final competition
+            if len(remaining) > 0:
+                final_performances = {}
+                for _, contestant in remaining.iterrows():
+                    std_dev = np.sqrt(contestant['Variance']) if contestant['Variance'] > 0 else 0.1
+                    final_performance = np.random.normal(contestant['Avg_Strength'], std_dev)
+                    final_performances[contestant['Contestant']] = final_performance
+
+                # Winner is contestant with highest score in final round
+                winner = max(final_performances, key=final_performances.get)
+                winner_counts[winner] += 1
+
+        # Calculate probabilities
+        results = []
+        for contestant in contestants_df['Contestant']:
+            finalist_prob = (finalist_counts[contestant] / n_simulations) * 100
+            winner_prob = (winner_counts[contestant] / n_simulations) * 100
+
+            results.append({
+                'Contestant': contestant,
+                'Finalist_Probability': finalist_prob,
+                'Winner_Probability': winner_prob
+            })
+
+        return pd.DataFrame(results)
+
     def analyze_current_season(self) -> None:
-        """Analyze current season contestants using trained model weights"""
+        """Analyze current season using Monte Carlo simulation"""
         current_file = 'current.csv'
 
         if not Path(current_file).exists():
@@ -1397,7 +1462,7 @@ class GBBOAnalyzer:
                             normalized = 1.0
                         current_df.loc[idx, 'Tech_Normalized'] = normalized
 
-            # Calculate strength scores for each round
+            # Calculate strength scores using model weights
             strength_scores = []
             for idx, row in current_df.iterrows():
                 result = self.calculator.calculate_strength_score(
@@ -1417,139 +1482,101 @@ class GBBOAnalyzer:
 
             # Calculate statistics per contestant
             contestant_stats = []
+            positive_reviews = []
+            negative_reviews = []
+
             for contestant in current_df['Contestant'].unique():
                 contestant_data = current_df[current_df['Contestant'] == contestant]
 
                 avg_strength = contestant_data['Strength_Score'].mean()
                 rounds_competed = len(contestant_data)
-                star_bakers = contestant_data['Winner'].sum()
+                star_bakers = int(contestant_data['Winner'].sum())
                 eliminated = contestant_data['Eliminated'].sum() > 0
+
+                # Calculate variance (sample variance with ddof=1)
+                variance = contestant_data['Strength_Score'].var(ddof=1) if rounds_competed > 1 else 0
+
+                # Count positive and negative reviews
+                pos_reviews = int((contestant_data['Second Half Review'] == 1).sum())
+                neg_reviews = int((contestant_data['Second Half Review'] == -1).sum())
 
                 contestant_stats.append({
                     'Contestant': contestant,
                     'Avg_Strength': avg_strength,
+                    'Variance': variance,
                     'Rounds': int(rounds_competed),
-                    'Star_Bakers': int(star_bakers),
+                    'Star_Bakers': star_bakers,
+                    'Positive_Reviews': pos_reviews,
+                    'Negative_Reviews': neg_reviews,
                     'Eliminated': eliminated
                 })
 
-            stats_df = pd.DataFrame(contestant_stats).sort_values('Avg_Strength', ascending=False)
+            stats_df = pd.DataFrame(contestant_stats)
 
-            # Calculate win probability based on historical data
-            # Using historical finals data: average finalist strength is ~7.5
-            # Win probability is based on strength relative to historical distribution
-            remaining_contestants = stats_df[~stats_df['Eliminated']]
+            # Run Monte Carlo simulation
+            s13_avg = stats_df['Avg_Strength'].mean()
+            current_round = stats_df['Rounds'].max()
 
-            if len(remaining_contestants) > 0:
-                # Simple probability model: normalize strengths to sum to 1
-                total_strength = remaining_contestants['Avg_Strength'].sum()
-                stats_df['Win_Probability'] = 0.0
-                stats_df.loc[~stats_df['Eliminated'], 'Win_Probability'] = \
-                    (remaining_contestants['Avg_Strength'] / total_strength * 100).round(1)
-
-            # Print analysis
             print(f"\n" + "=" * 80)
-            print("CURRENT SEASON (SERIES 13) ANALYSIS")
+            print("SEASON 13 FINALIST PREDICTION (MONTE CARLO SIMULATION)")
             print("=" * 80)
-            print(f"\nContestant Rankings (Based on Avg Strength Score):")
-            print(f"\n{'Rank':<6} {'Contestant':<15} {'Avg Strength':<14} {'Rounds':<8} {'Star Bakers':<13} {'Win Prob':<10} {'Status':<10}")
-            print("-" * 80)
 
-            for rank, (_, row) in enumerate(stats_df.iterrows(), 1):
-                status = "Eliminated" if row['Eliminated'] else "Active"
-                win_prob = f"{row['Win_Probability']:.1f}%" if row['Win_Probability'] > 0 else "-"
+            print(f"\nSeason 13 Stats:")
+            print(f"  Current Round: {current_round}")
+            print(f"  Active Contestants: {(~stats_df['Eliminated']).sum()}")
+            print(f"  Season Avg Strength: {s13_avg:.2f}")
 
-                print(f"{rank:<6} {row['Contestant']:<15} {row['Avg_Strength']:<14.2f} "
-                      f"{row['Rounds']:<8} {row['Star_Bakers']:<13} {win_prob:<10} {status:<10}")
+            print("\nRunning Monte Carlo simulation (10,000 iterations)...")
+            predictions_df = self._monte_carlo_simulation(stats_df, n_simulations=10000, n_finalists=3)
 
-            # Show most recent round performance
-            latest_round = current_df['Round'].max()
-            print(f"\nMost Recent Round (Round {int(latest_round)}) Performance:")
-            print(f"{'Contestant':<15} {'Strength':<10} {'Outcome':<15}")
-            print("-" * 40)
+            # Merge predictions with contestant stats
+            stats_df = stats_df.merge(predictions_df, on='Contestant')
+            stats_df = stats_df.sort_values('Finalist_Probability', ascending=False)
 
-            latest_data = current_df[current_df['Round'] == latest_round].sort_values('Strength_Score', ascending=False)
-            for _, row in latest_data.iterrows():
-                outcome = "Star Baker" if row['Winner'] == 1 else ("Eliminated" if row['Eliminated'] == 1 else "Safe")
-                print(f"{row['Contestant']:<15} {row['Strength_Score']:<10.2f} {outcome:<15}")
+            # Display results
+            print("\n" + "=" * 80)
+            print(f"SEASON 13 PREDICTIONS (After Round {current_round})")
+            print("=" * 80)
+            print(f"\n{'Rank':<6}{'Contestant':<13}{'Finals':<9}{'Winner':<9}{'Avg Str':<9}{'Variance':<10}{'Star':<6}{'Pos':<5}{'Neg':<5}{'Status':<12}")
+            print("-" * 90)
 
-            # Episode-by-episode breakdown
-            print(f"\n{'=' * 80}")
-            print("EPISODE-BY-EPISODE BREAKDOWN")
-            print(f"{'=' * 80}")
+            for idx, (_, row) in enumerate(stats_df.iterrows(), 1):
+                status = "ELIMINATED" if row['Eliminated'] else "Active"
+                print(f"{idx:<6}{row['Contestant']:<13}{row['Finalist_Probability']:.1f}%    "
+                      f"{row['Winner_Probability']:.1f}%    "
+                      f"{row['Avg_Strength']:.2f}     {row['Variance']:.2f}     "
+                      f"{row['Star_Bakers']:<6}{row['Positive_Reviews']:<5}"
+                      f"{row['Negative_Reviews']:<5}{status:<12}")
 
-            star_baker_correct = 0
-            star_baker_total = 0
-            elimination_correct = 0
-            elimination_total = 0
+            # Top 3 prediction
+            active_contestants = stats_df[~stats_df['Eliminated']].head(3)
 
-            for round_num in sorted(current_df['Round'].unique()):
-                round_data = current_df[current_df['Round'] == round_num]
+            print("\n" + "=" * 80)
+            print("TOP 3 PREDICTED FINALISTS")
+            print("=" * 80)
 
-                # Find highest and lowest performers
-                best_idx = round_data['Strength_Score'].idxmax()
-                worst_idx = round_data['Strength_Score'].idxmin()
-                predicted_winner = round_data.loc[best_idx]
-                predicted_eliminated = round_data.loc[worst_idx]
+            for idx, (_, row) in enumerate(active_contestants.iterrows(), 1):
+                print(f"{idx}. {row['Contestant']:<15} Finalist: {row['Finalist_Probability']:.1f}%, Winner: {row['Winner_Probability']:.1f}%")
 
-                print(f"\nRound {int(round_num)}:")
+            print("\n" + "=" * 80)
+            print("PREDICTED WINNER")
+            print("=" * 80)
 
-                # Star Baker
-                if round_data['Winner'].sum() > 0:
-                    star_baker_total += 1
-                    actual_winner = round_data[round_data['Winner'] == 1].iloc[0]
-                    sb_match = actual_winner['Contestant'] == predicted_winner['Contestant']
-                    if sb_match:
-                        star_baker_correct += 1
-                    match_indicator = "[CORRECT]" if sb_match else "[MISS]"
+            winner = stats_df.loc[stats_df['Winner_Probability'].idxmax()]
+            print(f"{winner['Contestant']} ({winner['Winner_Probability']:.1f}% chance)")
 
-                    print(f"  Star Baker:    {actual_winner['Contestant']:15s} (Score: {actual_winner['Strength_Score']:.2f}) {match_indicator}")
-                    print(f"  Predicted Top: {predicted_winner['Contestant']:15s} (Score: {predicted_winner['Strength_Score']:.2f})")
-                else:
-                    print(f"  Star Baker:    None")
-                    print(f"  Predicted Top: {predicted_winner['Contestant']:15s} (Score: {predicted_winner['Strength_Score']:.2f})")
-
-                # Elimination
-                if round_data['Eliminated'].sum() > 0:
-                    elimination_total += 1
-                    actual_eliminated = round_data[round_data['Eliminated'] == 1].iloc[0]
-                    elim_match = actual_eliminated['Contestant'] == predicted_eliminated['Contestant']
-                    if elim_match:
-                        elimination_correct += 1
-                    match_indicator = "[CORRECT]" if elim_match else "[MISS]"
-
-                    print(f"  Eliminated:       {actual_eliminated['Contestant']:15s} (Score: {actual_eliminated['Strength_Score']:.2f}) {match_indicator}")
-                    print(f"  Predicted Bottom: {predicted_eliminated['Contestant']:15s} (Score: {predicted_eliminated['Strength_Score']:.2f})")
-                else:
-                    print(f"  Eliminated:       None")
-                    print(f"  Predicted Bottom: {predicted_eliminated['Contestant']:15s} (Score: {predicted_eliminated['Strength_Score']:.2f})")
-
-            # Overall accuracy summary
-            print(f"\n{'=' * 80}")
-            print("PREDICTION ACCURACY FOR SERIES 13 SO FAR")
-            print(f"{'=' * 80}")
-
-            # Print accuracy stats
-            if star_baker_total > 0:
-                star_baker_pct = (star_baker_correct / star_baker_total) * 100
-                print(f"\nStar Baker Predictions: {star_baker_correct}/{star_baker_total} correct ({star_baker_pct:.1f}%)")
-            else:
-                print(f"\nStar Baker Predictions: No star bakers yet")
-
-            if elimination_total > 0:
-                elimination_pct = (elimination_correct / elimination_total) * 100
-                print(f"Elimination Predictions: {elimination_correct}/{elimination_total} correct ({elimination_pct:.1f}%)")
-            else:
-                print(f"Elimination Predictions: No eliminations yet")
-
-            print(f"\nHistorical Model Performance (Series 5-12):")
-            print(f"  Star Baker Accuracy: 62.5%")
-            print(f"  Elimination Accuracy: 52.8%")
-
-            print(f"\n{'=' * 80}")
-            print(f"Win Probability calculated as: (Contestant Avg Strength / Total Remaining Strength) * 100")
-            print(f"This uses the model weights derived from {len(self.df)} historical contestant-rounds.")
-            print(f"{'=' * 80}")
+            print("\n" + "=" * 80)
+            print("SIMULATION DETAILS")
+            print("=" * 80)
+            print("- Method: Monte Carlo simulation (10,000 iterations)")
+            print("- Each iteration simulates remaining rounds:")
+            print("  * Performance sampled from N(avg_strength, sqrt(variance))")
+            print("  * Weakest performer eliminated each round")
+            print("  * Continue until 3 finalists remain")
+            print("  * Final round: Winner has highest score in final competition")
+            print("- Probabilities: % of simulations where contestant reached finals/won")
+            print(f"- Uses model weights derived from {len(self.df)} historical contestant-rounds")
+            print("=" * 80)
 
         except Exception as e:
             print(f"Warning: Could not analyze current season: {e}")
