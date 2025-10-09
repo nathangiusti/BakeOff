@@ -99,8 +99,9 @@ def analyze_week(current_df, week_num, calculator, avg_variance):
         else:
             variance = np.var(strength_scores, ddof=1) if rounds_competed > 1 else 0
 
-        # Check if eliminated
+        # Check if eliminated and when
         eliminated = contestant_rounds['Eliminated'].max() == 1
+        elimination_round = contestant_rounds[contestant_rounds['Eliminated'] == 1]['Round'].max() if eliminated else 999
 
         # Count stats
         star_bakers = int(contestant_rounds['Winner'].sum())
@@ -114,7 +115,8 @@ def analyze_week(current_df, week_num, calculator, avg_variance):
             'Star_Bakers': star_bakers,
             'Positive_Reviews': pos_reviews,
             'Negative_Reviews': neg_reviews,
-            'Eliminated': eliminated
+            'Eliminated': eliminated,
+            'Elimination_Round': elimination_round
         })
 
     stats_df = pd.DataFrame(contestant_stats)
@@ -122,16 +124,40 @@ def analyze_week(current_df, week_num, calculator, avg_variance):
     # Run Monte Carlo
     predictions_df = monte_carlo_simulation(stats_df, n_simulations=10000, n_finalists=3)
 
-    # Merge and sort - active contestants by Finalist_Probability, then eliminated contestants
+    # Merge and sort - active contestants by Finalist_Probability, then eliminated contestants by elimination round (descending)
     results_df = stats_df.merge(predictions_df, on='Contestant')
     results_df = results_df.sort_values(
-        by=['Eliminated', 'Finalist_Probability'],
-        ascending=[True, False]
+        by=['Eliminated', 'Finalist_Probability', 'Elimination_Round'],
+        ascending=[True, False, False]
     )
 
     return results_df
 
 def main():
+    # Placeholder string for end of output
+    placeholder_string = """## Competition Evolution Commentary
+
+### Week 1: Early Frontrunners Emerge
+The season opened with **Nataliia** establishing herself as the clear favorite (73.2% finalist probability, 32.4% winner), earning Star Baker with a strong 8.27 average strength score. **Jessika** and **Lesley** rounded out the predicted top 3, with the field showing a wide spread of talent from 8.27 down to 3.78 (Hassan, who was eliminated).
+
+### Week 2: The Great Shake-Up
+Week 2 brought dramatic shifts in the predictions. **Tom** surged to dominance (98.8% finalist, 54.2% winner) with remarkably consistent performance (variance of just 0.03), claiming Star Baker. Meanwhile, **Nataliia** suffered a catastrophic collapse, plummeting from 1st to 7th place with a massive variance spike to 9.45—indicating highly inconsistent performance. **Jessika** maintained her position in the top tier despite dropping slightly, while **Iain** emerged as a dark horse with impressive consistency.
+
+### Week 3: Volatility and New Contenders
+**Tom** maintained his stranglehold on the competition with continued consistency (variance 0.12). **Jasmine** made a spectacular leap, climbing from 5th to 3rd place after earning Star Baker, though her high variance (3.10) suggests feast-or-famine performances. **Lesley** moved into the silver position with steady, reliable baking. The week saw further deterioration for previous favorites **Nataliia** (variance spiking to 5.50) and **Iain** (variance 4.65), with both now struggling in the bottom tier. **Jessika** fell out of the top 3 entirely due to increasing inconsistency.
+
+### Week 4: The Jasmine Surge
+By Week 4, a two-horse race emerged between **Tom** and **Jasmine**. While Tom maintained his near-lock on a finals spot (98.9%), **Jasmine's** winner probability exploded to 36.6% after claiming her second Star Baker award. Her average strength (8.05) now slightly exceeds Tom's (7.92), though her higher variance (2.99 vs 0.13) creates uncertainty. **Lesley** remained a steady third-place finisher, while former star **Jessika** was eliminated after her variance ballooned to 5.84—a cautionary tale of inconsistency in the tent.
+
+### Key Patterns Observed
+- **Consistency is King**: Tom's near-zero variance (.13) has made him the prohibitive favorite despite not having the highest raw strength score
+- **High Variance Eliminates Contenders**: Nataliia, Iain, and Jessika all saw their chances evaporate when variance exceeded 4-5, regardless of their Star Baker wins
+- **Late Surges Matter**: Jasmine's back-to-back strong performances transformed her from a long shot (17.8% in Week 2) to a genuine title contender
+- **The Middle Ground Persists**: Lesley's steady, unspectacular consistency (variance 0.66) has kept her firmly in the finals conversation without ever threatening to win
+
+As the competition enters its final stages, Tom appears virtually assured of a finals spot, while Jasmine and Lesley battle for the remaining positions. The question remains: can Jasmine's high-ceiling performances overcome Tom's machine-like consistency, or will variance prove her undoing?
+"""
+
     # Initialize analyzer to get calculator with model weights
     print("Initializing analyzer and loading model weights...")
     analyzer = GBBOAnalyzer()
@@ -196,6 +222,9 @@ def main():
             winner = results_df.loc[results_df['Winner_Probability'].idxmax()]
             f.write(f"\n**Predicted Winner:** {winner['Contestant']} ({winner['Winner_Probability']:.1f}%)\n\n")
             f.write("---\n\n")
+
+        # Write placeholder string at the end
+        f.write(placeholder_string)
 
     print(f"\nWeekly predictions saved to WEEKLY_PREDICTIONS.md")
 

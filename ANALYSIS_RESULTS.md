@@ -382,7 +382,7 @@ This analysis successfully quantifies the relative importance of different bakin
 1. Visual presentation significantly outweighs flavor in judge decision-making
 2. Technical challenges carry more weight than signature bakes
 3. Performance thresholds clearly differentiate star baker, safe, and elimination zones
-4. Theme weeks show measurable difficulty variations aligned with technical complexity
+4. ~~~~Theme weeks show measurable difficulty variations aligned with technical complexity
 
 The analysis provides a data-driven foundation for understanding judge preferences and baker evaluation, offering insights that extend beyond subjective viewing impressions.
 
