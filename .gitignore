@@ -3,3 +3,5 @@
 /.claude
 /.idea
 .DS_Store
+*.pyc
+*.pyc
