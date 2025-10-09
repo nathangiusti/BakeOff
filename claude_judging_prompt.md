@@ -63,4 +63,6 @@ Parse the given transcripts from The Great British Baking Show.
   ## Output Format
   Add each row of data to claude_judging.csv
 
+Once you have added the data, run combine_claude_data.py and ensure the data is joined successfully. 
+
   
