@@ -5,3 +5,4 @@
 .DS_Store
 *.pyc
 *.pyc
+/gbbo_analysis/__pycache__

@@ -4,7 +4,7 @@
 
 This document tracks the ongoing performance analysis for Series 13 of The Great British Bake Off. The analysis uses the same statistical model developed from historical data (Series 5-12) to predict outcomes and rank contestants based on their weekly performances.
 
-**Last Updated**: After Episode 4
+**Last Updated**: After Episode 5
 
 ---
 
@@ -14,20 +14,20 @@ This document tracks the ongoing performance analysis for Series 13 of The Great
 
 Rankings based on average strength score across all episodes completed:
 
-| Rank | Contestant | Avg Strength | Rounds | Star Bakers | Win Probability | Status |
-|------|------------|--------------|--------|-------------|-----------------|--------|
-| 1 | Jasmine | 8.05/10 | 4 | 2 | 15.3% | Active |
-| 2 | Tom | 7.92/10 | 4 | 1 | 15.1% | Active |
-| 3 | Lesley | 6.96/10 | 4 | 0 | 13.3% | Active |
-| 4 | Nadia | 6.48/10 | 4 | 0 | 12.3% | Active |
-| 5 | Aaron | 6.28/10 | 4 | 0 | 12.0% | Active |
-| 6 | Toby | 5.87/10 | 4 | 0 | 11.2% | Active |
-| 7 | Nataliia | 5.58/10 | 4 | 1 | 10.6% | Active |
-| 8 | Iain | 5.39/10 | 4 | 0 | 10.3% | Active |
-| 9 | Jessika | 5.65/10 | 4 | 0 | - | Eliminated R4 |
-| 10 | Pui Man | 5.02/10 | 3 | 0 | - | Eliminated R3 |
-| 11 | Leighton | 4.95/10 | 2 | 0 | - | Eliminated R2 |
-| 12 | Hassan | 3.78/10 | 1 | 0 | - | Eliminated R1 |
+| Rank | Contestant | Avg Strength | Rounds | Star Bakers | Finals Probability | Win Probability | Status |
+|------|------------|--------------|--------|-------------|-------------------|-----------------|--------|
+| 1 | Jasmine | 8.14/10 | 5 | 2 | 80.4% | 41.1% | Active |
+| 2 | Tom | 8.01/10 | 5 | 1 | 98.2% | 46.9% | Active |
+| 3 | Lesley | 7.06/10 | 5 | 0 | 64.8% | 5.2% | Active |
+| 4 | Aaron | 6.72/10 | 5 | 1 | 34.3% | 4.9% | Active |
+| 5 | Nataliia | 5.90/10 | 5 | 1 | 9.2% | 0.8% | Active |
+| 6 | Iain | 5.87/10 | 5 | 0 | 9.0% | 1.1% | Active |
+| 7 | Toby | 5.38/10 | 5 | 0 | 4.0% | 0.1% | Active |
+| 8 | Nadia | 6.05/10 | 5 | 0 | - | - | Eliminated R5 |
+| 9 | Jessika | 5.65/10 | 4 | 0 | - | - | Eliminated R4 |
+| 10 | Pui Man | 5.02/10 | 3 | 0 | - | - | Eliminated R3 |
+| 11 | Leighton | 4.95/10 | 2 | 0 | - | - | Eliminated R2 |
+| 12 | Hassan | 3.78/10 | 1 | 0 | - | - | Eliminated R1 |
 
 ---
 
@@ -35,60 +35,63 @@ Rankings based on average strength score across all episodes completed:
 
 ### Top Tier (8.0+ Average)
 
-**Jasmine** (8.05/10, 2 Star Bakers)
-- Clear frontrunner with two Star Baker wins in four episodes
-- Most recent performance (R4): 9.50/10 - one of the highest single-episode scores possible
-- Strongest Star Baker performance in R3 (9.06/10)
-- Consistency is exceptional with no scores below 7.0
-- Win probability: 15.3% (highest remaining)
+**Jasmine** (8.14/10, 2 Star Bakers)
+- **Reclaimed top average**: Strongest performer with highest average strength score
+- Two Star Baker wins including dominant R4 performance (9.50/10)
+- **Improved consistency**: Variance reduced from 2.99 to 2.27, showing more reliable performances
+- Finals probability: 80.4%, Win probability: 41.1%
 
-**Tom** (7.92/10, 1 Star Baker)
-- Strong second place with one Star Baker win
-- Recent performance (R4): 8.25/10 - solid high-performing round
-- Very consistent across all four episodes
-- Win probability: 15.1% (virtually tied with Jasmine)
+**Tom** (8.01/10, 1 Star Baker) 
+- **Still statistical favorite**: 98.2% chance of reaching finals, 46.9% chance of winning
+- **Exceptional consistency**: Ultra-low variance (0.13) remains his key advantage
+- Recent R5 performance with signature handshake shows continued excellence
+- **Key insight**: Despite Jasmine's higher average, Tom's reliability keeps him as the model's predicted winner
 
-**Key Insight**: Both top contestants are performing at levels comparable to historical series winners. Jasmine's 8.05 average would rank her among the top 3 winners if she maintains this through the finale (Giuseppe: 7.90, Sophie: 7.58, Peter: 7.56).
+**Key Development**: The gap has narrowed significantly. While Tom maintains his statistical edge due to consistency, Jasmine has improved her variance while maintaining peak performance levels. This is now a genuine two-horse race.
 
 ### Mid Tier (6.0-7.9 Average)
 
-**Lesley** (6.96/10, 0 Star Bakers)
-- Solid mid-tier performer hovering just below the elite threshold
-- No Star Baker wins yet, but consistently safe
-- Win probability: 13.3%
+**Lesley** (7.06/10, 0 Star Bakers)
+- **Solidified third place**: 64.8% chance of reaching finals, clear third finalist favorite
+- **Improved consistency**: Variance reduced to 0.54, showing reliable week-to-week performance
+- Win probability: 5.2% - steady but needs a Star Baker breakthrough to challenge leaders
 
-**Nadia** (6.48/10, 0 Star Bakers)
-- Had a strong R2 performance (8.13/10) but hasn't maintained that peak
-- Win probability: 12.3%
-
-**Aaron** (6.28/10, 0 Star Bakers)
-- Consistent mid-tier performer
-- Win probability: 12.0%
-
-**Toby** (5.87/10, 0 Star Bakers)
-- Recent improvement with R4 score of 6.83/10
-- Win probability: 11.2%
+**Aaron** (6.72/10, 1 Star Baker)
+- **Significant improvement**: Won Star Baker in R5, boosting average from 6.28 to 6.72
+- Finals probability jumped to 34.3%, Win probability: 4.9%
+- **Rising threat**: If he maintains this elevated level, could challenge for third place
 
 ### At Risk (Below 6.0 Average)
 
-**Nataliia** (5.58/10, 1 Star Baker)
-- Won Star Baker in R1 with strong 8.27/10 performance
-- Had a difficult R2 (3.92/10) that significantly impacted her average
-- Win probability: 10.6%
-- **Warning**: Despite her Star Baker win, her average puts her at risk
+**Nataliia** (5.90/10, 1 Star Baker)
+- **Slight improvement**: Average increased from 5.58 to 5.90 after five rounds
+- **Still volatile**: High variance (3.28) continues to make her unpredictable
+- Finals probability: 9.2%, Win probability: 0.8%
+- **Borderline safety**: Improved slightly but remains vulnerable to elimination
 
-**Iain** (5.39/10, 0 Star Bakers)
-- Lowest score among active contestants
-- Had a particularly weak R3 (3.15/10)
-- Win probability: 10.3%
-- **High Risk**: Most likely next elimination candidate based on historical patterns
+**Iain** (5.87/10, 0 Star Bakers)
+- **Marginal improvement**: Average rose from 5.39 to 5.87 but still concerning
+- **High volatility**: Variance (3.64) is highest among active contestants
+- Finals probability: 9.0%, Win probability: 1.1%
+- **Still at risk**: Modest improvement may not be enough
+
+**Toby** (5.38/10, 0 Star Bakers)
+- **Declined to lowest**: Now has the weakest average among active contestants
+- Finals probability: 4.0%, Win probability: 0.1%
+- **Highest elimination risk**: Model strongly predicts his exit in coming rounds
+
+### Eliminated Contestants
+
+**Nadia** (6.05/10, 0 Star Bakers) - **ELIMINATED R5**
+- Eliminated despite respectable 6.05 average - shows how competitive the field has become
+- Variance (2.61) and lack of standout moments ultimately cost her a place
 
 ---
 
 ## Episode-by-Episode Breakdown
 
 ### Round 1
-**Theme**: [Insert Theme]
+**Theme**: Cake
 
 **Star Baker**: Nataliia (8.27/10) ✓ *Predicted Correctly*
 **Eliminated**: Hassan (3.78/10) ✓ *Predicted Correctly*
@@ -96,7 +99,7 @@ Rankings based on average strength score across all episodes completed:
 **Analysis**: Model performed perfectly in the opening round. Hassan's elimination was expected given his low score, and Nataliia's strong performance earned a deserved Star Baker win.
 
 ### Round 2
-**Theme**: [Insert Theme]
+**Theme**: Biscuits
 
 **Star Baker**: Tom (7.75/10) ✗ *Model Predicted: Nadia (8.13)*
 **Eliminated**: Leighton (5.27/10) ✗ *Model Predicted: Nataliia (3.92)*
@@ -104,7 +107,7 @@ Rankings based on average strength score across all episodes completed:
 **Analysis**: This round demonstrated the limitations of pure statistical prediction. While Nadia had the highest score (8.13), Tom received Star Baker. Nataliia survived despite a very weak performance (3.92), while Leighton was eliminated with a mid-tier score. This suggests judges may have factored in overall trajectory or given Nataliia grace for her R1 win.
 
 ### Round 3
-**Theme**: [Insert Theme]
+**Theme**: Bread
 
 **Star Baker**: Jasmine (9.06/10) ✓ *Predicted Correctly*
 **Eliminated**: Pui Man (4.42/10) ✗ *Model Predicted: Iain (3.15)*
@@ -112,59 +115,76 @@ Rankings based on average strength score across all episodes completed:
 **Analysis**: Jasmine's dominant performance was correctly identified. However, Pui Man was eliminated over Iain despite Iain having the weaker performance. This may indicate accumulation of weak performances across earlier rounds.
 
 ### Round 4
-**Theme**: [Insert Theme]
+**Theme**: Back To School (Temporal)
 
 **Star Baker**: Jasmine (9.50/10) ✓ *Predicted Correctly*
 **Eliminated**: Jessika (2.33/10) ✓ *Predicted Correctly*
 
 **Analysis**: Another dominant round from Jasmine with near-perfect scores across all components. Jessika's elimination was inevitable with such a low performance score. Model predictions were accurate for both outcomes.
 
+### Round 5
+**Theme**: Chocolate
+
+**Star Baker**: Aaron (8.50/10) ✗ *Model Predicted: Jasmine (8.53)*
+**Eliminated**: Nadia (4.36/10) ✗ *Model Predicted: Toby (3.51)*
+
+**Analysis**: Round 5 shows the model's predictions were incorrect on both outcomes, though the Star Baker miss was extremely narrow. Aaron won Star Baker with 8.50, barely beating Jasmine's predicted 8.53 - a difference of only 0.03 points. The elimination prediction was wrong: the model predicted Toby (3.51, lowest score) but Nadia was eliminated with a mid-tier score (4.36). This suggests judges considered cumulative performance or other factors beyond the single round score.
+
 ---
 
 ## Model Prediction Accuracy (Series 13)
 
 ### Current Performance
-- **Star Baker Predictions**: 3/4 correct (75.0%)
-- **Elimination Predictions**: 2/4 correct (50.0%)
+- **Star Baker Predictions**: 3/5 correct (60.0%)
+- **Elimination Predictions**: 2/5 correct (40.0%)
 
 ### Historical Baseline (Series 5-12)
 - **Star Baker Predictions**: 62.5%
 - **Elimination Predictions**: 52.8%
 
-**Analysis**: The model is currently tracking towards it's historical accuracy. 
+**Analysis**: The model's Star Baker prediction accuracy is slightly below historical baseline, while elimination predictions are underperforming. However, Round 5's Star Baker near-miss (Aaron 8.50 vs Jasmine 8.53) demonstrates the model's strong performance even when incorrect - the difference was marginal at only 0.03 points. 
 
 ---
 
-## Win Probability Analysis
+## Monte Carlo Simulation Analysis
 
-Win probabilities are calculated as: `(Contestant Avg Strength / Total Remaining Strength) × 100`
+The latest Monte Carlo simulation (10,000 iterations) provides sophisticated probability calculations based on:
+- Current average strength scores
+- Performance variance (consistency measure)  
+- Historical elimination patterns
+- Simulated future performance distributions
 
 ### Current Frontrunners
 
-1. **Jasmine** (15.3%) - Strongest candidate with dominant performances
-2. **Tom** (15.1%) - Nearly tied for first, very consistent
-3. **Lesley** (13.3%) - Solid third place but needs a standout performance
+1. **Tom** (46.9% win, 98.2% finals) - **Statistical favorite** due to exceptional consistency
+2. **Jasmine** (41.1% win, 80.4% finals) - High peak performance but more volatile
+3. **Lesley** (5.2% win, 64.8% finals) - Most likely third finalist
 
 ### Key Observations
 
-- **Two-horse race**: Jasmine and Tom are essentially tied for the lead with a combined 30.4% win probability
-- **Middle pack compression**: Contestants ranked 3-8 are tightly grouped (10.3% - 13.3%)
-- **High variance possible**: With 5+ episodes remaining, contestants in the 6.0-7.0 range could surge with strong performances
-- **At-risk zone**: Nataliia and Iain are most vulnerable despite having more episodes to recover
+- **Tom's consistency advantage**: Despite Jasmine's higher average, Tom's ultra-low variance (0.13) makes him the overwhelming statistical favorite
+- **Three-person finals prediction**: Tom, Jasmine, and Lesley have 98.2%, 80.4%, and 64.8% finals probabilities respectively
+- **Sharp drop-off**: After the top 3, remaining contestants have <35% finals probability each
+- **High-risk contestants**: Nataliia and Iain have <10% finals probability despite having episodes to recover
 
 ---
 
 ## Historical Comparisons
 
-### Jasmine vs Historical Winners
+### Current Performance vs Historical Winners
 
-Jasmine's current 8.05/10 average would rank **2nd among all Series 5-12 winners**:
-1. Giuseppe (S9): 7.90/10
-2. **Jasmine (S13): 8.05/10** ← Current position
+**Jasmine** (8.14/10 average) would rank **1st among all Series 5-12 winners**:
+1. **Jasmine (S13): 8.14/10** ← Current position  
+2. Giuseppe (S9): 7.90/10
 3. Sophie (S5): 7.58/10
 4. Peter (S8): 7.56/10
 
-**Note**: This comparison assumes Jasmine maintains her current average. Historical finalists typically see slight variations in final episodes due to increased difficulty.
+**Tom** (8.01/10 average) would rank **2nd among all Series 5-12 winners**:
+1. **Tom (S13): 8.01/10** ← Current position
+2. Giuseppe (S9): 7.90/10
+3. Sophie (S5): 7.58/10
+
+**Key Insight**: Both frontrunners are performing at historically exceptional levels. However, the Monte Carlo simulation factors in consistency (variance), which is why Tom's lower variance gives him the statistical edge despite Jasmine's higher average.
 
 ### Early Star Baker Dominance
 
@@ -187,20 +207,25 @@ Historical precedent: Contestants who start strong but fall below 6.0 average ra
 
 ## Predictions
 
-### Most Likely Winner (Top 3)
-1. **Jasmine** (15.3%) - Frontrunner with dominant performances
-2. **Tom** (15.1%) - Strong challenger, very consistent
-3. **Lesley** (13.3%) - Dark horse if she achieves a breakout Star Baker performance
+### Most Likely Winner (Monte Carlo Results)
+1. **Tom** (46.9%) - **Statistical favorite** due to exceptional consistency and high finals probability (98.2%)
+2. **Jasmine** (41.1%) - Strong challenger with highest average but more volatile (80.4% finals)  
+3. **Lesley** (5.2%) - Dark horse third finalist (64.8% finals) but significant gap to win
+
+### Most Likely Finalists
+Based on Monte Carlo simulation:
+1. **Tom** (98.2% probability) - Virtually guaranteed finalist
+2. **Jasmine** (80.4% probability) - Strong finalist candidate
+3. **Lesley** (64.8% probability) - Most likely third finalist
 
 ### Next Likely Eliminations
-Based on current averages and historical patterns:
-1. **Iain** (5.39 avg) - Lowest average among active contestants
-2. **Nataliia** (5.58 avg) - Despite Star Baker win, below safety threshold
-3. **Toby** (5.87 avg) - Hovering just below 6.0 threshold
+Based on Monte Carlo simulation (lowest finals probabilities):
+1. **Toby** (4.0% finals) - Highest elimination risk
+2. **Iain** (9.0% finals) - High variance makes him vulnerable
+3. **Nataliia** (9.2% finals) - High variance despite Star Baker win
 
 ### Potential Surprises
-- **Nadia**: Had one exceptional round (8.13). If she can return to that form, could surge
-- **Aaron**: Consistent at 6.28 but hasn't shown the standout performance needed to challenge the top two
+- **Aaron**: Finals probability (34.3%) - significant improvement after R5 Star Baker win makes him a dark horse for third place
 
 ---
 
@@ -217,15 +242,16 @@ Based on current averages and historical patterns:
 
 Based on current trajectory and historical patterns:
 
-**Most Likely Star Baker**: Jasmine or Tom (both performing at elite levels)
-**Most Likely Elimination**: Iain (lowest current average, recent weak performance)
-**Dark Horse Star Baker**: Lesley (consistent enough to potentially break through)
+**Most Likely Star Baker**: Tom or Jasmine (both performing at elite levels, with Tom's consistency giving him slight edge)
+**Most Likely Elimination**: Toby (4.0% finals probability, lowest among active contestants)
+**Dark Horse Star Baker**: Aaron (after his R5 win, momentum could continue)
 
 **To Watch**:
-- Can Jasmine maintain her dominant pace?
-- Will Tom have a standout Star Baker-worthy performance to challenge Jasmine?
-- Can Nataliia recover from her R2 disaster?
-- Will Iain improve or face elimination?
+- Can Tom maintain his exceptional consistency to secure the predicted win?
+- Will Jasmine's high-variance style lead to another dominant performance or a costly stumble?
+- Can Lesley break through with a Star Baker win to challenge the frontrunners?
+- Will Toby's predicted high elimination risk come to pass?
+- Can Aaron build on his R5 Star Baker momentum to challenge for a finals spot?
 
 ---
 
