@@ -73,7 +73,7 @@ def monte_carlo_simulation(contestants_df, n_simulations=10000, n_finalists=3):
 
     return pd.DataFrame(results)
 
-def analyze_week(current_df, week_num, calculator, avg_variance):
+def analyze_week(current_df, week_num, calculator, fixed_variance=None):
     """Analyze a specific week with progressive variance calculation."""
     # Get all contestants up to this week
     week_data = current_df[current_df['Round'] <= week_num].copy()
@@ -93,9 +93,9 @@ def analyze_week(current_df, week_num, calculator, avg_variance):
         avg_strength = np.mean(strength_scores)
         rounds_competed = len(strength_scores)
 
-        # For week 1, use average variance; otherwise calculate from data
-        if week_num == 1:
-            variance = avg_variance
+        # Use fixed variance for week 1, otherwise calculate from data
+        if fixed_variance is not None:
+            variance = fixed_variance
         else:
             variance = np.var(strength_scores, ddof=1) if rounds_competed > 1 else 0
 
@@ -107,14 +107,17 @@ def analyze_week(current_df, week_num, calculator, avg_variance):
         star_bakers = int(contestant_rounds['Winner'].sum())
         pos_reviews = int((contestant_rounds['Second Half Review'] == 1).sum())
         neg_reviews = int((contestant_rounds['Second Half Review'] == -1).sum())
+        
+        # High reviews include positive reviews AND star baker wins
+        high_reviews = pos_reviews + star_bakers
 
         contestant_stats.append({
             'Contestant': contestant,
             'Avg_Strength': avg_strength,
             'Variance': variance,
             'Star_Bakers': star_bakers,
-            'Positive_Reviews': pos_reviews,
-            'Negative_Reviews': neg_reviews,
+            'High_Reviews': high_reviews,
+            'Low_Reviews': neg_reviews,
             'Eliminated': eliminated,
             'Elimination_Round': elimination_round
         })
@@ -124,40 +127,26 @@ def analyze_week(current_df, week_num, calculator, avg_variance):
     # Run Monte Carlo
     predictions_df = monte_carlo_simulation(stats_df, n_simulations=10000, n_finalists=3)
 
-    # Merge and sort - active contestants by Finalist_Probability, then eliminated contestants by elimination round (descending)
+    # Merge and sort
     results_df = stats_df.merge(predictions_df, on='Contestant')
+    
+    # Sort active contestants by Winner_Probability (descending), eliminated by Elimination_Round (ascending)
     results_df = results_df.sort_values(
-        by=['Eliminated', 'Finalist_Probability', 'Elimination_Round'],
-        ascending=[True, False, False]
+        by=['Eliminated', 'Winner_Probability', 'Elimination_Round'],
+        ascending=[True, False, True]
     )
 
     return results_df
 
 def main():
-    # Placeholder string for end of output
-    placeholder_string = """## Competition Evolution Commentary
-
-### Week 1: Early Frontrunners Emerge
-The season opened with **Nataliia** establishing herself as the clear favorite (73.2% finalist probability, 32.4% winner), earning Star Baker with a strong 8.27 average strength score. **Jessika** and **Lesley** rounded out the predicted top 3, with the field showing a wide spread of talent from 8.27 down to 3.78 (Hassan, who was eliminated).
-
-### Week 2: The Great Shake-Up
-Week 2 brought dramatic shifts in the predictions. **Tom** surged to dominance (98.8% finalist, 54.2% winner) with remarkably consistent performance (variance of just 0.03), claiming Star Baker. Meanwhile, **Nataliia** suffered a catastrophic collapse, plummeting from 1st to 7th place with a massive variance spike to 9.45—indicating highly inconsistent performance. **Jessika** maintained her position in the top tier despite dropping slightly, while **Iain** emerged as a dark horse with impressive consistency.
-
-### Week 3: Volatility and New Contenders
-**Tom** maintained his stranglehold on the competition with continued consistency (variance 0.12). **Jasmine** made a spectacular leap, climbing from 5th to 3rd place after earning Star Baker, though her high variance (3.10) suggests feast-or-famine performances. **Lesley** moved into the silver position with steady, reliable baking. The week saw further deterioration for previous favorites **Nataliia** (variance spiking to 5.50) and **Iain** (variance 4.65), with both now struggling in the bottom tier. **Jessika** fell out of the top 3 entirely due to increasing inconsistency.
-
-### Week 4: The Jasmine Surge
-By Week 4, a two-horse race emerged between **Tom** and **Jasmine**. While Tom maintained his near-lock on a finals spot (98.9%), **Jasmine's** winner probability exploded to 36.6% after claiming her second Star Baker award. Her average strength (8.05) now slightly exceeds Tom's (7.92), though her higher variance (2.99 vs 0.13) creates uncertainty. **Lesley** remained a steady third-place finisher, while former star **Jessika** was eliminated after her variance ballooned to 5.84—a cautionary tale of inconsistency in the tent.
-
-### Key Patterns Observed
-- **Consistency is King**: Tom's near-zero variance (.13) has made him the prohibitive favorite despite not having the highest raw strength score
-- **High Variance Eliminates Contenders**: Nataliia, Iain, and Jessika all saw their chances evaporate when variance exceeded 4-5, regardless of their Star Baker wins
-- **Late Surges Matter**: Jasmine's back-to-back strong performances transformed her from a long shot (17.8% in Week 2) to a genuine title contender
-- **The Middle Ground Persists**: Lesley's steady, unspectacular consistency (variance 0.66) has kept her firmly in the finals conversation without ever threatening to win
-
-As the competition enters its final stages, Tom appears virtually assured of a finals spot, while Jasmine and Lesley battle for the remaining positions. The question remains: can Jasmine's high-ceiling performances overcome Tom's machine-like consistency, or will variance prove her undoing?
-"""
-
+    import sys
+    
+    if len(sys.argv) != 2:
+        print("Usage: python weekly_predictions.py <week_number>")
+        sys.exit(1)
+    
+    week_num = int(sys.argv[1])
+    
     # Initialize analyzer to get calculator with model weights
     print("Initializing analyzer and loading model weights...")
     analyzer = GBBOAnalyzer()
@@ -168,65 +157,28 @@ As the competition enters its final stages, Tom appears virtually assured of a f
     # Initialize calculator by calling calculate_strength_scores
     _ = analyzer.calculate_strength_scores()
 
-    # Calculate average historical variance
-    summary_df = pd.read_csv('gbbo_complete_analysis_contestant_summary.csv')
-    avg_variance = summary_df['Strength_Variance'].mean()
-    print(f"Historical average variance: {avg_variance:.2f}")
-
     # Load current season data
     current_df = pd.read_csv('current.csv')
-    max_week = int(current_df['Round'].max())
-
-    # Open markdown file for writing
-    with open('WEEKLY_PREDICTIONS.md', 'w') as f:
-        f.write("# Season 13 Weekly Predictions\n\n")
-        f.write("Progressive Monte Carlo simulation predictions for each week of Season 13.\n\n")
-        f.write(f"**Method:** Monte Carlo simulation (10,000 iterations per week)\n\n")
-        f.write("**Variance Calculation:**\n")
-        f.write(f"- Week 1: All contestants use historical average variance ({avg_variance:.2f})\n")
-        f.write("- Week 2+: Variance calculated from contestant's performance up to that week\n\n")
-        f.write("---\n\n")
-
-        # Analyze each week
-        for week in range(1, max_week + 1):
-            print(f"\nAnalyzing Week {week}...")
-            results_df = analyze_week(current_df, week, analyzer.calculator, avg_variance)
-
-            active_count = (~results_df['Eliminated']).sum()
-            season_avg = results_df['Avg_Strength'].mean()
-
-            # Write to markdown
-            f.write(f"## Week {week}\n\n")
-            f.write(f"**Active Contestants:** {active_count} | **Season Avg Strength:** {season_avg:.2f}\n\n")
-
-            # Table header
-            f.write("| Rank | Contestant | Finals | Winner | Avg Str | Variance | Star | Pos | Neg | Status |\n")
-            f.write("|------|------------|--------|--------|---------|----------|------|-----|-----|--------|\n")
-
-            # Table rows
-            for idx, (_, row) in enumerate(results_df.iterrows(), 1):
-                status = "ELIM" if row['Eliminated'] else "Active"
-                f.write(f"| {idx} | {row['Contestant']} | {row['Finalist_Probability']:.1f}% | "
-                       f"{row['Winner_Probability']:.1f}% | {row['Avg_Strength']:.2f} | "
-                       f"{row['Variance']:.2f} | {int(row['Star_Bakers'])} | "
-                       f"{int(row['Positive_Reviews'])} | {int(row['Negative_Reviews'])} | {status} |\n")
-
-            # Top 3 prediction
-            active_top3 = results_df[~results_df['Eliminated']].head(3)
-            f.write(f"\n**Predicted Top 3:**\n")
-            for idx, (_, row) in enumerate(active_top3.iterrows(), 1):
-                f.write(f"{idx}. **{row['Contestant']}** - Finalist: {row['Finalist_Probability']:.1f}%, "
-                       f"Winner: {row['Winner_Probability']:.1f}%\n")
-
-            # Predicted winner
-            winner = results_df.loc[results_df['Winner_Probability'].idxmax()]
-            f.write(f"\n**Predicted Winner:** {winner['Contestant']} ({winner['Winner_Probability']:.1f}%)\n\n")
-            f.write("---\n\n")
-
-        # Write placeholder string at the end
-        f.write(placeholder_string)
-
-    print(f"\nWeekly predictions saved to WEEKLY_PREDICTIONS.md")
+    
+    # For week 1, use fixed variance of 3.0
+    fixed_variance = 3.0 if week_num == 1 else None
+    
+    print(f"\nAnalyzing Week {week_num}...")
+    results_df = analyze_week(current_df, week_num, analyzer.calculator, fixed_variance)
+    
+    # Print table
+    print(f"\n=== WEEK {week_num} PREDICTIONS ===")
+    print(f"{'Rank':<4} {'Contestant':<12} {'Finals':<8} {'Winner':<8} {'Avg Str':<8} {'Variance':<8} {'Star':<4} {'High':<4} {'Low':<4} {'Status':<8}")
+    print("=" * 80)
+    
+    for idx, (_, row) in enumerate(results_df.iterrows(), 1):
+        status = "ELIM" if row['Eliminated'] else "Active"
+        print(f"{idx:<4} {row['Contestant']:<12} {row['Finalist_Probability']:<7.1f}% "
+              f"{row['Winner_Probability']:<7.1f}% {row['Avg_Strength']:<8.2f} "
+              f"{row['Variance']:<8.2f} {int(row['Star_Bakers']):<4} "
+              f"{int(row['High_Reviews']):<4} {int(row['Low_Reviews']):<4} {status:<8}")
+    
+    return results_df
 
 if __name__ == "__main__":
     main()
