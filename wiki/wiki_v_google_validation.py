@@ -11,8 +11,8 @@ def normalize_name(name):
     ascii_name = normalized.encode('ascii', 'ignore').decode('ascii')
     return ascii_name.strip()
 
-wiki = pd.read_csv('gbbo_results.csv')
-google = pd.read_csv('data.csv')
+wiki = pd.read_csv('../analysis_output/gbbo_results.csv')
+google = pd.read_csv('../judging_data/data.csv')
 
 # Filter out rows where Technical_Rank is blank/null
 wiki = wiki[~wiki['Technical_Rank'].isna()]

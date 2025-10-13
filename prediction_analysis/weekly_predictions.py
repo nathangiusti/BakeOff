@@ -158,7 +158,7 @@ def main():
     _ = analyzer.calculate_strength_scores()
 
     # Load current season data
-    current_df = pd.read_csv('current.csv')
+    current_df = pd.read_csv('../judging_data/current.csv')
     
     # For week 1, use fixed variance of 3.0
     fixed_variance = 3.0 if week_num == 1 else None

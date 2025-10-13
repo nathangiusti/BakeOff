@@ -5,8 +5,8 @@ def combine_claude_data():
     # Read the data files - handle potential parsing issues
     print("Reading input files...")
     claude_judging = pd.read_csv('claude_judging.csv', on_bad_lines='skip')
-    gbbo_results = pd.read_csv('gbbo_results.csv')
-    data_reference = pd.read_csv('data.csv')
+    gbbo_results = pd.read_csv('../../analysis_output/gbbo_results.csv')
+    data_reference = pd.read_csv('../data.csv')
     
     print(f"Claude judging data: {len(claude_judging)} rows")
     print(f"GBBO results data: {len(gbbo_results)} rows")

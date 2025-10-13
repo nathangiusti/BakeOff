@@ -25,7 +25,7 @@ WEIGHTS = {
 
 def load_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Load both datasets"""
-    claude_data = pd.read_csv('claude_data.csv')
+    claude_data = pd.read_csv('claude/claude_data.csv')
     original_data = pd.read_csv('data.csv')
     return claude_data, original_data
 

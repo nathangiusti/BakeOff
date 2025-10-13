@@ -61,7 +61,7 @@ def download_transcript(episode_url, headers):
 def save_transcripts():
     """Download and save transcripts for seasons 8 and above."""
     # Create transcripts folder if it doesn't exist
-    os.makedirs('transcripts', exist_ok=True)
+    os.makedirs('', exist_ok=True)
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'

@@ -6,7 +6,52 @@ This project analyzes performance data from The Great British Bake Off to:
 2. Create a method to judge baker performance strength each week
 3. Develop an overall performance assessment system
 
-## Data Structure (data.csv)
+## Project Structure
+
+```
+BakeOff/
+├── gbbo_analysis/           # Core analysis package
+│   ├── __init__.py
+│   ├── analyzer.py         # Main analysis orchestration
+│   ├── calculator.py       # Strength score calculation logic  
+│   ├── config.py          # Configuration constants and settings
+│   ├── models.py          # ML model training and correlation analysis
+│   └── validation.py      # Data validation and quality checks
+├── main.py                 # Entry point script
+├── judging_data/          # Input data files
+│   ├── claude/           # Claude-generated scoring data
+│   │   ├── claude_data.csv
+│   │   ├── claude_judging.csv
+│   │   ├── claude_judging_prompt.md
+│   │   └── combine_claude_data.py
+│   ├── compare_datasets.py
+│   ├── current.csv        # Current season data
+│   └── data.csv          # Main historical data
+├── analysis_output/       # Generated analysis results
+│   ├── gbbo_complete_analysis.csv
+│   ├── gbbo_complete_analysis_contestant_summary.csv
+│   └── gbbo_results.csv
+├── prediction_analysis/   # Prediction and forecast tools
+│   ├── historical_monte_carlo.py  # Command-line Monte Carlo tool
+│   ├── weekly_predictions.py      # Weekly prediction generator
+│   ├── weekly_predictions.md      # Current predictions
+│   └── season_markdown/          # Historical season predictions
+│       ├── weekly_predictions_s5.md
+│       ├── weekly_predictions_s6.md
+│       └── ...
+├── transcripts/          # Episode transcript data
+│   ├── audited_transcripts/     # Judge-scored transcripts
+│   ├── claude_todo/            # Transcripts pending scoring
+│   ├── netflix_transcripts/    # Raw Netflix subtitle files
+│   ├── parsed_transcripts/     # Processed transcript text
+│   └── parse_transcripts.py   # Transcript processing tool
+└── wiki/                # Wikipedia scraping tools
+    ├── gbbo_episodes.csv
+    ├── wiki_v_google_validation.py
+    └── wikiscraper.py
+```
+
+## Data Structure (judging_data/data.csv)
 
 ### Column Definitions
 - **Contestant**: Baker's name
@@ -48,6 +93,15 @@ This project analyzes performance data from The Great British Bake Off to:
 - Final rounds (Round 10) only have winners, no eliminations (confirmed)
 - Handshakes are rare and indicate exceptional performance
 - Technical rankings vary by number of contestants remaining
+
+### Commentary Generation Guidelines
+**IMPORTANT**: When asked to generate commentary for analysis files, do NOT create code-generated commentary. Instead:
+1. Parse and analyze the generated results manually
+2. Identify key patterns, trends, and insights from the data
+3. Write thoughtful commentary based on your analysis
+4. Include observations about contestant performance, predictions accuracy, and strategic patterns
+5. Commentary should be written in markdown format as part of the output file
+6. The word "technical" in the context of bakeoff refers to a technical challenge. So referring to technical skill should only be used in reference to someone's skills in the technical challenge.
 - All contestants have complete tech scores (1-N ranking where N = contestants remaining)
 
 ### Data Processing Rules
@@ -68,7 +122,7 @@ This project analyzes performance data from The Great British Bake Off to:
 - Uses actual min/max scores per round (handles inconsistencies)
 - Accounts for varying contestant numbers per round
 
-**Data File**: `data.csv` contains all raw data with descriptive column headers
+**Data File**: `judging_data/data.csv` contains all raw data with descriptive column headers
 
 ### Model Results
 **Analysis results and conclusions have been moved to ANALYSIS_RESULTS.md**
@@ -117,11 +171,29 @@ See ANALYSIS_RESULTS.md for complete findings, model performance details, and pr
   - Performance variance statistics
   - Category-specific averages (technical, signature, showstopper, flavor, bake, looks)
 
+### Historical Monte Carlo Analysis (prediction_analysis/historical_monte_carlo.py)
+- **Purpose**: Generates Monte Carlo simulation predictions for historical seasons (5-12) using existing strength scores
+- **Usage**: `cd prediction_analysis && python historical_monte_carlo.py <season> <episode>` (e.g., `cd prediction_analysis && python historical_monte_carlo.py 8 4`)
+- **Command Line Arguments**:
+  - `season`: Season number (5-12)
+  - `episode`: Episode/week number within the season
+  - `--data-path`: Optional path to data file (defaults to '../analysis_output/gbbo_complete_analysis.csv')
+- **Output**: Console-only data tables showing:
+  - Contestant rankings by finals probability and winner probability
+  - Average strength scores, variance, week performance, and achievement counts
+  - Top 3 predictions and predicted winner with percentages
+- **Method**: Monte Carlo simulation (10,000 iterations) using contestant performance history through specified week
+- **Usage Context**: Output from this script is used to update markdown files in `prediction_analysis/season_markdown/` folder
+  - Raw data/tables are generated by the script
+  - Commentary and insights are added manually by parsing the results with Claude
+  - Final markdown files combine both data tables and human-generated analysis
+
 ### Output Reports
-- **Performance Data**: Complete round-by-round strength scores and outcomes (gbbo_complete_analysis.csv)
-- **Contestant Summary**: Aggregated statistics including handshakes, reviews, and final placements (gbbo_complete_analysis_contestant_summary.csv) 
+- **Performance Data**: Complete round-by-round strength scores and outcomes (analysis_output/gbbo_complete_analysis.csv)
+- **Contestant Summary**: Aggregated statistics including handshakes, reviews, and final placements (analysis_output/gbbo_complete_analysis_contestant_summary.csv) 
 - **Analysis Insights**: Performance correlations, prediction accuracies, and behavioral patterns
 - **Theme Analysis**: Episode theme difficulty analysis with performance vs expectation metrics
+- **Historical Predictions**: Season-by-season weekly prediction markdown files in `prediction_analysis/season_markdown/` folder
 
 ## Analysis Goals
 1. **Weight Calculation**: Determine relative importance of each scoring component ✓
