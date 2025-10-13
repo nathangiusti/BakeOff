@@ -14,20 +14,20 @@ Progressive Monte Carlo simulation predictions for each week of Season 13.
 
 **Active Contestants:** 12 | **Season Avg Strength:** 6.15
 
-| Rank | Contestant | Finals | Winner | Avg Str | Variance | Star | High | Low | Status |
-|------|------------|--------|--------|---------|----------|------|------|-----|--------|
-| 1 | Nataliia | 73.8% | 33.0% | 8.27 | 3.00 | 1 | 2 | 0 | Active |
-| 2 | Jessika | 64.7% | 24.0% | 7.93 | 3.00 | 0 | 1 | 0 | Active |
-| 3 | Lesley | 58.8% | 18.9% | 7.75 | 3.00 | 0 | 0 | 0 | Active |
-| 4 | Tom | 52.0% | 14.9% | 7.50 | 3.00 | 0 | 1 | 0 | Active |
-| 5 | Iain | 39.8% | 8.6% | 7.13 | 3.00 | 0 | 0 | 0 | Active |
-| 6 | Jasmine | 5.8% | 0.4% | 5.63 | 3.00 | 0 | 0 | 0 | Active |
-| 7 | Nadia | 2.6% | 0.2% | 5.33 | 3.00 | 0 | 0 | 0 | Active |
-| 8 | Aaron | 0.8% | 0.0% | 4.81 | 3.00 | 0 | 0 | 0 | Active |
-| 9 | Pui Man | 0.9% | 0.0% | 4.82 | 3.00 | 0 | 0 | 0 | Active |
-| 10 | Leighton | 0.5% | 0.0% | 4.63 | 3.00 | 0 | 0 | 1 | Active |
-| 11 | Toby | 0.4% | 0.0% | 4.51 | 3.00 | 0 | 0 | 1 | Active |
-| 12 | Hassan | 0.0% | 0.0% | 3.78 | 3.00 | 0 | 0 | 1 | ELIM |
+| Rank | Contestant | Finals | Winner | Avg Str | Variance | Week Score | Star | High | Low | Status |
+|------|------------|--------|--------|---------|----------|------------|------|------|-----|--------|
+| 1 | Nataliia | 73.8% | 33.0% | 8.27 | 3.00 | 8.27 | 1 | 2 | 0 | Active |
+| 2 | Jessika | 64.7% | 24.0% | 7.93 | 3.00 | 7.93 | 0 | 1 | 0 | Active |
+| 3 | Lesley | 58.8% | 18.9% | 7.75 | 3.00 | 7.75 | 0 | 0 | 0 | Active |
+| 4 | Tom | 52.0% | 14.9% | 7.50 | 3.00 | 7.50 | 0 | 1 | 0 | Active |
+| 5 | Iain | 39.8% | 8.6% | 7.13 | 3.00 | 7.13 | 0 | 0 | 0 | Active |
+| 6 | Jasmine | 5.8% | 0.4% | 5.63 | 3.00 | 5.63 | 0 | 0 | 0 | Active |
+| 7 | Nadia | 2.6% | 0.2% | 5.33 | 3.00 | 5.33 | 0 | 0 | 0 | Active |
+| 8 | Pui Man | 0.9% | 0.0% | 4.82 | 3.00 | 4.82 | 0 | 0 | 0 | Active |
+| 9 | Aaron | 0.8% | 0.0% | 4.81 | 3.00 | 4.81 | 0 | 0 | 0 | Active |
+| 10 | Leighton | 0.5% | 0.0% | 4.63 | 3.00 | 4.63 | 0 | 0 | 1 | Active |
+| 11 | Toby | 0.4% | 0.0% | 4.51 | 3.00 | 4.51 | 0 | 0 | 1 | Active |
+| 12 | Hassan | 0.0% | 0.0% | 3.78 | 3.00 | 3.78 | 0 | 0 | 1 | ELIM |
 
 **Predicted Top 3:**
 1. **Nataliia** - Finalist: 73.8%, Winner: 33.0%
@@ -45,20 +45,20 @@ The season opened with **Nataliia** establishing herself as the clear favorite (
 
 **Active Contestants:** 10 | **Season Avg Strength:** 6.15
 
-| Rank | Contestant | Finals | Winner | Avg Str | Variance | Star | High | Low | Status |
-|------|------------|--------|--------|---------|----------|------|------|-----|--------|
-| 1 | Tom | 98.8% | 54.2% | 7.63 | 0.03 | 1 | 3 | 0 | Active |
-| 2 | Jessika | 72.2% | 23.8% | 7.35 | 0.68 | 0 | 1 | 0 | Active |
-| 3 | Iain | 53.5% | 1.5% | 6.86 | 0.15 | 0 | 0 | 0 | Active |
-| 4 | Lesley | 40.9% | 10.4% | 6.98 | 1.17 | 0 | 0 | 0 | Active |
-| 5 | Jasmine | 17.8% | 5.6% | 6.83 | 2.88 | 0 | 1 | 0 | Active |
-| 6 | Nadia | 12.5% | 3.8% | 6.73 | 3.92 | 0 | 0 | 0 | Active |
-| 7 | Nataliia | 2.8% | 0.7% | 6.09 | 9.45 | 1 | 2 | 0 | Active |
-| 8 | Aaron | 1.2% | 0.1% | 5.57 | 1.15 | 0 | 0 | 1 | Active |
-| 9 | Pui Man | 0.3% | 0.0% | 5.32 | 0.50 | 0 | 0 | 1 | Active |
-| 10 | Toby | 0.0% | 0.0% | 4.86 | 0.25 | 0 | 0 | 2 | Active |
-| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | 0 | 0 | 2 | ELIM |
-| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | 0 | 0 | 1 | ELIM |
+| Rank | Contestant | Finals | Winner | Avg Str | Variance | Week Score | Star | High | Low | Status |
+|------|------------|--------|--------|---------|----------|------------|------|------|-----|--------|
+| 1 | Tom | 98.8% | 54.2% | 7.63 | 0.03 | 7.75 | 1 | 3 | 0 | Active |
+| 2 | Jessika | 72.2% | 23.8% | 7.35 | 0.68 | 6.77 | 0 | 1 | 0 | Active |
+| 3 | Iain | 53.5% | 1.5% | 6.86 | 0.15 | 7.58 | 0 | 0 | 0 | Active |
+| 4 | Lesley | 40.9% | 10.4% | 6.98 | 1.17 | 6.21 | 0 | 0 | 0 | Active |
+| 5 | Jasmine | 17.8% | 5.6% | 6.83 | 2.88 | 8.03 | 0 | 1 | 0 | Active |
+| 6 | Nadia | 12.5% | 3.8% | 6.73 | 3.92 | 8.13 | 0 | 0 | 0 | Active |
+| 7 | Nataliia | 2.8% | 0.7% | 6.09 | 9.45 | 3.92 | 1 | 2 | 0 | Active |
+| 8 | Aaron | 1.2% | 0.1% | 5.57 | 1.15 | 6.28 | 0 | 0 | 1 | Active |
+| 9 | Pui Man | 0.3% | 0.0% | 5.32 | 0.50 | 5.82 | 0 | 0 | 1 | Active |
+| 10 | Toby | 0.0% | 0.0% | 4.86 | 0.25 | 5.21 | 0 | 0 | 2 | Active |
+| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | 5.27 | 0 | 0 | 2 | ELIM |
+| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | - | 0 | 0 | 1 | ELIM |
 
 **Predicted Top 3:**
 1. **Tom** - Finalist: 98.8%, Winner: 54.2%
@@ -68,7 +68,7 @@ The season opened with **Nataliia** establishing herself as the clear favorite (
 **Predicted Winner:** Tom (54.2%)
 
 ### Week 2 Commentary: The Great Shake-Up
-Week 2 brought dramatic shifts in the predictions. **Tom** surged to dominance (98.8% finalist, 54.2% winner) with remarkably consistent performance (variance of just 0.03), claiming Star Baker and demonstrating the power of reliability over flashy inconsistency. Meanwhile, **Nataliia** suffered a catastrophic collapse, plummeting from 1st to 7th place with a massive variance spike to 9.45—indicating highly inconsistent performance that would plague her throughout the season. **Jessika** maintained her position in the top tier despite dropping slightly, while **Iain** emerged as a dark horse with impressive consistency, jumping to 3rd place.
+Week 2 brought dramatic shifts in the predictions. **Tom** surged to dominance (98.8% finalist, 54.2% winner) with remarkably consistent performance (variance of just 0.03), claiming Star Baker with a solid 7.75 performance and demonstrating the power of reliability over flashy inconsistency. Meanwhile, **Nataliia** suffered a catastrophic collapse, plummeting from 1st to 7th place with a massive variance spike to 9.45—her Week 2 score of 3.92 was among the lowest of the round, indicating the highly inconsistent performance that would plague her throughout the season. Notably, **Nadia** (8.13) and **Jasmine** (8.03) actually delivered the week's strongest performances but didn't receive Star Baker, highlighting how statistical models sometimes diverge from judging decisions.
 
 ---
 
@@ -76,20 +76,20 @@ Week 2 brought dramatic shifts in the predictions. **Tom** surged to dominance (
 
 **Active Contestants:** 9 | **Season Avg Strength:** 6.48
 
-| Rank | Contestant | Finals | Winner | Avg Str | Variance | Star | High | Low | Status |
-|------|------------|--------|--------|---------|----------|------|------|-----|--------|
-| 1 | Tom | 97.2% | 51.3% | 7.81 | 0.12 | 1 | 4 | 0 | Active |
-| 2 | Lesley | 67.4% | 13.0% | 7.18 | 0.70 | 0 | 0 | 0 | Active |
-| 3 | Jasmine | 48.8% | 20.5% | 7.57 | 3.10 | 1 | 3 | 0 | Active |
-| 4 | Nadia | 34.4% | 8.4% | 6.95 | 2.10 | 0 | 1 | 0 | Active |
-| 5 | Jessika | 32.4% | 5.1% | 6.76 | 1.40 | 0 | 1 | 0 | Active |
-| 6 | Aaron | 10.9% | 0.7% | 6.10 | 1.42 | 0 | 1 | 1 | Active |
-| 7 | Toby | 3.1% | 0.1% | 5.55 | 1.54 | 0 | 0 | 2 | Active |
-| 8 | Iain | 2.9% | 0.4% | 5.62 | 4.65 | 0 | 0 | 1 | Active |
-| 9 | Nataliia | 2.9% | 0.5% | 5.58 | 5.50 | 1 | 2 | 1 | Active |
-| 10 | Pui Man | 0.0% | 0.0% | 5.02 | 0.52 | 0 | 0 | 2 | ELIM |
-| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | 0 | 0 | 2 | ELIM |
-| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | 0 | 0 | 1 | ELIM |
+| Rank | Contestant | Finals | Winner | Avg Str | Variance | Week Score | Star | High | Low | Status |
+|------|------------|--------|--------|---------|----------|------------|------|------|-----|--------|
+| 1 | Tom | 97.2% | 51.3% | 7.81 | 0.12 | 8.06 | 1 | 4 | 0 | Active |
+| 2 | Lesley | 67.4% | 13.0% | 7.18 | 0.70 | 7.60 | 0 | 0 | 0 | Active |
+| 3 | Jasmine | 48.8% | 20.5% | 7.57 | 3.10 | 9.06 | 1 | 3 | 0 | Active |
+| 4 | Nadia | 34.4% | 8.4% | 6.95 | 2.10 | 7.77 | 0 | 1 | 0 | Active |
+| 5 | Jessika | 32.4% | 5.1% | 6.76 | 1.40 | 6.75 | 0 | 1 | 0 | Active |
+| 6 | Aaron | 10.9% | 0.7% | 6.10 | 1.42 | 5.92 | 0 | 1 | 1 | Active |
+| 7 | Toby | 3.1% | 0.1% | 5.55 | 1.54 | 6.83 | 0 | 0 | 2 | Active |
+| 8 | Iain | 2.9% | 0.4% | 5.62 | 4.65 | 3.15 | 0 | 0 | 1 | Active |
+| 9 | Nataliia | 2.9% | 0.5% | 5.58 | 5.50 | 5.24 | 1 | 2 | 1 | Active |
+| 10 | Pui Man | 0.0% | 0.0% | 5.02 | 0.52 | 4.42 | 0 | 0 | 2 | ELIM |
+| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | - | 0 | 0 | 2 | ELIM |
+| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | - | 0 | 0 | 1 | ELIM |
 
 **Predicted Top 3:**
 1. **Tom** - Finalist: 97.2%, Winner: 51.3%
@@ -99,7 +99,7 @@ Week 2 brought dramatic shifts in the predictions. **Tom** surged to dominance (
 **Predicted Winner:** Tom (51.3%)
 
 ### Week 3 Commentary: Volatility and New Contenders
-**Tom** maintained his stranglehold on the competition with continued consistency (variance 0.12), solidifying his position as the season's most reliable baker. **Jasmine** made a spectacular leap, climbing from 5th to 3rd place after earning Star Baker, though her high variance (3.10) suggests feast-or-famine performances that would define her journey. **Lesley** moved into the silver position with steady, reliable baking, while the week saw further deterioration for previous favorites **Nataliia** (variance spiking to 5.50) and **Iain** (variance 4.65), with both now struggling in the bottom tier. **Jessika** fell out of the top 3 entirely due to increasing inconsistency, foreshadowing her eventual elimination.
+**Tom** maintained his stranglehold on the competition with continued consistency (variance 0.12), delivering another strong 8.06 performance to solidify his position as the season's most reliable baker. **Jasmine** made a spectacular leap, climbing from 5th to 3rd place after earning Star Baker with the week's dominant 9.06 performance—her first score above 9.0 signaling the emergence of her peak capability. **Lesley** moved into the silver position with steady, reliable baking (7.60), while the week saw dramatic volatility: **Iain** crashed to 3.15 (the round's lowest), while **Nadia** surged to 7.77. **Jessika** fell out of the top 3 entirely despite a respectable 6.75, demonstrating how competitive the field had become.
 
 ---
 
@@ -107,20 +107,20 @@ Week 2 brought dramatic shifts in the predictions. **Tom** surged to dominance (
 
 **Active Contestants:** 8 | **Season Avg Strength:** 6.55
 
-| Rank | Contestant | Finals | Winner | Avg Str | Variance | Star | High | Low | Status |
-|------|------------|--------|--------|---------|----------|------|------|-----|--------|
-| 1 | Tom | 98.9% | 51.8% | 7.92 | 0.13 | 1 | 5 | 0 | Active |
-| 2 | Jasmine | 71.8% | 36.6% | 8.05 | 2.99 | 2 | 5 | 0 | Active |
-| 3 | Lesley | 65.2% | 6.1% | 6.96 | 0.66 | 0 | 0 | 0 | Active |
-| 4 | Aaron | 23.0% | 1.1% | 6.28 | 1.08 | 0 | 1 | 1 | Active |
-| 5 | Nadia | 23.1% | 3.2% | 6.48 | 2.27 | 0 | 1 | 0 | Active |
-| 6 | Toby | 10.3% | 0.4% | 5.87 | 1.43 | 0 | 1 | 2 | Active |
-| 7 | Nataliia | 4.5% | 0.5% | 5.58 | 3.67 | 1 | 2 | 1 | Active |
-| 8 | Iain | 3.1% | 0.3% | 5.39 | 3.32 | 0 | 0 | 2 | Active |
-| 9 | Jessika | 0.0% | 0.0% | 5.65 | 5.84 | 0 | 1 | 1 | ELIM |
-| 10 | Pui Man | 0.0% | 0.0% | 5.02 | 0.52 | 0 | 0 | 2 | ELIM |
-| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | 0 | 0 | 2 | ELIM |
-| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | 0 | 0 | 1 | ELIM |
+| Rank | Contestant | Finals | Winner | Avg Str | Variance | Week Score | Star | High | Low | Status |
+|------|------------|--------|--------|---------|----------|------------|------|------|-----|--------|
+| 1 | Tom | 98.9% | 51.8% | 7.92 | 0.13 | 8.18 | 1 | 5 | 0 | Active |
+| 2 | Jasmine | 71.8% | 36.6% | 8.05 | 2.99 | 9.50 | 2 | 5 | 0 | Active |
+| 3 | Lesley | 65.2% | 6.1% | 6.96 | 0.66 | 5.32 | 0 | 0 | 0 | Active |
+| 4 | Aaron | 23.0% | 1.1% | 6.28 | 1.08 | 7.64 | 0 | 1 | 1 | Active |
+| 5 | Nadia | 23.1% | 3.2% | 6.48 | 2.27 | 4.91 | 0 | 1 | 0 | Active |
+| 6 | Toby | 10.3% | 0.4% | 5.87 | 1.43 | 6.19 | 0 | 1 | 2 | Active |
+| 7 | Nataliia | 4.5% | 0.5% | 5.58 | 3.67 | 5.58 | 1 | 2 | 1 | Active |
+| 8 | Iain | 3.1% | 0.3% | 5.39 | 3.32 | 4.63 | 0 | 0 | 2 | Active |
+| 9 | Jessika | 0.0% | 0.0% | 5.65 | 5.84 | 2.33 | 0 | 1 | 1 | ELIM |
+| 10 | Pui Man | 0.0% | 0.0% | 5.02 | 0.52 | - | 0 | 0 | 2 | ELIM |
+| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | - | 0 | 0 | 2 | ELIM |
+| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | - | 0 | 0 | 1 | ELIM |
 
 **Predicted Top 3:**
 1. **Tom** - Finalist: 98.9%, Winner: 51.8%
@@ -130,7 +130,7 @@ Week 2 brought dramatic shifts in the predictions. **Tom** surged to dominance (
 **Predicted Winner:** Tom (51.8%)
 
 ### Week 4 Commentary: The Jasmine Surge
-By Week 4, a two-horse race emerged between **Tom** and **Jasmine**. While Tom maintained his near-lock on a finals spot (98.9%), **Jasmine's** winner probability exploded to 36.6% after claiming her second Star Baker award. Her average strength (8.05) now slightly exceeded Tom's (7.92), though her higher variance (2.99 vs 0.13) created uncertainty about her championship prospects. **Lesley** remained a steady third-place finisher, while former star **Jessika** was eliminated after her variance ballooned to 5.84—a cautionary tale of inconsistency in the tent.
+By Week 4, a two-horse race emerged between **Tom** and **Jasmine**. While Tom maintained his near-lock on a finals spot (98.9%) with another excellent 8.18 performance, **Jasmine's** winner probability exploded to 36.6% after claiming her second Star Baker award with a stunning 9.50—the highest individual week score recorded so far. Her average strength (8.05) now slightly exceeded Tom's (7.92), though her higher variance (2.99 vs 0.13) created uncertainty about her championship prospects. **Lesley** remained a steady third-place finisher despite a weaker 5.32 showing, while former star **Jessika** was eliminated after a catastrophic 2.33 performance that sealed her fate as her variance ballooned to 5.84.
 
 ---
 
@@ -138,20 +138,20 @@ By Week 4, a two-horse race emerged between **Tom** and **Jasmine**. While Tom m
 
 **Active Contestants:** 7 | **Season Avg Strength:** 6.71
 
-| Rank | Contestant | Finals | Winner | Avg Str | Variance | Star | High | Low | Status |
-|------|------------|--------|--------|---------|----------|------|------|-----|--------|
-| 1 | Tom | 98.2% | 46.9% | 8.01 | 0.13 | 1 | 5 | 0 | Active |
-| 2 | Jasmine | 80.4% | 41.1% | 8.14 | 2.27 | 2 | 6 | 0 | Active |
-| 3 | Lesley | 64.8% | 5.2% | 7.06 | 0.54 | 0 | 1 | 0 | Active |
-| 4 | Aaron | 34.3% | 4.9% | 6.72 | 1.79 | 1 | 3 | 1 | Active |
-| 5 | Nataliia | 9.2% | 0.8% | 5.90 | 3.28 | 1 | 2 | 1 | Active |
-| 6 | Iain | 9.0% | 1.1% | 5.87 | 3.64 | 0 | 0 | 2 | Active |
-| 7 | Toby | 4.0% | 0.1% | 5.38 | 2.26 | 0 | 1 | 3 | Active |
-| 8 | Nadia | 0.0% | 0.0% | 6.05 | 2.61 | 0 | 1 | 1 | ELIM |
-| 9 | Jessika | 0.0% | 0.0% | 5.65 | 5.84 | 0 | 1 | 1 | ELIM |
-| 10 | Pui Man | 0.0% | 0.0% | 5.02 | 0.52 | 0 | 0 | 2 | ELIM |
-| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | 0 | 0 | 2 | ELIM |
-| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | 0 | 0 | 1 | ELIM |
+| Rank | Contestant | Finals | Winner | Avg Str | Variance | Week Score | Star | High | Low | Status |
+|------|------------|--------|--------|---------|----------|------------|------|------|-----|--------|
+| 1 | Tom | 98.2% | 46.9% | 8.01 | 0.13 | 8.03 | 1 | 5 | 0 | Active |
+| 2 | Jasmine | 80.4% | 41.1% | 8.14 | 2.27 | 8.53 | 2 | 6 | 0 | Active |
+| 3 | Lesley | 64.8% | 5.2% | 7.06 | 0.54 | 7.12 | 0 | 1 | 0 | Active |
+| 4 | Aaron | 34.3% | 4.9% | 6.72 | 1.79 | 8.50 | 1 | 3 | 1 | Active |
+| 5 | Nataliia | 9.2% | 0.8% | 5.90 | 3.28 | 6.22 | 1 | 2 | 1 | Active |
+| 6 | Iain | 9.0% | 1.1% | 5.87 | 3.64 | 6.85 | 0 | 0 | 2 | Active |
+| 7 | Toby | 4.0% | 0.1% | 5.38 | 2.26 | 3.51 | 0 | 1 | 3 | Active |
+| 8 | Nadia | 0.0% | 0.0% | 6.05 | 2.61 | 4.36 | 0 | 1 | 1 | ELIM |
+| 9 | Jessika | 0.0% | 0.0% | 5.65 | 5.84 | - | 0 | 1 | 1 | ELIM |
+| 10 | Pui Man | 0.0% | 0.0% | 5.02 | 0.52 | - | 0 | 0 | 2 | ELIM |
+| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | - | 0 | 0 | 2 | ELIM |
+| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | - | 0 | 0 | 1 | ELIM |
 
 **Predicted Top 3:**
 1. **Tom** - Finalist: 98.2%, Winner: 46.9%
@@ -161,7 +161,45 @@ By Week 4, a two-horse race emerged between **Tom** and **Jasmine**. While Tom m
 **Predicted Winner:** Tom (46.9%)
 
 ### Week 5 Commentary: Tom vs. Jasmine - The Ultimate Showdown
-Week 5 crystallized the competition into its final form. **Tom** (98.2% finalist, 46.9% winner) and **Jasmine** (80.4% finalist, 41.1% winner) emerged as the clear title contenders, with their combined winner probability reaching 88%—an unprecedented dominance by two contestants. **Lesley** maintained her third-place position (64.8% finalist, 5.2% winner), representing the consistent but unspectacular middle tier. The elimination of **Nadia** this week further thinned the field, with the remaining contestants showing significant gaps in both strength and consistency. **Aaron's** Star Baker win boosted him to 4th place, but his modest winner probability (4.9%) suggests he lacks the peak performance needed for the title.
+Week 5 crystallized the competition into its final form. **Tom** (98.2% finalist, 46.9% winner) delivered his typical excellence with 8.03, while **Jasmine** (80.4% finalist, 41.1% winner) matched him closely with 8.53, their combined winner probability reaching 88%—an unprecedented dominance by two contestants. **Aaron's** stunning 8.50 performance earned him Star Baker and boosted him to 4th place, proving that explosive single performances can still reshape the competition despite modest overall win probability (4.9%). **Lesley** maintained her third-place position with a solid 7.12, while **Toby's** disastrous 3.51—the week's lowest score—highlighted his growing vulnerability. **Nadia** was eliminated despite a mid-tier 4.36 performance, showing how competitive the field had become.
+
+---
+
+## Week 6
+
+**Active Contestants:** 6 | **Season Avg Strength:** 6.01
+
+| Rank | Contestant | Finals | Winner | Avg Str | Variance | Week Score | Star | High | Low | Status |
+|------|------------|--------|--------|---------|----------|------------|------|------|-----|--------|
+| 1 | Jasmine | 87.4% | 51.7% | 8.22 | 1.86 | 8.30 | 3 | 7 | 0 | Active |
+| 2 | Tom | 92.8% | 35.5% | 7.75 | 0.51 | 6.49 | 1 | 5 | 0 | Active |
+| 3 | Lesley | 69.7% | 7.3% | 7.02 | 0.44 | 6.98 | 0 | 2 | 0 | Active |
+| 4 | Aaron | 27.2% | 3.3% | 6.45 | 1.87 | 5.44 | 1 | 3 | 2 | Active |
+| 5 | Iain | 15.7% | 1.8% | 6.07 | 3.15 | 6.27 | 0 | 0 | 2 | Active |
+| 6 | Toby | 7.2% | 0.3% | 5.52 | 1.93 | 5.68 | 0 | 1 | 3 | Active |
+| 7 | Nataliia | 0.0% | 0.0% | 5.69 | 2.90 | 4.83 | 1 | 2 | 2 | ELIM |
+| 8 | Nadia | 0.0% | 0.0% | 6.05 | 2.61 | - | 0 | 1 | 1 | ELIM |
+| 9 | Jessika | 0.0% | 0.0% | 5.65 | 5.84 | - | 0 | 1 | 1 | ELIM |
+| 10 | Pui Man | 0.0% | 0.0% | 5.02 | 0.52 | - | 0 | 0 | 2 | ELIM |
+| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | - | 0 | 0 | 2 | ELIM |
+| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | - | 0 | 0 | 1 | ELIM |
+
+**Predicted Top 3:**
+1. **Tom** - Finalist: 92.8%, Winner: 35.5%
+2. **Jasmine** - Finalist: 87.4%, Winner: 51.7%
+3. **Lesley** - Finalist: 69.7%, Winner: 7.3%
+
+**Predicted Winner:** Jasmine (51.7%)
+
+### Week 6 Commentary: The Championship Changes Hands
+
+Week 6 delivered the season's most dramatic shift in championship dynamics. **Jasmine** claimed her third Star Baker award with an excellent 8.30 performance and, for the first time, overtook **Tom** as the predicted series winner (51.7% vs 35.5%). This represents a complete reversal from Week 5, where Tom held a 46.9% to 41.1% advantage. The key to Jasmine's breakthrough was her improved consistency—her variance dropped from 2.27 to 1.86, finally finding the sweet spot between peak performance and reliability that the model rewards.
+
+**Tom**, while delivering a solid but unspectacular 6.49—his lowest weekly score since Week 1—remains virtually guaranteed a finals spot (92.8%) but is no longer the betting favorite. His variance increased from 0.13 to 0.51, still excellent but no longer the ultra-consistent profile that made him untouchable earlier in the season. This 6.49 represents the first crack in his armor of reliability.
+
+**Nataliia's** elimination came after a disappointing 4.83 performance, marking the end of a fascinating arc—from early Star Baker winner to inconsistency-plagued exit. Her final variance of 2.90 and average of 5.69 demonstrate how even talented bakers can be undone by unpredictable performances. The fact that she survived longer than her statistics suggested (outlasting Nadia despite lower averages) shows judges do consider accumulated reputation and potential.
+
+The final six now presents a clear three-tier structure: the title contenders (Jasmine, Tom), the likely third finalist (Lesley with a strong 6.98), and the longshots fighting for the remaining spots (Aaron declined to 5.44, Iain 6.27, Toby 5.68).
 
 ---
 
@@ -171,13 +209,23 @@ Week 5 crystallized the competition into its final form. **Tom** (98.2% finalist
 
 **2. High Variance Eliminates Contenders:** The data reveals a clear pattern—contestants with variance exceeding 3-4 points saw their championship hopes diminish rapidly. Nataliia (variance 3.28), Iain (variance 3.64), and the eliminated Jessika (variance 5.84) all demonstrate this principle. High variance indicates unpredictable performance, which the Monte Carlo simulation heavily penalizes in elimination scenarios.
 
-**3. Late Surges Matter:** Jasmine's transformation from a Week 2 long shot (5.6% winner probability) to a genuine title contender (41.1%) shows how back-to-back Star Baker performances can dramatically alter championship trajectories. Her average strength improvement from 6.83 to 8.14 represents one of the most impressive mid-season surges in the data.
+**3. Late Surges Matter:** Jasmine's transformation from a Week 2 long shot (5.6% winner probability) to the championship favorite (51.7%) shows how consecutive Star Baker performances can dramatically alter championship trajectories. Her average strength improvement from 6.83 to 8.22 represents one of the most impressive mid-season surges in the data.
 
-**4. The Middle Ground Persists:** Lesley's steady, unspectacular consistency (variance 0.54) kept her firmly in the finals conversation without ever threatening to win—demonstrating the value of avoiding elimination over achieving Star Baker glory. Her 64.8% finalist probability with only 5.2% winner probability shows the ceiling for "safe" baking strategies.
+**4. The Middle Ground Persists:** Lesley's steady, unspectacular consistency (variance 0.44) kept her firmly in the finals conversation without ever threatening to win—demonstrating the value of avoiding elimination over achieving Star Baker glory. Her 69.7% finalist probability with only 7.3% winner probability shows the ceiling for "safe" baking strategies.
 
-**5. Star Baker Win Timing:** The analysis reveals that early Star Baker wins (like Nataliia's Week 1 victory) can be negated by subsequent inconsistency, while late-season wins (like Aaron's Week 5 victory) may come too late to build championship momentum. Jasmine's back-to-back wins in Weeks 3-4 represent optimal timing for maximum impact.
+**5. Star Baker Win Timing:** The analysis reveals that early Star Baker wins (like Nataliia's Week 1 victory) can be negated by subsequent inconsistency, while late-season wins (like Aaron's Week 5 victory) may come too late to build championship momentum. Jasmine's three wins across Weeks 3-4-6 represent optimal timing and frequency for maximum championship impact.
 
-**6. Elimination Predictability:** The model successfully predicted elimination risks, with contestants showing variance above 5.0 (Jessika) or consistently low strength scores (Hassan, Leighton, Pui Man) being eliminated in order of their predicted weakness.
+**6. The Consistency-Excellence Balance:** Week 6 proved that raw consistency alone isn't sufficient—Jasmine's ability to maintain high performance (8.22 average) while improving her consistency (variance down to 1.86) demonstrates the winning formula. Tom's slight decline shows that even the most consistent performers can be overtaken by those who achieve the optimal balance.
 
-### Looking Ahead
-As the competition enters its final stages, the data suggests we're witnessing a classic clash of baking philosophies: Tom's metronomic precision versus Jasmine's high-ceiling artistry. While Tom appears virtually assured of a finals spot, Jasmine's volatile brilliance makes her both the most dangerous contender and the most likely to self-destruct. The remaining weeks will test whether consistency or creativity ultimately prevails in the tent, with Lesley representing the steady third option and the remaining contestants fighting to avoid being the "best of the rest."
+**8. Weekly Performance Patterns Reveal True Form:** The individual week scores expose fascinating patterns: Jasmine's peak performances (9.06, 9.50, 8.53, 8.30) showcase her ceiling, while Tom's remarkable consistency (7.50, 7.75, 8.06, 8.18, 8.03, 6.49) reveals only one sub-7.0 performance. Conversely, eliminated contestants showed clear warning signs: Jessika's 2.33 disaster, Nataliia's 3.92 collapse in Week 2, and Iain's 3.15 Week 3 crash all preceded their eventual exits.
+
+**9. Star Baker Performance Thresholds:** Analysis of weekly scores reveals that Star Baker wins typically require 8.0+ performances: Nataliia (8.27), Tom (7.75), Jasmine (9.06, 9.50, 8.30), and Aaron (8.50). The only exception was Tom's 7.75 win in Week 2, suggesting judges occasionally value consistency over peak performance.
+
+**7. Elimination Predictability:** The model successfully predicted elimination risks, with contestants showing variance above 5.0 (Jessika) or consistently low strength scores (Hassan, Leighton, Pui Man) being eliminated in order of their predicted weakness. However, Nataliia's survival beyond her statistical projections shows judges do factor in past achievements and potential.
+
+### Looking Ahead: The New Championship Dynamic
+Week 6 fundamentally altered the championship narrative. What began as Tom's consistency versus Jasmine's artistry has evolved into a genuine title race where Jasmine now holds the statistical advantage. Her transformation from volatile contender to consistent front-runner represents a masterclass in competitive evolution—learning to harness her creative peaks while minimizing her valleys.
+
+The final stages will test whether Jasmine can maintain this newfound consistency under mounting pressure, or if Tom's proven reliability will reassert itself when the stakes are highest. Lesley's path to victory now requires not just avoiding elimination, but actively challenging the frontrunners—a tall order for someone who has excelled at playing it safe.
+
+With six bakers remaining, the competition has reached its most ruthless phase, where even formerly safe contestants like Aaron face genuine elimination risk. The data suggests we're heading toward a three-way final between Jasmine, Tom, and Lesley, but the margins are narrow enough that one exceptional or disastrous performance could completely reshape the championship picture.
