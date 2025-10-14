@@ -13,8 +13,8 @@ class Config:
     NOTE: Always use ASCII characters in console output to avoid Unicode encoding errors.
     Use * instead of ✓, X instead of ✗, > instead of →, etc.
     """
-    INPUT_FILE: str = 'judging_data/data.csv'
-    OUTPUT_FILE: str = 'analysis_output/gbbo_complete_analysis.csv'
+    INPUT_FILE: str = 'data_collection/judging/human/data.csv'
+    OUTPUT_FILE: str = 'analysis/reports/gbbo_complete_analysis.csv'
     
     # Column names
     SIGNATURE_COLS: List[str] = None

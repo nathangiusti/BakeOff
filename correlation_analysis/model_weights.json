@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "created_at": "2025-10-13T18:34:51.074896",
+    "input_file": "../data_collection/judging/human/data.csv",
+    "model_type": "logistic_regression",
+    "total_records": 603,
+    "series_range": "5-12",
+    "contestants": 90
+  },
+  "model_performance": {
+    "second_half_review_accuracy": 0.9281767955801105,
+    "second_half_review_count": 362
+  },
+  "correlations": {
+    "Signature Bake": 0.44371454649872677,
+    "Signature Flavor": 0.22508528375338924,
+    "Signature Looks": 0.41236388843221516,
+    "Signature Handshake": 0.30840033311532994,
+    "Tech_Normalized": 0.48318553776813844,
+    "Showstopper Bake": 0.5795150649511698,
+    "Showstopper Flavor": 0.4391462792816902,
+    "Showstopper Looks": 0.5754463356864031,
+    "Showstopper Handshake": 0.12032331940582716,
+    "First Two Total": 0.5831317097523997,
+    "Showstopper Total": 0.7254269050087706
+  },
+  "individual_weights": {
+    "signature_bake": 0.6913224502760349,
+    "signature_flavor": 0.24028824912618946,
+    "signature_looks": 0.8158141869349202,
+    "signature_handshake": 0.6140607654715301,
+    "tech_normalized": 3.176003713844111,
+    "showstopper_bake": 1.0503690311291696,
+    "showstopper_flavor": 1.362463452635922,
+    "showstopper_looks": 1.4108756334875874,
+    "showstopper_handshake": 0.1881571853675679
+  },
+  "component_groups": {
+    "signature_total": 2.3614856518086746,
+    "tech_weight": 3.176003713844111,
+    "showstopper_total": 4.011865302620247
+  },
+  "traditional_ratios": {
+    "first_two_bakes": 5.537489365652785,
+    "showstopper": 4.011865302620247,
+    "showstopper_vs_first_two": 0.7244917394342137
+  }
+}

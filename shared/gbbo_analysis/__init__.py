@@ -6,6 +6,8 @@ A comprehensive analysis system for GBBO contestant performance data.
 
 from .analyzer import GBBOAnalyzer
 from .config import Config
+from .validation import GBBODataValidator
+from .models import GBBOModelTrainer
 
 __version__ = "1.0.0"
-__all__ = ["GBBOAnalyzer", "Config"]
+__all__ = ["GBBOAnalyzer", "Config", "GBBODataValidator", "GBBOModelTrainer"]

@@ -4,8 +4,9 @@ Main analysis orchestration for GBBO analysis.
 
 import pandas as pd
 import numpy as np
+import json
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict, Any
 
 from .config import Config
 from .validation import GBBODataValidator
@@ -18,9 +19,11 @@ from .calculator import StrengthScoreCalculator
 class GBBOAnalyzer:
     """Main analyzer class that orchestrates the complete analysis"""
 
-    def __init__(self, config: Optional[Config] = None, use_random_forest: bool = False):
+    def __init__(self, config: Optional[Config] = None, use_random_forest: bool = False, weights_file: Optional[str] = None):
         self.config = config or Config()
         self.use_random_forest = use_random_forest
+        self.weights_file = weights_file
+        self.weights_data: Optional[Dict[str, Any]] = None
         self.df: Optional[pd.DataFrame] = None
         self.validator: Optional[GBBODataValidator] = None
         self.trainer: Optional[GBBOModelTrainer] = None
@@ -28,10 +31,16 @@ class GBBOAnalyzer:
     
     def load_and_prepare_data(self) -> None:
         """Load and prepare the data for analysis"""
-        if not Path(self.config.INPUT_FILE).exists():
-            raise FileNotFoundError(f"Input file {self.config.INPUT_FILE} not found")
+        # Handle relative paths from different working directories
+        input_path = Path(self.config.INPUT_FILE)
+        if not input_path.exists():
+            # Try relative to project root
+            project_root = Path(__file__).parent.parent.parent
+            input_path = project_root / self.config.INPUT_FILE
+            if not input_path.exists():
+                raise FileNotFoundError(f"Input file {self.config.INPUT_FILE} not found (tried both relative and project root paths)")
         
-        self.df = pd.read_csv(self.config.INPUT_FILE)
+        self.df = pd.read_csv(input_path)
         
         # Fill missing values with 0 as specified
         columns_to_fill = (self.config.SIGNATURE_COLS + self.config.SHOWSTOPPER_COLS + 
@@ -75,6 +84,30 @@ class GBBOAnalyzer:
         self.validator.print_results()
         return validation_passed
     
+    def load_weights_from_file(self) -> Dict[str, float]:
+        """Load pre-calculated weights from JSON file"""
+        if not self.weights_file or not Path(self.weights_file).exists():
+            raise FileNotFoundError(f"Weights file {self.weights_file} not found")
+        
+        print(f"Loading pre-calculated weights from {self.weights_file}...")
+        with open(self.weights_file, 'r') as f:
+            self.weights_data = json.load(f)
+        
+        # Extract individual weights
+        individual_weights = self.weights_data['individual_weights']
+        
+        # Store metadata for later use
+        self._second_accuracy = self.weights_data['model_performance']['second_half_review_accuracy']
+        self._second_count = self.weights_data['model_performance']['second_half_review_count']
+        
+        # Print weight loading info
+        print(f"Weights loaded successfully:")
+        print(f"  Model type: {self.weights_data['metadata']['model_type']}")
+        print(f"  Training accuracy: {self._second_accuracy:.1%}")
+        print(f"  Training data: {self.weights_data['metadata']['total_records']} records, Series {self.weights_data['metadata']['series_range']}")
+        
+        return individual_weights
+
     def train_and_analyze_models(self) -> None:
         """Train models and analyze correlations"""
         if self.df is None:
@@ -98,8 +131,14 @@ class GBBOAnalyzer:
         if self.df is None:
             raise ValueError("Data must be loaded before calculating strength scores")
         
-        # Get model weights and pass to calculator
-        model_weights = self.trainer.get_model_weights()
+        # Get model weights - either from file or from trained model
+        if self.weights_file:
+            model_weights = self.load_weights_from_file()
+        else:
+            if self.trainer is None:
+                raise ValueError("Models must be trained or weights file provided before calculating strength scores")
+            model_weights = self.trainer.get_model_weights()
+        
         self.calculator = StrengthScoreCalculator(self.config, model_weights)
         output_data = []
         
@@ -1262,7 +1301,7 @@ class GBBOAnalyzer:
         """Generate theme performance analysis for recurring themes (3+ appearances) using normalized theme names"""
         try:
             # Load episode theme data with normalized themes
-            episodes_df = pd.read_csv('gbbo_episodes.csv')
+            episodes_df = pd.read_csv('../../data_collection/scraping/gbbo_episodes.csv')
 
             # Check if Parsed_Theme column exists, fallback to Title if not
             theme_column = 'Parsed_Theme' if 'Parsed_Theme' in episodes_df.columns else 'Title'
@@ -1347,7 +1386,7 @@ class GBBOAnalyzer:
 
         except Exception as e:
             print(f"Warning: Could not generate theme analysis: {e}")
-            print("Make sure 'gbbo_episodes.csv' file exists and has proper structure.")
+            print("Make sure 'data_collection/scraping/gbbo_episodes.csv' file exists and has proper structure.")
 
     def _monte_carlo_simulation(self, contestants_df: pd.DataFrame, n_simulations: int = 10000, n_finalists: int = 3) -> pd.DataFrame:
         """
@@ -1415,7 +1454,7 @@ class GBBOAnalyzer:
 
     def analyze_current_season(self) -> None:
         """Analyze current season using Monte Carlo simulation"""
-        current_file = 'current.csv'
+        current_file = '../../data_collection/judging/current.csv'
 
         if not Path(current_file).exists():
             return  # Silently skip if no current season data
@@ -1583,17 +1622,25 @@ class GBBOAnalyzer:
 
     def save_results(self, output_df: pd.DataFrame) -> None:
         """Save results to CSV files"""
+        # Handle output file paths
+        output_path = Path(self.config.OUTPUT_FILE)
+        if not output_path.parent.exists():
+            # Try relative to project root
+            project_root = Path(__file__).parent.parent.parent
+            output_path = project_root / self.config.OUTPUT_FILE
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+        
         # Save original performance data
-        output_df.to_csv(self.config.OUTPUT_FILE, index=False)
+        output_df.to_csv(output_path, index=False)
         
         # Create and save contestant summary
         contestant_summary = self.create_contestant_summary(output_df)
-        summary_filename = self.config.OUTPUT_FILE.replace('.csv', '_contestant_summary.csv')
+        summary_filename = str(output_path).replace('.csv', '_contestant_summary.csv')
         contestant_summary.to_csv(summary_filename, index=False)
         
         print(f"\n" + "=" * 60)
         print(f"ANALYSIS COMPLETE - Files saved:")
-        print(f"  Performance Data: {self.config.OUTPUT_FILE}")
+        print(f"  Performance Data: {output_path}")
         print(f"  Contestant Summary: {summary_filename}")
         print(f"Dataset: {len(output_df)} records, {output_df['Contestant'].nunique()} contestants, Series {min(output_df['Series'])}-{max(output_df['Series'])}")
         print("=" * 60)
@@ -1709,6 +1756,10 @@ class GBBOAnalyzer:
         """Run the complete analysis pipeline"""
         print("=" * 60)
         print("GREAT BRITISH BAKE OFF - COMPLETE ANALYSIS")
+        if self.weights_file:
+            print(f"Using pre-calculated weights from: {self.weights_file}")
+        else:
+            print("Training new models")
         print("=" * 60)
         
         try:
@@ -1718,8 +1769,9 @@ class GBBOAnalyzer:
             # Validate data
             self.validate_data()
             
-            # Train models and analyze correlations
-            self.train_and_analyze_models()
+            # Train models and analyze correlations (only if not using weights file)
+            if not self.weights_file:
+                self.train_and_analyze_models()
             
             # Calculate strength scores
             output_df = self.calculate_strength_scores()

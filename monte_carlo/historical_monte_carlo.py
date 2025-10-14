@@ -214,7 +214,7 @@ def main():
     parser = argparse.ArgumentParser(description='Generate Monte Carlo analysis for specific GBBO season/episode')
     parser.add_argument('season', type=int, help='Season number (5-12)')
     parser.add_argument('episode', type=int, help='Episode number')
-    parser.add_argument('--data-path', default='../analysis_output/gbbo_complete_analysis.csv', help='Path to data file')
+    parser.add_argument('--data-path', default='../analysis/reports/gbbo_complete_analysis.csv', help='Path to data file')
     
     args = parser.parse_args()
     

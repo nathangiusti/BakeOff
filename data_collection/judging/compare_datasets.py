@@ -26,7 +26,7 @@ WEIGHTS = {
 def load_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Load both datasets"""
     claude_data = pd.read_csv('claude/claude_data.csv')
-    original_data = pd.read_csv('data.csv')
+    original_data = pd.read_csv('human/data.csv')
     return claude_data, original_data
 
 def calculate_strength_score(row: pd.Series) -> float:

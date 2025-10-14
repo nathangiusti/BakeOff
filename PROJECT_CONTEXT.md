@@ -1,57 +1,169 @@
 # Great British Bake Off Data Analysis Project
 
 ## Project Overview
-This project analyzes performance data from The Great British Bake Off to:
-1. Determine the relative importance of different scoring metrics
-2. Create a method to judge baker performance strength each week
-3. Develop an overall performance assessment system
+This project provides a comprehensive analysis system for The Great British Bake Off performance data, organized into four distinct phases:
+
+1. **Data Collection** - Scraping, transcript processing, and judging data compilation
+2. **Correlation Analysis** - ML model training to determine component importance weights  
+3. **Monte Carlo Simulations** - Generating predictions based on strength scores and variances
+4. **Analysis & Reporting** - Comprehensive performance analytics and insights
 
 ## Project Structure
 
 ```
 BakeOff/
-├── gbbo_analysis/           # Core analysis package
-│   ├── __init__.py
-│   ├── analyzer.py         # Main analysis orchestration
-│   ├── calculator.py       # Strength score calculation logic  
-│   ├── config.py          # Configuration constants and settings
-│   ├── models.py          # ML model training and correlation analysis
-│   └── validation.py      # Data validation and quality checks
-├── main.py                 # Entry point script
-├── judging_data/          # Input data files
-│   ├── claude/           # Claude-generated scoring data
-│   │   ├── claude_data.csv
-│   │   ├── claude_judging.csv
-│   │   ├── claude_judging_prompt.md
-│   │   └── combine_claude_data.py
-│   ├── compare_datasets.py
-│   ├── current.csv        # Current season data
-│   └── data.csv          # Main historical data
-├── analysis_output/       # Generated analysis results
-│   ├── gbbo_complete_analysis.csv
-│   ├── gbbo_complete_analysis_contestant_summary.csv
-│   └── gbbo_results.csv
-├── prediction_analysis/   # Prediction and forecast tools
-│   ├── historical_monte_carlo.py  # Command-line Monte Carlo tool
-│   ├── weekly_predictions.py      # Weekly prediction generator
-│   ├── weekly_predictions.md      # Current predictions
-│   └── season_markdown/          # Historical season predictions
-│       ├── weekly_predictions_s5.md
-│       ├── weekly_predictions_s6.md
-│       └── ...
-├── transcripts/          # Episode transcript data
-│   ├── audited_transcripts/     # Judge-scored transcripts
-│   ├── claude_todo/            # Transcripts pending scoring
-│   ├── netflix_transcripts/    # Raw Netflix subtitle files
-│   ├── parsed_transcripts/     # Processed transcript text
-│   └── parse_transcripts.py   # Transcript processing tool
-└── wiki/                # Wikipedia scraping tools
-    ├── gbbo_episodes.csv
-    ├── wiki_v_google_validation.py
-    └── wikiscraper.py
+├── data_collection/             # Part 1: Data Collection
+│   ├── scraping/
+│   │   ├── wikiscraper.py
+│   │   ├── wiki_v_google_validation.py
+│   │   └── gbbo_episodes.csv
+│   ├── judging/
+│   │   ├── human/
+│   │   │   └── data.csv                    # Human-interpreted judging
+│   │   ├── claude/
+│   │   │   ├── claude_judging.csv          # Claude AI analysis
+│   │   │   ├── claude_data.csv             # Combined data
+│   │   │   ├── claude_judging_prompt.md
+│   │   │   └── combine_claude_data.py
+│   │   ├── compare_datasets.py
+│   │   └── current.csv                     # Current season data
+│   ├── transcripts/
+│   │   ├── netflix_transcripts/            # Raw Netflix subtitle files
+│   │   ├── parsed_transcripts/             # Processed transcript text
+│   │   ├── audited_transcripts/            # Judge-scored transcripts
+│   │   ├── claude_todo/                    # Transcripts pending scoring
+│   │   └── parse_transcripts.py            # Transcript processing tool
+│   └── validation/
+│
+├── correlation_analysis/        # Part 2: Correlation Analysis
+│   ├── train_weights.py                    # Main weight training program
+│   ├── model_weights.json                  # Generated weights
+│   └── weights/                            # Different weight configurations
+│
+├── monte_carlo/                 # Part 3: Monte Carlo Simulations
+│   ├── historical_monte_carlo.py
+│   ├── weekly_predictions.py
+│   └── predictions_output/
+│       ├── weekly_predictions.md
+│       └── season_markdown/
+│           ├── weekly_predictions_s5.md
+│           └── ...
+│
+├── analysis/                    # Part 4: Analysis & Reporting
+│   ├── main.py                             # Main analysis program
+│   ├── reports/
+│   │   ├── gbbo_complete_analysis.csv
+│   │   └── gbbo_complete_analysis_contestant_summary.csv
+│   └── visualization/
+│
+├── shared/                      # Shared utilities across all parts
+│   ├── gbbo_analysis/           # Core analysis package
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   ├── models.py
+│   │   ├── calculator.py
+│   │   ├── analyzer.py
+│   │   └── validation.py
+│   └── utils/
+│
+└── README.md
 ```
 
-## Data Structure (judging_data/data.csv)
+## Four-Part Analysis Workflow
+
+### **Part 1: Data Collection**
+**Purpose**: Gather and process all source data for analysis
+**Location**: `data_collection/`
+
+- **Scraping**: Wikipedia episode data and metadata
+- **Judging**: Human interpretation and Claude AI analysis of judge comments
+- **Transcripts**: Processing Netflix subtitles into analyzable text
+- **Validation**: Data quality checks and consistency verification
+
+**Key Outputs**: 
+- `data_collection/judging/human/data.csv` - Human-interpreted judging data
+- `data_collection/judging/claude/claude_data.csv` - Claude AI judging data
+- `data_collection/scraping/gbbo_episodes.csv` - Episode metadata
+
+### **Part 2: Correlation Analysis** 
+**Purpose**: Train ML models to determine component importance weights
+**Location**: `correlation_analysis/`
+
+- **Model Training**: Logistic Regression and Random Forest models
+- **Weight Calculation**: Component importance weights for strength score calculation
+- **Correlation Analysis**: Statistical relationships between judging components
+- **Performance Validation**: Model accuracy and predictive power assessment
+
+**Usage**:
+```bash
+cd correlation_analysis
+python train_weights.py  # Human data
+python train_weights.py --input ../data_collection/judging/claude/claude_data.csv --output model_weights_claude.json  # Claude data
+```
+
+**Key Outputs**:
+- `model_weights.json` - Pre-calculated ML model weights
+- Component weight analysis and performance metrics
+
+### **Part 3: Monte Carlo Simulations**
+**Purpose**: Generate predictions using strength scores and performance variances
+**Location**: `monte_carlo/`
+
+- **Historical Analysis**: Simulate past seasons with known outcomes
+- **Prediction Generation**: Finalist and winner probability calculations
+- **Weekly Forecasts**: Episode-by-episode prediction updates
+- **Variance Modeling**: Account for contestant performance consistency
+
+**Usage**:
+```bash
+cd monte_carlo
+python historical_monte_carlo.py 8 4  # Season 8, Episode 4
+```
+
+**Key Outputs**:
+- Weekly prediction tables and probability rankings
+- Historical prediction accuracy validation
+- Season markdown files with analysis commentary
+
+### **Part 4: Analysis & Reporting**
+**Purpose**: Comprehensive performance analytics and insights generation
+**Location**: `analysis/`
+
+- **Strength Score Calculation**: Weighted performance metrics using ML-derived weights
+- **Performance Analytics**: Rankings, variance analysis, and outcome predictions
+- **Statistical Reporting**: Accuracy metrics and behavioral pattern analysis
+- **Comprehensive Reports**: CSV outputs and detailed performance insights
+
+**Usage**:
+```bash
+cd analysis
+python main.py --weights ../correlation_analysis/model_weights.json
+```
+
+**Key Outputs**:
+- `reports/gbbo_complete_analysis.csv` - Complete performance data
+- `reports/gbbo_complete_analysis_contestant_summary.csv` - Aggregated statistics
+- Comprehensive console analysis with rankings and insights
+
+## Data Sources and Structure
+
+### Judging Data Sources
+
+The project uses two primary judging datasets:
+
+1. **Human-Interpreted Judging (`judging_data/data.csv`)**
+   - Manually scored judge comments based on human interpretation of episode transcripts
+   - Covers Series 5-12 with comprehensive scoring across all baking challenges
+   - Uses integer scoring: -1 (negative), 0 (neutral), 1 (positive)
+   - Includes handshakes, technical rankings, and judge review classifications
+
+2. **Claude AI Transcript Analysis (`judging_data/claude/claude_judging.csv`)**
+   - Automated scoring of judge comments using Claude AI analysis of episode transcripts
+   - Generated using structured prompt analysis of judge feedback patterns
+   - Uses decimal scoring: -1.0 to 1.0 scale with more granular distinctions
+   - Focuses on signature and showstopper bakes (6 scores per contestant per episode)
+
+### Data Structure (judging_data/data.csv - Human Interpreted)
 
 ### Column Definitions
 - **Contestant**: Baker's name
@@ -72,8 +184,8 @@ BakeOff/
 - **Eliminated**: Eliminated this round (1 if eliminated, blank if not)
 
 ### Data Coverage
-- **Series 5-11 included**
-- **529 total contestant-round records across 79 contestants**
+- **Series 5-12 included**
+- **603 total contestant-round records across 90 contestants**
 - Series 5: 13 contestants, 10 rounds
 - Series 6: 12 contestants, 10 rounds  
 - Series 7: 13 contestants, 10 rounds
@@ -81,6 +193,7 @@ BakeOff/
 - Series 9: 12 contestants, 10 rounds
 - Series 10: 12 contestants, 10 rounds
 - Series 11: 12 contestants, 9 rounds
+- Series 12: 12 contestants, 10 rounds
 
 ### Scoring System
 - **Bake Quality Scores**: -1 (negative) to +1 (positive)
@@ -128,10 +241,10 @@ BakeOff/
 **Analysis results and conclusions have been moved to ANALYSIS_RESULTS.md**
 
 The project has successfully developed prediction models:
-1. **Second Half Review Prediction**: 93.1% accuracy on 321 rounds
-2. **Winner Prediction**: 61.4% accuracy (43/70 correct)
-3. **Elimination Prediction**: 56.7% accuracy (34/60 correct)
-4. **Final Winner Prediction**: 71.4% accuracy among finalists
+1. **Second Half Review Prediction**: 92.8% accuracy on 362 rounds
+2. **Winner Prediction**: 62.5% accuracy (50/80 correct)
+3. **Elimination Prediction**: 57.4% accuracy (39/68 correct)
+4. **Final Winner Prediction**: 62.5% accuracy among finalists (5/8 series correct)
 
 See ANALYSIS_RESULTS.md for complete findings, model performance details, and practical applications.
 
@@ -206,11 +319,21 @@ See ANALYSIS_RESULTS.md for complete findings, model performance details, and pr
 8. **Theme Difficulty Analysis**: Understanding which episode themes create performance challenges ✓
 9. **Category Excellence Rankings**: Top 5 quarterfinalist+ rankings across baking categories with field comparisons ✓
 10. **Code Optimization**: Eliminate duplicate calculations through centralized statistical computation ✓
+11. **Four-Part Modular Architecture**: Organized into data collection, correlation analysis, Monte Carlo simulations, and analysis/reporting ✓
 
 ## Technical Approach
-- **Modular Architecture**: Clean package structure with separation of concerns
-- **Data Validation**: Automated checks for tech score patterns, review completeness, and data uniqueness
+
+### **Four-Part Modular Architecture**
+- **Data Collection**: Automated scraping, transcript processing, and judging compilation
+- **Correlation Analysis**: ML model training to determine component importance weights
+- **Monte Carlo Simulations**: Probabilistic prediction generation using strength scores
+- **Analysis & Reporting**: Comprehensive performance analytics and insights
+
+### **Key Technical Features**
 - **Python-based Analysis**: Uses pandas for data manipulation and scikit-learn for machine learning
+- **Modular Package Structure**: Clean separation of concerns across the shared analysis package
+- **Data Validation**: Automated checks for tech score patterns, review completeness, and data uniqueness
+- **Flexible Path Handling**: Supports running from different working directories with intelligent path resolution
 - **Centralized Calculation Architecture**: Single-pass computation of all contestant statistics to eliminate duplication
 - **Pre-calculated Dataframes**: Three core dataframes store all computed statistics:
   - `contestant_stats_df`: Basic contestant statistics and outcomes
@@ -224,34 +347,46 @@ See ANALYSIS_RESULTS.md for complete findings, model performance details, and pr
 - **Optimized Performance**: Eliminates duplicate calculations by computing statistics once and referencing throughout analysis
 
 ### Code Architecture
-The analysis is implemented as a modular Python package:
+The analysis is implemented as a four-part modular system with shared utilities:
 
+**Shared Analysis Package (`shared/gbbo_analysis/`)**:
 ```
-gbbo_analysis/
+shared/gbbo_analysis/
 ├── __init__.py           # Package initialization and exports
 ├── config.py             # Configuration constants and settings
 ├── validation.py         # Data validation and quality checks
 ├── models.py            # ML model training and correlation analysis
 ├── calculator.py        # Strength score calculation logic
 └── analyzer.py          # Main analysis orchestration
-main.py                  # Entry point script
 ```
 
+**Four Main Parts**:
+- `data_collection/` - Scraping, judging, and transcript processing
+- `correlation_analysis/` - Weight training and model development
+- `monte_carlo/` - Prediction generation and simulation
+- `analysis/` - Reporting and comprehensive analytics
+
 #### Module Responsibilities:
-- **config.py**: Centralized configuration, column definitions, model weights, and thresholds
-- **validation.py**: Data quality validation including tech score patterns, review completeness, and uniqueness checks
+
+**Shared Package (`shared/gbbo_analysis/`)**:
+- **config.py**: Centralized configuration, column definitions, and file paths
+- **validation.py**: Data quality validation including tech score patterns and review completeness
 - **models.py**: Machine learning model training, component weight calculation, and variance analysis
 - **calculator.py**: Strength score computation with normalized scaling using ML-derived weights
-- **analyzer.py**: Main orchestration class that coordinates all analysis phases including variance and theme analysis
-- **theme_analysis.py**: Episode theme difficulty analysis and performance vs expectation metrics
-- **main.py**: Simple entry point for running complete analysis
+- **analyzer.py**: Main orchestration class that coordinates all analysis phases
 
-This modular structure provides:
-- **Better maintainability**: Each module has single responsibility
-- **Easier testing**: Individual components can be tested independently
-- **Improved reusability**: Components can be imported and used separately
-- **Clearer dependencies**: Module imports show component relationships
-- **Enhanced collaboration**: Multiple developers can work on different modules
+**Part-Specific Scripts**:
+- **correlation_analysis/train_weights.py**: Weight training program with ML model development
+- **monte_carlo/historical_monte_carlo.py**: Historical prediction analysis and simulation
+- **analysis/main.py**: Main analysis program with comprehensive reporting
+
+This four-part modular structure provides:
+- **Clear Workflow**: Each directory represents a logical step in the analysis process
+- **Better Maintainability**: Each part has focused responsibility and can be developed independently
+- **Easier Testing**: Individual parts can be tested in isolation
+- **Flexible Deployment**: Parts can be run on different systems or schedules as needed
+- **Enhanced Collaboration**: Teams can work on different analysis phases simultaneously
+- **Reproducible Research**: Each part has clearly defined inputs and outputs
 
 ### Development Guidelines:
 - **Unicode Characters**: Always use ASCII characters in console output (*, X, >) to avoid encoding errors

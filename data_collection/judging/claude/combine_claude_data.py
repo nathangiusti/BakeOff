@@ -5,8 +5,8 @@ def combine_claude_data():
     # Read the data files - handle potential parsing issues
     print("Reading input files...")
     claude_judging = pd.read_csv('claude_judging.csv', on_bad_lines='skip')
-    gbbo_results = pd.read_csv('../../analysis_output/gbbo_results.csv')
-    data_reference = pd.read_csv('../data.csv')
+    gbbo_results = pd.read_csv('../../../analysis/reports/gbbo_results.csv')
+    data_reference = pd.read_csv('../human/data.csv')
     
     print(f"Claude judging data: {len(claude_judging)} rows")
     print(f"GBBO results data: {len(gbbo_results)} rows")
@@ -19,11 +19,11 @@ def combine_claude_data():
     
     unmapped_claude = claude_keys - gbbo_keys
     if unmapped_claude:
-        print(f"🚨 ALERT: {len(unmapped_claude)} rows in claude data do not map to gbbo data:")
+        print(f"ALERT: {len(unmapped_claude)} rows in claude data do not map to gbbo data:")
         for contestant, season, episode in sorted(unmapped_claude):
             print(f"  - {contestant}, Season {season}, Episode {episode}")
     else:
-        print("✅ All claude data rows map to gbbo data")
+        print("All claude data rows map to gbbo data")
     
     # Merge the datasets on Contestant, Season, and Episode
     merged_data = claude_judging.merge(
@@ -65,7 +65,7 @@ def combine_claude_data():
             merged_data.at[idx, 'Signature_Flavor'] = 1.0
             merged_data.at[idx, 'Signature_Looks'] = 1.0
             handshake_adjustments += 1
-            print(f"  ✅ {row['Contestant']} S{row['Season']}E{row['Episode']}: Signature handshake → All signature scores set to 1.0")
+            print(f"  * {row['Contestant']} S{row['Season']}E{row['Episode']}: Signature handshake -> All signature scores set to 1.0")
         
         # Check for Showstopper Handshake
         if pd.notna(row['Showstopper Handshake']) and row['Showstopper Handshake'] == 1:
@@ -74,7 +74,7 @@ def combine_claude_data():
             merged_data.at[idx, 'Showstopper_Flavor'] = 1.0
             merged_data.at[idx, 'Showstopper_Looks'] = 1.0
             handshake_adjustments += 1
-            print(f"  ✅ {row['Contestant']} S{row['Season']}E{row['Episode']}: Showstopper handshake → All showstopper scores set to 1.0")
+            print(f"  * {row['Contestant']} S{row['Season']}E{row['Episode']}: Showstopper handshake -> All showstopper scores set to 1.0")
     
     if handshake_adjustments == 0:
         print("  No handshake adjustments needed")
@@ -139,7 +139,7 @@ def combine_claude_data():
         for item in incomplete_scores:
             print(f"  - {item['contestant']}, Season {item['season']}, Episode {item['episode']}: Missing {', '.join(item['missing'])}")
     else:
-        print("✅ All bakers have complete scores for all three bakes")
+        print("* All bakers have complete scores for all three bakes")
     
     # Sort by Series, Round, then Contestant for consistency
     output_data = output_data.sort_values(['Series', 'Round', 'Contestant'])
@@ -177,7 +177,7 @@ def combine_claude_data():
             for error in error_rows:
                 print(f"  - {error}")
         else:
-            print("✅ No problematic rows detected")
+            print("* No problematic rows detected")
             
     except Exception as e:
         print(f"🚨 ALERT: Error during validation: {str(e)}")
@@ -185,7 +185,7 @@ def combine_claude_data():
     # Save to claude_data.csv
     try:
         output_data.to_csv('claude_data.csv', index=False)
-        print(f"\n✅ Successfully created claude_data.csv with {len(output_data)} rows")
+        print(f"\n* Successfully created claude_data.csv with {len(output_data)} rows")
     except Exception as e:
         print(f"🚨 ALERT: Error saving claude_data.csv: {str(e)}")
         return None
@@ -196,10 +196,10 @@ if __name__ == "__main__":
     try:
         result = combine_claude_data()
         if result is not None:
-            print("\n✅ Process completed successfully!")
+            print("\nProcess completed successfully!")
         else:
-            print("\n❌ Process failed!")
+            print("\nProcess failed!")
     except Exception as e:
-        print(f"\n🚨 CRITICAL ERROR: {str(e)}")
+        print(f"\nCRITICAL ERROR: {str(e)}")
         import traceback
         traceback.print_exc()
