@@ -1454,7 +1454,7 @@ class GBBOAnalyzer:
 
     def analyze_current_season(self) -> None:
         """Analyze current season using Monte Carlo simulation"""
-        current_file = '../../data_collection/judging/current.csv'
+        current_file = '../../data_collection/judging/human/current.csv'
 
         if not Path(current_file).exists():
             return  # Silently skip if no current season data

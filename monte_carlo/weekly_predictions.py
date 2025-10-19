@@ -1,6 +1,12 @@
 import pandas as pd
 import numpy as np
-from gbbo_analysis import GBBOAnalyzer
+import sys
+from pathlib import Path
+
+# Add shared directory to path
+sys.path.append(str(Path(__file__).parent.parent / "shared"))
+
+from gbbo_analysis.analyzer import GBBOAnalyzer
 
 def normalize_tech_score(tech_score, num_contestants):
     """Normalize technical score to 0-1 scale."""
@@ -107,9 +113,9 @@ def analyze_week(current_df, week_num, calculator, fixed_variance=None):
         star_bakers = int(contestant_rounds['Winner'].sum())
         pos_reviews = int((contestant_rounds['Second Half Review'] == 1).sum())
         neg_reviews = int((contestant_rounds['Second Half Review'] == -1).sum())
-        
-        # High reviews include positive reviews AND star baker wins
-        high_reviews = pos_reviews + star_bakers
+
+        # High reviews are just positive reviews
+        high_reviews = pos_reviews
 
         contestant_stats.append({
             'Contestant': contestant,
@@ -139,8 +145,6 @@ def analyze_week(current_df, week_num, calculator, fixed_variance=None):
     return results_df
 
 def main():
-    import sys
-    
     if len(sys.argv) != 2:
         print("Usage: python weekly_predictions.py <week_number>")
         sys.exit(1)
@@ -158,7 +162,7 @@ def main():
     _ = analyzer.calculate_strength_scores()
 
     # Load current season data
-    current_df = pd.read_csv('../judging_data/current.csv')
+    current_df = pd.read_csv('../data_collection/judging/human/current.csv')
     
     # For week 1, use fixed variance of 3.0
     fixed_variance = 3.0 if week_num == 1 else None

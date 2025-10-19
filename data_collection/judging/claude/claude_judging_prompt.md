@@ -1,4 +1,4 @@
-Parse the given transcripts from The Great British Baking Show.
+Parse the transcripts in the claude_todo folder and perform the following analysis.
 
   ## Judges
   - Paul Hollywood and Prue Leith are the judges
@@ -64,5 +64,6 @@ Parse the given transcripts from The Great British Baking Show.
   Add each row of data to claude_judging.csv
 
 Once you have added the data, run combine_claude_data.py and ensure the data is joined successfully. 
+If the data combiner shows no validation issues, move the parsed transcripts from claude_todo to audited transcripts. 
 
   
