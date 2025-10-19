@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "created_at": "2025-10-19T11:48:06.841603",
+    "input_file": "../data_collection/judging/claude/claude_data.csv",
+    "model_type": "logistic_regression",
+    "total_records": 369,
+    "series_range": "5-9",
+    "contestants": 58
+  },
+  "model_performance": {
+    "second_half_review_accuracy": 0.9237668161434978,
+    "second_half_review_count": 223
+  },
+  "correlations": {
+    "Signature Bake": 0.5023630310410439,
+    "Signature Flavor": 0.40003916121742994,
+    "Signature Looks": 0.5097036363160998,
+    "Signature Handshake": 0.31678537228617765,
+    "Tech_Normalized": 0.4828507876233966,
+    "Showstopper Bake": 0.6929292805553651,
+    "Showstopper Flavor": 0.47253690529734194,
+    "Showstopper Looks": 0.7083584189411426,
+    "Showstopper Handshake": 0.09470465777492847,
+    "First Two Total": 0.6484698560206886,
+    "Showstopper Total": 0.7715584308130468
+  },
+  "individual_weights": {
+    "signature_bake": 0.7523615268450498,
+    "signature_flavor": 0.25216794955488464,
+    "signature_looks": 0.8908479191577402,
+    "signature_handshake": 0.34311946115349595,
+    "tech_normalized": 2.0593096238172612,
+    "showstopper_bake": 1.20800425854249,
+    "showstopper_flavor": 0.9748800931871433,
+    "showstopper_looks": 1.6179269593252374,
+    "showstopper_handshake": 0.062021725209593294
+  },
+  "component_groups": {
+    "signature_total": 2.2384968567111705,
+    "tech_weight": 2.0593096238172612,
+    "showstopper_total": 3.8628330362644645
+  },
+  "traditional_ratios": {
+    "first_two_bakes": 4.297806480528432,
+    "showstopper": 3.8628330362644645,
+    "showstopper_vs_first_two": 0.8987917566240708
+  }
+}
