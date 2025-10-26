@@ -662,16 +662,17 @@ class GBBOAnalyzer:
             series_finalists = finalist_df[finalist_df['Series'] == series].copy()
             series_sorted = series_finalists.sort_values('Average_Strength', ascending=False)
             winner = series_finalists[series_finalists['Is_Winner'] == True].iloc[0]['Contestant'] if len(series_finalists[series_finalists['Is_Winner'] == True]) > 0 else "Unknown"
-            
+
             # Calculate win probabilities for this series' finalists
             finalist_strengths = [(row['Contestant'], row['Average_Strength']) for _, row in series_sorted.iterrows()]
             probabilities = self.calculate_finalist_win_probabilities(finalist_strengths, method='softmax')
-            
+
             print(f"  Series {series} (Winner: {winner}):")
             for i, (_, finalist) in enumerate(series_sorted.iterrows(), 1):
                 winner_mark = " *" if finalist['Is_Winner'] else ""
                 win_prob = probabilities[finalist['Contestant']] * 100
-                print(f"    {i}. {finalist['Contestant']:12}: {finalist['Average_Strength']:.2f}/10 avg ({win_prob:.1f}% win chance){winner_mark}")
+                final_score = finalist['Final_Round_Score']
+                print(f"    {i}. {finalist['Contestant']:12}: {finalist['Average_Strength']:.2f}/10 avg, {final_score:.2f}/10 final ({win_prob:.1f}% win chance){winner_mark}")
             print()
         
         # Calculate and display series rankings by overall average strength - moved to bottom
@@ -1301,7 +1302,16 @@ class GBBOAnalyzer:
         """Generate theme performance analysis for recurring themes (3+ appearances) using normalized theme names"""
         try:
             # Load episode theme data with normalized themes
-            episodes_df = pd.read_csv('../../data_collection/scraping/gbbo_episodes.csv')
+            # Handle relative paths from different working directories
+            episodes_path = Path('data_collection/scraping/gbbo_episodes.csv')
+            if not episodes_path.exists():
+                # Try relative to project root
+                project_root = Path(__file__).parent.parent.parent
+                episodes_path = project_root / 'data_collection/scraping/gbbo_episodes.csv'
+                if not episodes_path.exists():
+                    raise FileNotFoundError("gbbo_episodes.csv not found")
+
+            episodes_df = pd.read_csv(episodes_path)
 
             # Check if Parsed_Theme column exists, fallback to Title if not
             theme_column = 'Parsed_Theme' if 'Parsed_Theme' in episodes_df.columns else 'Title'
