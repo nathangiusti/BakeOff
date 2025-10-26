@@ -32,6 +32,8 @@ This data is all available in [data.csv](data_collection/judging/human/data.csv)
 
 Using the data gathered, we use a logistic regression model to determine the relative importance of each component. The model analyzes the relationship between bake scores and final judge reviews, specifically the post-showstopper discussion/who the camera pans to when announcing the Star Baker/Eliminated Baker.
 
+More information on the math can be found on [Wikipedia](https://en.wikipedia.org/wiki/Logistic_regression).
+
 **Note:** I tried incorporating reviews done after the first half, as well as weighting star bakers/eliminated contestants more heavily, but none of these provided meaningful gains in accuracy for the complexity it added to the model.
 
 ## Results - Component baking scores
@@ -110,7 +112,7 @@ Everything that comes after this is based on the above assumptions about relativ
 | 2 | Alice | 7.02/10 | 7.32/10 | |
 | 3 | David | 6.97/10 | 9.19/10 | ✓ |
 
-Poor Steph. The clear favorite and then imploading in the finale while David shocked turning in an amazing performance to seal it. 
+Poor Steph. The clear favorite and then imploding in the finale while David shocked turning in an amazing performance to seal it. 
 
 #### Series 8 (Winner: Peter)
 
@@ -257,6 +259,8 @@ Since technicals are ranked, the average score for technical scores is always 0.
 *Overall average (all bakers): 0.42*
 
 Crystelle got positive reviews on flavor in every one of her bakes. FLAVOR QUEEN!
+Sophie, the only contestant from S5 to appear in any of these rankings at 2. 
+And then 3-5 filled by the women from S12. 
 
 #### Highest Average Bake
 
