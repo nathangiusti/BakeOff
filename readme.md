@@ -2,7 +2,30 @@
 
 **Note:** This data will use Netflix series numbers. I apologize in advance for those upset by this. It will also only use the Netflix seasons as the judges are consistent and I don't know what "the Roku Channel" is.
 
-## Data Gathering
+## Table of Contents
+- [1. Methodology](#1-methodology)
+  - [1.1 Data Gathering](#11-data-gathering)
+  - [1.2 Model Weighting](#12-model-weighting)
+- [2. Model Results](#2-model-results)
+  - [2.1 Component Importance Weights](#21-component-importance-weights)
+  - [2.2 Strength Score Definition](#22-strength-score-definition)
+  - [2.3 Model Accuracy](#23-model-accuracy)
+- [3. Historical Series Analysis](#3-historical-series-analysis)
+  - [3.1 Series Finalists](#31-series-finalists)
+  - [3.2 Series Rankings & Trends](#32-series-rankings--trends)
+- [4. Individual Performance Analysis](#4-individual-performance-analysis)
+  - [4.1 Series Winners](#41-series-winners)
+  - [4.2 Top Non-Winners](#42-top-non-winners)
+  - [4.3 Performance Outliers](#43-performance-outliers)
+  - [4.4 Specialty Rankings](#44-specialty-rankings)
+- [5. Theme Difficulty Analysis](#5-theme-difficulty-analysis)
+- [6. Data & Resources](#6-data--resources)
+
+---
+
+## 1. Methodology
+
+### 1.1 Data Gathering
 
 Each episode is composed of the signature, technical, and showstopper bakes.
 
@@ -24,7 +47,7 @@ I pulled technical scores and high/low reviews and star bakers/eliminations from
 
 To create a more uniform grading experience, I ran various show transcripts through an LLM to do grading, but the LLM's grading proved to have lower accuracy than human grading.
 
-## Model Weighting
+### 1.2 Model Weighting
 
 Using the data gathered, I use a logistic regression model to determine the relative importance of each component. The model analyzes the relationship between bake scores and final judge reviews, specifically the post-showstopper discussion and camera focus during the Star Baker and elimination announcements.
 
@@ -32,9 +55,13 @@ More information on the math can be found on [Wikipedia](https://en.wikipedia.or
 
 **Note:** I tried incorporating reviews done after the first half, as well as weighting star bakers/eliminated contestants more heavily, but none of these provided meaningful gains in accuracy for the complexity it added to the model.
 
-## Results - Component baking scores
+---
 
-### Bake Importance (Total Weight)
+## 2. Model Results
+
+### 2.1 Component Importance Weights
+
+#### Bake Importance (Total Weight)
 
 1. Showstopper Bake: 4.012 (42.0%)
 2. Technical Challenge: 3.176 (33.3%)
@@ -42,7 +69,7 @@ More information on the math can be found on [Wikipedia](https://en.wikipedia.or
 
 Signature is about 1/4 of your score, tech is 1/3 of your score, and the rest is showstopper.
 
-### Signature Bake Components
+#### Signature Bake Components
 
 | Component | Weight | Mean | Variance | %-1 | %0 | %+1 |
 |-----------|--------|------|----------|-----|-------|-----|
@@ -51,11 +78,11 @@ Signature is about 1/4 of your score, tech is 1/3 of your score, and the rest is
 | Signature Handshake | 0.614 | N/A | N/A | N/A | 93.0 | 7.0 |
 | Signature Flavor | 0.240 | 0.53 | 0.602 | 17.6 | 11.9 | 70.5 |
 
-Looks matter more than bake or flavor, although not as much as both combined. Flavor comes in as the least important aspect. Flavor is generally the area people score best in with 70% of signature bakes receiving generally positive flavor comments. This may account for its low importance. 
+Looks matter more than bake or flavor, although not as much as both combined. Flavor comes in as the least important aspect. Flavor is generally the area people score best in with 70% of signature bakes receiving generally positive flavor comments. This may account for its low importance.
 
 It is assumed if you got a handshake, all other components received positive scores, so the handshake component is measuring the difference between an excellent bake without a handshake and an excellent bake with a handshake.
 
-### Showstopper Bake Components
+#### Showstopper Bake Components
 
 | Component | Weight | Mean | Variance | %-1 | %0 | %+1 |
 |-----------|--------|------|----------|-----|-------|-----|
@@ -66,23 +93,25 @@ It is assumed if you got a handshake, all other components received positive sco
 
 The showstopper shows the same patterns with looks mattering more than either flavor or bake but not both together. Handshakes are much lower here because of how rare they are. Handshakes are received by 7% of signature bakes, but only 1% of showstopper bakes. Flavor is also drastically more important in the showstopper despite similar patterns in scores to the signature.
 
-## Strength Score
+### 2.2 Strength Score Definition
 
 From these components and strengths I have put together a 0-10 scale for how each baker did in a given week. -1's in all components and last in technical would grant a score of 0, while two handshakes, plus first in technical would be a 10. I call this a strength score.
 
 The average strength score is 6.24. The lowest strength score ever received was Terry in S6E5 with a 0.75. The highest score ever achieved was 9.88, which is a handshake signature, first in technical, and a strong showstopper. This has been achieved three times: Peter S8R9, Giuseppe S9R3, and Dylan S12R8.
 
-## Accuracy
+### 2.3 Model Accuracy
 
 Given a baker's strength score we predict whether they were a favorite or up for elimination with 92% accuracy.
 
 The highest strength score of the week wins star baker about 62% of the time. The lowest score is eliminated 57% of the time.
 
-## Analysis
+---
+
+## 3. Historical Series Analysis
 
 Everything that comes after this is based on the above assumptions about relative bake importance. Series 13 data will be added after the conclusion of that season.
 
-### Series Finalists Analysis
+### 3.1 Series Finalists
 
 #### Series 5 (Winner: Sophie)
 
@@ -108,7 +137,7 @@ Everything that comes after this is based on the above assumptions about relativ
 | 2 | Alice | 7.02/10 | 7.32/10 | |
 | 3 | David | 6.97/10 | 9.19/10 | ✓ |
 
-Poor Steph. The clear favorite and then imploding in the finale while David shocked turning in an amazing performance to seal it. 
+Poor Steph. The clear favorite and then imploding in the finale while David shocked turning in an amazing performance to seal it.
 
 #### Series 8 (Winner: Peter)
 
@@ -126,7 +155,7 @@ Poor Steph. The clear favorite and then imploding in the finale while David shoc
 | 2 | Crystelle | 7.56/10 | 6.72/10 | |
 | 3 | Chigs | 7.52/10 | 7.63/10 | |
 
-The model suggests Chigs delivered the best finale performance, but in a close episode, Giuseppe's season-long dominance may have put him ahead.  
+The model suggests Chigs delivered the best finale performance, but in a close episode, Giuseppe's season-long dominance may have put him ahead.
 
 #### Series 10 (Winner: Syabira)
 
@@ -144,7 +173,7 @@ The model suggests Chigs delivered the best finale performance, but in a close e
 | 2 | Dan | 6.35/10 | 4.17/10 | |
 | 3 | Matty | 5.74/10 | 5.44/10 | ✓ |
 
-The model rates Matty as a below-average baker with a below-average finale performance who won against statistically stronger contestants. 
+The model rates Matty as a below-average baker with a below-average finale performance who won against statistically stronger contestants.
 
 #### Series 12 (Winner: Georgie)
 
@@ -154,7 +183,9 @@ The model rates Matty as a below-average baker with a below-average finale perfo
 | 2 | Georgie | 7.07/10 | 7.04/10 | ✓ |
 | 3 | Christiaan | 6.94/10 | 6.89/10 | |
 
-### Series Ranked by Overall Average Strength
+### 3.2 Series Rankings & Trends
+
+#### Series Ranked by Overall Average Strength
 
 1. Series 12 (Winner: Georgie): 6.73/10 avg (74 performances)
 2. Series 9 (Winner: Giuseppe): 6.49/10 avg (75 performances)
@@ -167,7 +198,13 @@ The model rates Matty as a below-average baker with a below-average finale perfo
 
 Series 11 seems to be the odd one out in a general pattern of stronger bakers over time.
 
-### Series Winners (by average strength)
+---
+
+## 4. Individual Performance Analysis
+
+### 4.1 Series Winners
+
+#### Series Winners (by average strength)
 
 1. Giuseppe (S9): 7.90/10 avg (2 star baker wins, 2 sig handshakes)
 2. Sophie (S5): 7.58/10 avg (2 star baker wins, 1 sig handshakes)
@@ -180,7 +217,9 @@ Series 11 seems to be the odd one out in a general pattern of stronger bakers ov
 
 The gap between Matty and the next best series winner (David) is larger than the gap between David and the strongest baker in Bake Off history (Giuseppe).
 
-### Top Non-Series-Winners (by average strength)
+### 4.2 Top Non-Winners
+
+#### Top Non-Series-Winners (by average strength)
 
 1. Jurgen (S9): 7.85/10 avg (3 wins, 1 sig handshakes, semifinalist)
 2. Crystelle (S9): 7.56/10 avg (2 wins, 1 sig + 1 show handshakes, finalist)
@@ -197,7 +236,7 @@ Season 9 with Jurgen, Crystelle, Chigs, and Giuseppe was ridiculously stacked. A
 
 Season 11 looks pretty weak in comparison with Matty being the weakest series winner. But even the strongest Season 11 competitor, Josh, would have been a middling champion.
 
-## Performance Outliers
+### 4.3 Performance Outliers
 
 - **Strongest non-winner:** Sura S8R1 (9.50/10)
 - **Weakest star baker:** Matty S11R10 (5.44/10)
@@ -206,9 +245,11 @@ Season 11 looks pretty weak in comparison with Matty being the weakest series wi
 
 Matty's finale performance was the worst performance by any episode winner. Jurgen's semifinal elimination was the best performance to have resulted in elimination from the competition.
 
-Manon survived a disastrous week 6 performance somehow resulting in the elimination of Dan instead who seemed to have outperformed her that week and over the course of the competition to that point. 
+Manon survived a disastrous week 6 performance somehow resulting in the elimination of Dan instead who seemed to have outperformed her that week and over the course of the competition to that point.
 
-### Who is the flavor/bake/technical/signature/showstopper king/queen?
+### 4.4 Specialty Rankings
+
+#### Who is the flavor/bake/technical/signature/showstopper king/queen?
 
 **Note:** Only quarterfinalists and above are included. Scores go from -1 to 1.
 
@@ -220,7 +261,7 @@ Manon survived a disastrous week 6 performance somehow resulting in the eliminat
 4. Sophie (S5): 0.68 avg technical score
 5. Jon (S6): 0.67 avg technical score
 
-Since technicals are ranked, the average score for technical scores is always 0. 
+Since technicals are ranked, the average score for technical scores is always 0.
 
 #### Highest Average Signature
 
@@ -253,8 +294,8 @@ Since technicals are ranked, the average score for technical scores is always 0.
 *Overall average (all bakers): 0.42*
 
 Crystelle got positive reviews on flavor in every one of her bakes. FLAVOR QUEEN!
-Sophie, the only contestant from S5 to appear in any of these rankings at 2. 
-And then 3-5 filled by the women from S12. 
+Sophie, the only contestant from S5 to appear in any of these rankings at 2.
+And then 3-5 filled by the women from S12.
 
 #### Highest Average Bake
 
@@ -278,7 +319,9 @@ And then 3-5 filled by the women from S12.
 
 Giuseppe wasn't quite perfect in looks, but darn close enough, especially for being in the category with the lowest average score.
 
-## Theme Analysis
+---
+
+## 5. Theme Difficulty Analysis
 
 I also pulled all the episode titles from Wikipedia and looked for patterns where bakers under- or over-performed compared to their average.
 
@@ -300,16 +343,19 @@ I also pulled all the episode titles from Wikipedia and looked for patterns wher
 
 I grouped several one-off weeks into groups like ingredients (Pudding, Spice, Vegan, etc.), temporal (The 20's, The 80's, etc.), or ethnic (Japanese, German, etc.). You can see the mappings [here](data_collection/scraping/gbbo_episodes.csv)
 
-In chocolate, the most difficult theme, almost 60% of contestants perform below their average. Bread comes in on the slightly harder part of average. Patisserie, the semi-final, actually comes up as the easiest. Remember this is the difference of a baker from their average, so already strong bakers who make it to the semi-final, still tend to exceed expectations. 
+In chocolate, the most difficult theme, almost 60% of contestants perform below their average. Bread comes in on the slightly harder part of average. Patisserie, the semi-final, actually comes up as the easiest. Remember this is the difference of a baker from their average, so already strong bakers who make it to the semi-final, still tend to exceed expectations.
 
-## Data in GitHub
+---
 
-The human graded data used to train the model is in [data.csv](data_collection/judging/human/data.csv).
+## 6. Data & Resources
 
-[GBBO Complete Analysis](analysis/reports/gbbo_complete_analysis.csv) contains the weekly strength score and result for each contestant each episode. 
+### Source Data
+The human-graded data used to train the model is available in [data.csv](data_collection/judging/human/data.csv).
 
-[GBBO Contestant Summary](analysis/reports/gbbo_complete_analysis_contestant_summary.csv) contains summary data for each contestant. It's like the GBBO Complete Analysis file rolled up to the contestant level. 
+### Analysis Outputs
+- **[GBBO Complete Analysis](analysis/reports/gbbo_complete_analysis.csv)** - Weekly strength scores and results for each contestant in every episode
+- **[GBBO Contestant Summary](analysis/reports/gbbo_complete_analysis_contestant_summary.csv)** - Aggregated statistics per contestant (the Complete Analysis file rolled up to the contestant level)
+- **[GBBO Results](analysis/reports/gbbo_results.csv)** - Contestant performance data scraped from Wikipedia
 
-[GBBO Results](analysis/reports/gbbo_results.csv) contains contestant performance data pulled from Wikipedia. 
-
-Week by week analysis for past seasons is [also available](monte_carlo/predictions_output/season_markdown). 
+### Predictions & Historical Analysis
+Week-by-week analysis for past seasons is available in the [season markdown directory](monte_carlo/predictions_output/season_markdown).
