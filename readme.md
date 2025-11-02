@@ -26,7 +26,7 @@ To create a more uniform grading experience, I ran various show transcripts thro
 
 ## Model Weighting
 
-Using the data gathered, we use a logistic regression model to determine the relative importance of each component. The model analyzes the relationship between bake scores and final judge reviews, specifically the post-showstopper discussion/who the camera pans to when announcing the Star Baker/Eliminated Baker.
+Using the data gathered, I use a logistic regression model to determine the relative importance of each component. The model analyzes the relationship between bake scores and final judge reviews, specifically the post-showstopper discussion and camera focus during the Star Baker and elimination announcements.
 
 More information on the math can be found on [Wikipedia](https://en.wikipedia.org/wiki/Logistic_regression).
 
@@ -40,7 +40,7 @@ More information on the math can be found on [Wikipedia](https://en.wikipedia.or
 2. Technical Challenge: 3.176 (33.3%)
 3. Signature Bake: 2.361 (24.7%)
 
-Signature is about 1/4th of your score, tech is 1/3rd of your score. The rest is showstopper.
+Signature is about 1/4 of your score, tech is 1/3 of your score, and the rest is showstopper.
 
 ### Signature Bake Components
 
@@ -126,7 +126,7 @@ Poor Steph. The clear favorite and then imploding in the finale while David shoc
 | 2 | Crystelle | 7.56/10 | 6.72/10 | |
 | 3 | Chigs | 7.52/10 | 7.63/10 | |
 
-The model thinks Chigs put in the best finale performance, but in a close episode, Giuseppe's season long dominance may have put him ahead.  
+The model suggests Chigs delivered the best finale performance, but in a close episode, Giuseppe's season-long dominance may have put him ahead.  
 
 #### Series 10 (Winner: Syabira)
 
@@ -144,7 +144,7 @@ The model thinks Chigs put in the best finale performance, but in a close episod
 | 2 | Dan | 6.35/10 | 4.17/10 | |
 | 3 | Matty | 5.74/10 | 5.44/10 | ✓ |
 
-The model does not like Matty, seeing him as a below average baker, with a below average finale, who won against better contestants. 
+The model rates Matty as a below-average baker with a below-average finale performance who won against statistically stronger contestants. 
 
 #### Series 12 (Winner: Georgie)
 
@@ -280,7 +280,7 @@ Giuseppe wasn't quite perfect in looks, but darn close enough, especially for be
 
 ## Theme Analysis
 
-Just for funsies I also pulled all the episode titles from Wikipedia and looked for patterns where bakers under or over performed compared to their average.
+I also pulled all the episode titles from Wikipedia and looked for patterns where bakers under- or over-performed compared to their average.
 
 | Rank | Theme | Avg Diff | % Under | Count | Difficulty |
 |------|-------|----------|---------|-------|------------|
@@ -308,7 +308,7 @@ The human graded data used to train the model is in [data.csv](data_collection/j
 
 [GBBO Complete Analysis](analysis/reports/gbbo_complete_analysis.csv) contains the weekly strength score and result for each contestant each episode. 
 
-[GBBO Contestant Summary](analysis/reports/gbbo_complete_analysis_contestant_summary.csv) contains summary data for each client. It's like the GBBO Complete Analysis file rolled up to the contestant level. 
+[GBBO Contestant Summary](analysis/reports/gbbo_complete_analysis_contestant_summary.csv) contains summary data for each contestant. It's like the GBBO Complete Analysis file rolled up to the contestant level. 
 
 [GBBO Results](analysis/reports/gbbo_results.csv) contains contestant performance data pulled from Wikipedia. 
 
