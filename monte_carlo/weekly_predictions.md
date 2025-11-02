@@ -355,3 +355,55 @@ The finals picture is now clear: **Jasmine** and **Tom** are virtually guarantee
 Jasmine's 64.0% winner probability represents a level of dominance unprecedented in this season's data. Only Tom in Week 4 (51.8%) previously exceeded 50% winner probability, and that was before his recent collapse. The model is essentially predicting a Jasmine championship with Aaron and Tom (or possibly Toby) as runners-up—a stark reversal from the early-season narrative when Tom seemed destined for glory.
 
 Tom's trajectory serves as a cautionary tale: even the most consistent performers can falter when the stakes are highest. His perfect early-season record (0.13 variance through Week 5) created expectations he may no longer be able to meet. Meanwhile, Jasmine's evolution from volatile contender (variance 2.88 in Week 2) to consistent champion (variance 1.34 now) demonstrates the competitive growth that championship runs require. The question for the finals is no longer whether Jasmine will win, but whether anyone can prevent what now appears to be her inevitable coronation.
+
+---
+
+## Week 9 (Semifinals)
+
+**Active Contestants:** 3 | **Season Avg Strength:** 6.98
+
+| Rank | Contestant | Finals | Winner | Avg Str | Variance | Week Score | Star | High | Low | Status |
+|------|------------|--------|--------|---------|----------|------------|------|------|-----|--------|
+| 1 | Jasmine | 100.0% | 70.8% | 8.25 | 1.19 | - | 4 | 7 | 1 | Active |
+| 2 | Tom | 100.0% | 22.6% | 7.13 | 1.49 | - | 1 | 4 | 2 | Active |
+| 3 | Aaron | 100.0% | 6.6% | 6.26 | 1.27 | - | 2 | 4 | 2 | Active |
+| 4 | Toby | 0.0% | 0.0% | 6.00 | 2.57 | - | 1 | 2 | 4 | ELIM |
+| 5 | Iain | 0.0% | 0.0% | 6.03 | 2.42 | - | 0 | 0 | 4 | ELIM |
+| 6 | Lesley | 0.0% | 0.0% | 6.73 | 0.98 | - | 0 | 2 | 1 | ELIM |
+| 7 | Nataliia | 0.0% | 0.0% | 5.69 | 2.90 | - | 1 | 1 | 2 | ELIM |
+| 8 | Nadia | 0.0% | 0.0% | 6.05 | 2.61 | - | 0 | 1 | 1 | ELIM |
+| 9 | Jessika | 0.0% | 0.0% | 5.65 | 5.84 | - | 0 | 1 | 1 | ELIM |
+| 10 | Pui Man | 0.0% | 0.0% | 5.02 | 0.52 | - | 0 | 0 | 2 | ELIM |
+| 11 | Leighton | 0.0% | 0.0% | 4.95 | 0.20 | - | 0 | 0 | 2 | ELIM |
+| 12 | Hassan | 0.0% | 0.0% | 3.78 | 0.00 | - | 0 | 0 | 1 | ELIM |
+
+**Predicted Finalists (All Three Advanced):**
+1. **Jasmine** - Winner: 70.8%
+2. **Tom** - Winner: 22.6%
+3. **Aaron** - Winner: 6.6%
+
+**Predicted Winner:** Jasmine (70.8%)
+
+### Week 9 Commentary: The Final Three Emerge
+
+Week 9's semifinals confirmed what the statistics had long predicted: **Jasmine**, **Tom**, and **Aaron** advance to the finals with all three reaching 100% finalist probability. **Toby's** elimination resolved the Week 8 uncertainty, as his high-variance profile (2.57) and accumulation of four low reviews proved insurmountable despite his spectacular Week 7 Star Baker performance (9.08). His season embodied the volatility paradox—capable of championship-caliber brilliance but equally prone to elimination-worthy disasters.
+
+**Jasmine** enters the finals as the overwhelming favorite with a staggering 70.8% winner probability—the highest single-week probability recorded across the entire season. Her average strength of 8.25 (highest in competition) combined with variance of 1.19 represents the optimal balance between excellence and reliability. With four Star Baker awards and seven positive second-half reviews across nine weeks, she has delivered the season's most consistently outstanding performance. Her journey from Week 2 longshot (5.6% winner probability) to inevitable favorite represents one of the most remarkable competitive arcs in the data.
+
+**Tom** advances to the finals but arrives in a state of crisis. His 22.6% winner probability reflects a dramatic four-week decline from his peak in Week 4 (51.8% winner probability). His variance ballooned from 0.13 to 1.49 over the season, suggesting mounting pressure has eroded the consistency that once defined his competitive identity. With just one Star Baker win and four positive reviews compared to Jasmine's four and seven respectively, Tom enters the finals as a decided underdog—a stunning reversal for the baker who dominated the early season.
+
+**Aaron** secures his finals spot with a modest 6.6% winner probability, reflecting his solid but unspectacular season. His average strength of 6.26 and variance of 1.27 position him as reliable but lacking the peak performance ceiling to seriously threaten Jasmine's dominance. With two Star Baker wins (Weeks 5 and 9) and four positive reviews, Aaron represents the "steady hand" profile—good enough to survive but unlikely to win unless the favorites stumble dramatically.
+
+The semifinals crystallized what Week 6 first suggested and Week 8 confirmed: **Jasmine's championship is hers to lose**. Her transformation from high-variance contender (variance 2.88 in Week 2) to balanced favorite (variance 1.19 now) demonstrates the competitive evolution that separates good bakers from champions. Meanwhile, Tom's opposite journey—from ultra-consistent favorite (variance 0.13 in Week 4) to volatile challenger (variance 1.49 now)—illustrates how consistency alone cannot sustain championship performance when judges demand ambition and risk-taking.
+
+### Finals Preview: The Statistical Favorite vs. The Underdogs
+
+The finals present a clear hierarchy: **Jasmine** (70.8%) is the overwhelming favorite, **Tom** (22.6%) represents a fading contender hoping to recapture early-season form, and **Aaron** (6.6%) is the longshot whose path to victory requires both frontrunners to falter dramatically.
+
+**Jasmine's Path to Victory:** Simply maintain her established form. Her 8.25 average and 1.19 variance suggest she's baking at championship level with remarkable consistency. A typical Jasmine performance (7.5-8.5 range) should be sufficient to claim the title.
+
+**Tom's Path to Victory:** Requires recapturing his Week 4 peak (8.18) while hoping Jasmine delivers an uncharacteristic weak performance. His recent trajectory (6.49, 7.03, 5.40, 5.28) suggests this revival is statistically unlikely. He needs to reverse a four-week decline and deliver his best performance of the season under maximum pressure.
+
+**Aaron's Path to Victory:** Needs both Jasmine and Tom to collapse while he delivers a career-best performance exceeding his Week 5 Star Baker performance (8.50). His 6.6% probability reflects the model's assessment that this scenario—while possible—is highly improbable.
+
+The finals will determine whether Jasmine fulfills her statistical destiny or if one of the greatest late-season collapses in the data will deny her the championship she has dominated since Week 6. The numbers suggest Jasmine's coronation is inevitable, but as Lesley's Week 7 elimination proved, even overwhelming statistical favorites can fall when the pressure is highest.

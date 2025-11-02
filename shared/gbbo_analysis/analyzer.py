@@ -5,6 +5,7 @@ Main analysis orchestration for GBBO analysis.
 import pandas as pd
 import numpy as np
 import json
+import math
 from pathlib import Path
 from typing import Optional, Dict, Any
 
@@ -18,6 +19,17 @@ from .calculator import StrengthScoreCalculator
 
 class GBBOAnalyzer:
     """Main analyzer class that orchestrates the complete analysis"""
+
+    # Analysis constants
+    SOFTMAX_TEMPERATURE = 2.0
+    MIN_QUARTERFINALIST_ROUND = 7
+    THEME_MIN_APPEARANCES = 3
+
+    # Difficulty thresholds for theme analysis
+    DIFFICULTY_VERY_HARD_THRESHOLD = -0.5
+    DIFFICULTY_HARD_THRESHOLD = -0.2
+    DIFFICULTY_EASY_THRESHOLD = 0.2
+    DIFFICULTY_VERY_EASY_THRESHOLD = 0.5
 
     def __init__(self, config: Optional[Config] = None, use_random_forest: bool = False, weights_file: Optional[str] = None):
         self.config = config or Config()
@@ -230,38 +242,17 @@ class GBBOAnalyzer:
         print(f"  Safe contestants: {output_df[output_df['Result']!='Eliminated']['Strength_Score'].mean():.2f}/10 average")
 
         # Performance ranges analysis
-        high_performers = output_df[output_df['Strength_Score'] >= self.config.HIGH_PERFORMANCE_THRESHOLD]
-        mid_performers = output_df[(output_df['Strength_Score'] >= self.config.MID_PERFORMANCE_THRESHOLD) & 
-                                 (output_df['Strength_Score'] < self.config.HIGH_PERFORMANCE_THRESHOLD)]
-        low_performers = output_df[output_df['Strength_Score'] < self.config.MID_PERFORMANCE_THRESHOLD]
-        
-        # Win rates
-        high_win_rate = (high_performers['Result'] == 'Winner').mean() * 100
-        mid_win_rate = (mid_performers['Result'] == 'Winner').mean() * 100
-        low_win_rate = (low_performers['Result'] == 'Winner').mean() * 100
-        
-        high_winner_count = (high_performers['Result'] == 'Winner').sum()
-        mid_winner_count = (mid_performers['Result'] == 'Winner').sum()
-        low_winner_count = (low_performers['Result'] == 'Winner').sum()
-        
+        ranges = self._calculate_performance_ranges(output_df)
+
         print(f"\nStar Baker Win Rates by Performance Level:")
-        print(f"  High performers ({self.config.HIGH_PERFORMANCE_THRESHOLD}+): {high_win_rate:.1f}% ({high_winner_count}/{len(high_performers)})")
-        print(f"  Mid performers ({self.config.MID_PERFORMANCE_THRESHOLD}-{self.config.HIGH_PERFORMANCE_THRESHOLD-0.1:.1f}): {mid_win_rate:.1f}% ({mid_winner_count}/{len(mid_performers)})")
-        print(f"  Low performers (<{self.config.MID_PERFORMANCE_THRESHOLD}): {low_win_rate:.1f}% ({low_winner_count}/{len(low_performers)})")
-        
-        # Elimination rates
-        high_elim_rate = (high_performers['Result'] == 'Eliminated').mean() * 100
-        mid_elim_rate = (mid_performers['Result'] == 'Eliminated').mean() * 100
-        low_elim_rate = (low_performers['Result'] == 'Eliminated').mean() * 100
-        
-        high_elim_count = (high_performers['Result'] == 'Eliminated').sum()
-        mid_elim_count = (mid_performers['Result'] == 'Eliminated').sum()
-        low_elim_count = (low_performers['Result'] == 'Eliminated').sum()
-        
+        print(f"  High performers ({self.config.HIGH_PERFORMANCE_THRESHOLD}+): {ranges['high_win_rate']:.1f}% ({ranges['high_winner_count']}/{len(ranges['high_performers'])})")
+        print(f"  Mid performers ({self.config.MID_PERFORMANCE_THRESHOLD}-{self.config.HIGH_PERFORMANCE_THRESHOLD-0.1:.1f}): {ranges['mid_win_rate']:.1f}% ({ranges['mid_winner_count']}/{len(ranges['mid_performers'])})")
+        print(f"  Low performers (<{self.config.MID_PERFORMANCE_THRESHOLD}): {ranges['low_win_rate']:.1f}% ({ranges['low_winner_count']}/{len(ranges['low_performers'])})")
+
         print(f"\nElimination Rates by Performance Level:")
-        print(f"  High performers ({self.config.HIGH_PERFORMANCE_THRESHOLD}+): {high_elim_rate:.1f}% ({high_elim_count}/{len(high_performers)})")
-        print(f"  Mid performers ({self.config.MID_PERFORMANCE_THRESHOLD}-{self.config.HIGH_PERFORMANCE_THRESHOLD-0.1:.1f}): {mid_elim_rate:.1f}% ({mid_elim_count}/{len(mid_performers)})")
-        print(f"  Low performers (<{self.config.MID_PERFORMANCE_THRESHOLD}): {low_elim_rate:.1f}% ({low_elim_count}/{len(low_performers)})")
+        print(f"  High performers ({self.config.HIGH_PERFORMANCE_THRESHOLD}+): {ranges['high_elim_rate']:.1f}% ({ranges['high_elim_count']}/{len(ranges['high_performers'])})")
+        print(f"  Mid performers ({self.config.MID_PERFORMANCE_THRESHOLD}-{self.config.HIGH_PERFORMANCE_THRESHOLD-0.1:.1f}): {ranges['mid_elim_rate']:.1f}% ({ranges['mid_elim_count']}/{len(ranges['mid_performers'])})")
+        print(f"  Low performers (<{self.config.MID_PERFORMANCE_THRESHOLD}): {ranges['low_elim_rate']:.1f}% ({ranges['low_elim_count']}/{len(ranges['low_performers'])})")
 
     def generate_performance_analysis(self, output_df: pd.DataFrame) -> None:
         """Generate comprehensive performance analysis - DEPRECATED, moved to new location"""
@@ -269,20 +260,32 @@ class GBBOAnalyzer:
         pass
 
     def _get_contestant_stats(self, contestant_name: str, series: int, group: pd.DataFrame) -> dict:
-        """Calculate contestant statistics including corrected star baker wins and handshakes"""
+        """Calculate contestant statistics including star baker wins and handshakes
+
+        Args:
+            contestant_name: Name of the contestant
+            series: Series number
+            group: DataFrame containing contestant's performance data for the series
+
+        Returns:
+            Dictionary with keys:
+            - 'star_baker_wins': Number of star baker wins (excluding final round)
+            - 'sig_handshakes': Number of signature handshakes received
+            - 'show_handshakes': Number of showstopper handshakes received
+        """
         # Get max round for this series to identify final round
         max_round = self.df[self.df['Series'] == series]['Round'].max()
-        
+
         # Count star baker wins excluding final round
         star_baker_wins = len(group[(group['Result'] == 'Winner') & (group['Round'] != max_round)])
-        
+
         # Get original data for this contestant to count handshakes
         contestant_original_data = self.df[(self.df['Contestant'] == contestant_name) & (self.df['Series'] == series)]
-        
+
         # Count handshakes
         sig_handshakes = len(contestant_original_data[contestant_original_data['Signature Handshake'] == 1])
         show_handshakes = len(contestant_original_data[contestant_original_data['Showstopper Handshake'] == 1])
-        
+
         return {
             'star_baker_wins': star_baker_wins,
             'sig_handshakes': sig_handshakes,
@@ -290,7 +293,15 @@ class GBBOAnalyzer:
         }
 
     def _get_elimination_status(self, series: int, group: pd.DataFrame) -> str:
-        """Determine detailed elimination status for a contestant"""
+        """Determine detailed elimination status for a contestant
+
+        Args:
+            series: Series number
+            group: DataFrame containing contestant's performance data
+
+        Returns:
+            Status string: 'finalist', 'semifinalist', 'quarterfinalist', or 'R{round} elimination'
+        """
         # Get max round for this series
         max_round = self.df[self.df['Series'] == series]['Round'].max()
         
@@ -317,19 +328,221 @@ class GBBOAnalyzer:
             # Eliminated earlier - show specific round
             return f"R{elim_round} elimination"
 
+    def _format_handshake_info(self, sig_handshakes: int = 0, show_handshakes: int = 0, total_handshakes: int = None) -> str:
+        """Format handshake information string
+
+        Args:
+            sig_handshakes: Number of signature handshakes
+            show_handshakes: Number of showstopper handshakes
+            total_handshakes: Total handshakes (if provided, uses simple format)
+
+        Returns:
+            Formatted handshake string (e.g., ", 2 handshakes" or ", 1 sig + 1 show handshakes")
+            Returns empty string if no handshakes
+        """
+        # If total is provided and non-zero, use simple format
+        if total_handshakes is not None:
+            if total_handshakes > 0:
+                return f", {int(total_handshakes)} handshakes"
+            return ""
+
+        # Otherwise use detailed format with sig/show breakdown
+        if sig_handshakes > 0 or show_handshakes > 0:
+            handshake_parts = []
+            if sig_handshakes > 0:
+                handshake_parts.append(f"{int(sig_handshakes)} sig")
+            if show_handshakes > 0:
+                handshake_parts.append(f"{int(show_handshakes)} show")
+            return f", {' + '.join(handshake_parts)} handshakes"
+
+        return ""
+
+    def _calculate_performance_ranges(self, output_df: pd.DataFrame) -> dict:
+        """Calculate statistics for performance ranges (high/mid/low)
+
+        Returns:
+            Dictionary with keys:
+            - 'high_performers', 'mid_performers', 'low_performers': DataFrames
+            - 'high_win_rate', 'mid_win_rate', 'low_win_rate': Win rates as percentages
+            - 'high_winner_count', 'mid_winner_count', 'low_winner_count': Counts
+            - 'high_elim_rate', 'mid_elim_rate', 'low_elim_rate': Elimination rates as percentages
+            - 'high_elim_count', 'mid_elim_count', 'low_elim_count': Counts
+        """
+        # Performance ranges
+        high_performers = output_df[output_df['Strength_Score'] >= self.config.HIGH_PERFORMANCE_THRESHOLD]
+        mid_performers = output_df[(output_df['Strength_Score'] >= self.config.MID_PERFORMANCE_THRESHOLD) &
+                                 (output_df['Strength_Score'] < self.config.HIGH_PERFORMANCE_THRESHOLD)]
+        low_performers = output_df[output_df['Strength_Score'] < self.config.MID_PERFORMANCE_THRESHOLD]
+
+        # Win rates
+        high_win_rate = (high_performers['Result'] == 'Winner').mean() * 100
+        mid_win_rate = (mid_performers['Result'] == 'Winner').mean() * 100
+        low_win_rate = (low_performers['Result'] == 'Winner').mean() * 100
+
+        high_winner_count = (high_performers['Result'] == 'Winner').sum()
+        mid_winner_count = (mid_performers['Result'] == 'Winner').sum()
+        low_winner_count = (low_performers['Result'] == 'Winner').sum()
+
+        # Elimination rates
+        high_elim_rate = (high_performers['Result'] == 'Eliminated').mean() * 100
+        mid_elim_rate = (mid_performers['Result'] == 'Eliminated').mean() * 100
+        low_elim_rate = (low_performers['Result'] == 'Eliminated').mean() * 100
+
+        high_elim_count = (high_performers['Result'] == 'Eliminated').sum()
+        mid_elim_count = (mid_performers['Result'] == 'Eliminated').sum()
+        low_elim_count = (low_performers['Result'] == 'Eliminated').sum()
+
+        return {
+            'high_performers': high_performers,
+            'mid_performers': mid_performers,
+            'low_performers': low_performers,
+            'high_win_rate': high_win_rate,
+            'mid_win_rate': mid_win_rate,
+            'low_win_rate': low_win_rate,
+            'high_winner_count': high_winner_count,
+            'mid_winner_count': mid_winner_count,
+            'low_winner_count': low_winner_count,
+            'high_elim_rate': high_elim_rate,
+            'mid_elim_rate': mid_elim_rate,
+            'low_elim_rate': low_elim_rate,
+            'high_elim_count': high_elim_count,
+            'mid_elim_count': mid_elim_count,
+            'low_elim_count': low_elim_count
+        }
+
+    @staticmethod
+    def _calculate_brier_score(predictions: list) -> float:
+        """Calculate Brier Score for probability predictions
+
+        Brier Score measures the accuracy of probabilistic predictions.
+        Lower is better: 0 = perfect predictions, 1 = worst possible.
+
+        Args:
+            predictions: List of tuples (predicted_probability, actual_outcome)
+                        where actual_outcome is 0 or 1
+
+        Returns:
+            Brier score as a float, or None if no predictions
+        """
+        if not predictions:
+            return None
+        total_score = sum((pred_prob - actual) ** 2 for pred_prob, actual in predictions)
+        return total_score / len(predictions)
+
+    @staticmethod
+    def _calculate_log_loss(predictions: list) -> float:
+        """Calculate Log Loss (Cross-Entropy) for probability predictions
+
+        Log Loss measures the accuracy of probabilistic predictions.
+        Lower is better: 0 = perfect predictions, higher = worse.
+
+        Args:
+            predictions: List of tuples (predicted_probability, actual_outcome)
+                        where actual_outcome is 0 or 1
+
+        Returns:
+            Log loss as a float, or None if no predictions
+        """
+        if not predictions:
+            return None
+        # Add small epsilon to prevent log(0)
+        epsilon = 1e-15
+        total_loss = 0
+        for pred_prob, actual in predictions:
+            pred_prob = max(epsilon, min(1-epsilon, pred_prob))  # Clamp to [epsilon, 1-epsilon]
+            if actual == 1:
+                total_loss -= math.log(pred_prob)
+            else:
+                total_loss -= math.log(1 - pred_prob)
+        return total_loss / len(predictions)
+
+    @staticmethod
+    def _calculate_calibration_error(predictions: list, num_bins: int = 10) -> float:
+        """Calculate Calibration Error for probability predictions
+
+        Calibration Error measures how well predicted probabilities match actual frequencies.
+        Lower is better: 0 = perfectly calibrated.
+
+        Args:
+            predictions: List of tuples (predicted_probability, actual_outcome)
+                        where actual_outcome is 0 or 1
+            num_bins: Number of bins to use for calibration calculation
+
+        Returns:
+            Calibration error as a float, or None if no predictions
+        """
+        if not predictions:
+            return None
+
+        # Sort predictions by probability
+        sorted_predictions = sorted(predictions, key=lambda x: x[0])
+        bin_size = len(sorted_predictions) // num_bins
+
+        total_calibration_error = 0
+
+        for i in range(num_bins):
+            start_idx = i * bin_size
+            end_idx = (i + 1) * bin_size if i < num_bins - 1 else len(sorted_predictions)
+
+            if start_idx >= len(sorted_predictions):
+                break
+
+            bin_predictions = sorted_predictions[start_idx:end_idx]
+            if not bin_predictions:
+                continue
+
+            avg_predicted_prob = sum(pred for pred, _ in bin_predictions) / len(bin_predictions)
+            actual_frequency = sum(actual for _, actual in bin_predictions) / len(bin_predictions)
+            bin_weight = len(bin_predictions) / len(sorted_predictions)
+
+            total_calibration_error += bin_weight * abs(avg_predicted_prob - actual_frequency)
+
+        return total_calibration_error
+
     def print_baker_performance(self, output_df: pd.DataFrame) -> None:
         """Print baker performance metrics"""
         print("\nBAKER PERFORMANCE")
         print("-" * 40)
-        
+
         # Top and bottom performers
         self._print_top_bottom_performers(output_df)
         self._print_performance_outliers(output_df)
         self._print_series_winners_analysis(output_df)
         self._print_elimination_analysis_by_round(output_df)
+
+    def print_star_baker_analysis(self, output_df: pd.DataFrame) -> None:
+        """Print analysis of bakers with 3 or more star baker wins"""
+        print("\nSTAR BAKER ANALYSIS")
+        print("-" * 40)
+
+        # Filter for bakers with 3+ star baker wins
+        multiple_star_bakers = self.contestant_stats_df[self.contestant_stats_df['star_baker_wins'] >= 3].copy()
+
+        if len(multiple_star_bakers) == 0:
+            print("\nNo bakers with 3 or more star baker wins found.")
+            return
+
+        # Sort by star baker wins (descending), then by average strength
+        multiple_star_bakers = multiple_star_bakers.sort_values(
+            by=['star_baker_wins', 'avg_strength'],
+            ascending=[False, False]
+        )
+
+        print(f"\nBakers with 3+ Star Baker Wins ({len(multiple_star_bakers)} total):")
+        for _, baker in multiple_star_bakers.iterrows():
+            handshake_info = self._format_handshake_info(total_handshakes=baker['total_handshakes'])
+
+            print(f"  {baker['contestant']:12} S{int(baker['series']):2}: "
+                  f"{int(baker['star_baker_wins'])} star baker wins "
+                  f"(avg strength: {baker['avg_strength']:.2f}/10{handshake_info}, "
+                  f"{baker['elimination_status']})")
     
     def _print_top_bottom_performers(self, output_df: pd.DataFrame) -> None:
-        """Print top and bottom 5 performers"""
+        """Print top and bottom 5 individual performances by strength score
+
+        Displays the 5 highest and 5 lowest strength scores across all performances,
+        marking star baker wins (*) and eliminations (X).
+        """
         print(f"\nTop 5 Performances:")
         top_5 = output_df.nlargest(5, 'Strength_Score')
         for _, row in top_5.iterrows():
@@ -469,68 +682,15 @@ class GBBOAnalyzer:
                     predicted_prob = elim_probabilities[contestant['Contestant']]
                     actual_outcome = 1 if contestant['Result'] == 'Eliminated' else 0
                     elimination_predictions.append((predicted_prob, actual_outcome))
-        
-        # Calculate Brier Score (lower is better, 0 = perfect, 1 = worst possible)
-        def calculate_brier_score(predictions):
-            if not predictions:
-                return None
-            total_score = sum((pred_prob - actual) ** 2 for pred_prob, actual in predictions)
-            return total_score / len(predictions)
-        
-        # Calculate Log Loss (lower is better, 0 = perfect, higher = worse)
-        def calculate_log_loss(predictions):
-            if not predictions:
-                return None
-            # Add small epsilon to prevent log(0)
-            epsilon = 1e-15
-            total_loss = 0
-            for pred_prob, actual in predictions:
-                pred_prob = max(epsilon, min(1-epsilon, pred_prob))  # Clamp to [epsilon, 1-epsilon]
-                if actual == 1:
-                    total_loss -= math.log(pred_prob)
-                else:
-                    total_loss -= math.log(1 - pred_prob)
-            return total_loss / len(predictions)
-        
-        # Calculate Calibration Error (how well probabilities match actual frequencies)
-        def calculate_calibration_error(predictions, num_bins=10):
-            if not predictions:
-                return None
-            
-            # Sort predictions by probability
-            sorted_predictions = sorted(predictions, key=lambda x: x[0])
-            bin_size = len(sorted_predictions) // num_bins
-            
-            total_calibration_error = 0
-            bins_used = 0
-            
-            for i in range(num_bins):
-                start_idx = i * bin_size
-                end_idx = (i + 1) * bin_size if i < num_bins - 1 else len(sorted_predictions)
-                
-                if start_idx >= len(sorted_predictions):
-                    break
-                    
-                bin_predictions = sorted_predictions[start_idx:end_idx]
-                if not bin_predictions:
-                    continue
-                
-                avg_predicted_prob = sum(pred for pred, _ in bin_predictions) / len(bin_predictions)
-                actual_frequency = sum(actual for _, actual in bin_predictions) / len(bin_predictions)
-                bin_weight = len(bin_predictions) / len(sorted_predictions)
-                
-                total_calibration_error += bin_weight * abs(avg_predicted_prob - actual_frequency)
-            
-            return total_calibration_error
-        
-        # Calculate and display metrics
-        winner_brier = calculate_brier_score(winner_predictions)
-        winner_log_loss = calculate_log_loss(winner_predictions)
-        winner_calibration = calculate_calibration_error(winner_predictions)
-        
-        elimination_brier = calculate_brier_score(elimination_predictions)
-        elimination_log_loss = calculate_log_loss(elimination_predictions)
-        elimination_calibration = calculate_calibration_error(elimination_predictions)
+
+        # Calculate and display metrics using extracted class methods
+        winner_brier = self._calculate_brier_score(winner_predictions)
+        winner_log_loss = self._calculate_log_loss(winner_predictions)
+        winner_calibration = self._calculate_calibration_error(winner_predictions)
+
+        elimination_brier = self._calculate_brier_score(elimination_predictions)
+        elimination_log_loss = self._calculate_log_loss(elimination_predictions)
+        elimination_calibration = self._calculate_calibration_error(elimination_predictions)
         
         print(f"Winner Predictions (based on strength score probabilities):")
         print(f"  Brier Score: {winner_brier:.3f} (lower = better, 0 = perfect)")
@@ -700,8 +860,8 @@ class GBBOAnalyzer:
         if method == 'softmax':
             # Softmax function - exponentially weights higher scores
             # Temperature parameter controls how sharp the distribution is
-            temperature = 2.0  # Lower = more confident, higher = more spread out
-            exp_scores = [math.exp(score / temperature) for score in scores]
+            # Lower = more confident, higher = more spread out
+            exp_scores = [math.exp(score / self.SOFTMAX_TEMPERATURE) for score in scores]
             sum_exp = sum(exp_scores)
             probabilities = [exp_score / sum_exp for exp_score in exp_scores]
             
@@ -891,7 +1051,14 @@ class GBBOAnalyzer:
             print(f"  {i}. Series {series_data['Series']} (Winner: {series_data['Winner']}): {series_data['Average_Series_Strength']:.2f}/10 avg ({series_data['Total_Performances']} performances)")
     
     def _print_performance_outliers(self, output_df: pd.DataFrame) -> None:
-        """Print performance outliers and rankings"""
+        """Print performance outliers and edge cases
+
+        Identifies and displays:
+        - Strongest non-winner (best performance without star baker)
+        - Weakest star baker (lowest scoring winner)
+        - Strongest elimination (highest score that was eliminated)
+        - Weakest safe contestant (lowest score that wasn't eliminated)
+        """
         print("\nPERFORMANCE OUTLIERS & RANKINGS")
         print("-" * 40)
         
@@ -953,15 +1120,11 @@ class GBBOAnalyzer:
         
         for i, (_, winner) in enumerate(series_winners_df.iterrows(), 1):
             # Build handshake info string (only show if they have handshakes)
-            handshake_info = ""
-            if winner['Sig_Handshakes'] > 0 or winner['Show_Handshakes'] > 0:
-                handshake_parts = []
-                if winner['Sig_Handshakes'] > 0:
-                    handshake_parts.append(f"{winner['Sig_Handshakes']} sig")
-                if winner['Show_Handshakes'] > 0:
-                    handshake_parts.append(f"{winner['Show_Handshakes']} show")
-                handshake_info = f", {' + '.join(handshake_parts)} handshakes"
-            
+            handshake_info = self._format_handshake_info(
+                sig_handshakes=winner['Sig_Handshakes'],
+                show_handshakes=winner['Show_Handshakes']
+            )
+
             print(f"  {i}. {winner['Contestant']:12} (S{winner['Series']}): {winner['Average_Strength']:.2f}/10 avg "
                   f"({winner['Star_Baker_Wins']} star baker wins{handshake_info})")
         
@@ -969,7 +1132,12 @@ class GBBOAnalyzer:
         self._print_top_non_winners(output_df, set((w['Contestant'], w['Series']) for w in series_winners))
     
     def _print_top_non_winners(self, output_df: pd.DataFrame, series_winner_names: set) -> None:
-        """Print top 10 non-series-winners"""
+        """Print top 10 strongest contestants who did not win their series
+
+        Args:
+            output_df: DataFrame with performance data
+            series_winner_names: Set of (contestant, series) tuples for series winners to exclude
+        """
         print(f"\nTop Non-Series-Winners (by average strength):")
         
         # Use pre-calculated contestant stats
@@ -993,55 +1161,34 @@ class GBBOAnalyzer:
         
         for i, (_, contestant) in enumerate(top_non_winners.iterrows(), 1):
             # Build handshake info string (only show if they have handshakes)
-            handshake_info = ""
-            if contestant['Sig_Handshakes'] > 0 or contestant['Show_Handshakes'] > 0:
-                handshake_parts = []
-                if contestant['Sig_Handshakes'] > 0:
-                    handshake_parts.append(f"{contestant['Sig_Handshakes']} sig")
-                if contestant['Show_Handshakes'] > 0:
-                    handshake_parts.append(f"{contestant['Show_Handshakes']} show")
-                handshake_info = f", {' + '.join(handshake_parts)} handshakes"
-            
+            handshake_info = self._format_handshake_info(
+                sig_handshakes=contestant['Sig_Handshakes'],
+                show_handshakes=contestant['Show_Handshakes']
+            )
+
             print(f"  {i:2}. {contestant['Contestant']:12} (S{contestant['Series']}): {contestant['Average_Strength']:.2f}/10 avg "
                   f"({contestant['Star_Baker_Wins']} wins{handshake_info}, {contestant['elimination_status']})")
     
     def _print_performance_insights(self, output_df: pd.DataFrame) -> None:
-        """Print performance insights by strength ranges"""
+        """Print performance insights by strength score ranges
+
+        Shows star baker win rates and elimination rates for high/mid/low
+        performers based on configured performance thresholds.
+        """
         print(f"\nPerformance Insights:")
         
         # Performance ranges
-        high_performers = output_df[output_df['Strength_Score'] >= self.config.HIGH_PERFORMANCE_THRESHOLD]
-        mid_performers = output_df[(output_df['Strength_Score'] >= self.config.MID_PERFORMANCE_THRESHOLD) & 
-                                 (output_df['Strength_Score'] < self.config.HIGH_PERFORMANCE_THRESHOLD)]
-        low_performers = output_df[output_df['Strength_Score'] < self.config.MID_PERFORMANCE_THRESHOLD]
-        
-        # Win rates
-        high_win_rate = (high_performers['Result'] == 'Winner').mean() * 100
-        mid_win_rate = (mid_performers['Result'] == 'Winner').mean() * 100
-        low_win_rate = (low_performers['Result'] == 'Winner').mean() * 100
-        
-        high_winner_count = (high_performers['Result'] == 'Winner').sum()
-        mid_winner_count = (mid_performers['Result'] == 'Winner').sum()
-        low_winner_count = (low_performers['Result'] == 'Winner').sum()
-        
+        ranges = self._calculate_performance_ranges(output_df)
+
         print(f"Star Baker Win Rates:")
-        print(f"  High performers ({self.config.HIGH_PERFORMANCE_THRESHOLD}+): {high_win_rate:.1f}% ({high_winner_count}/{len(high_performers)})")
-        print(f"  Mid performers ({self.config.MID_PERFORMANCE_THRESHOLD}-{self.config.HIGH_PERFORMANCE_THRESHOLD-0.1:.1f}): {mid_win_rate:.1f}% ({mid_winner_count}/{len(mid_performers)})")
-        print(f"  Low performers (<{self.config.MID_PERFORMANCE_THRESHOLD}): {low_win_rate:.1f}% ({low_winner_count}/{len(low_performers)})")
-        
-        # Elimination rates
-        high_elim_rate = (high_performers['Result'] == 'Eliminated').mean() * 100
-        mid_elim_rate = (mid_performers['Result'] == 'Eliminated').mean() * 100
-        low_elim_rate = (low_performers['Result'] == 'Eliminated').mean() * 100
-        
-        high_elim_count = (high_performers['Result'] == 'Eliminated').sum()
-        mid_elim_count = (mid_performers['Result'] == 'Eliminated').sum()
-        low_elim_count = (low_performers['Result'] == 'Eliminated').sum()
-        
+        print(f"  High performers ({self.config.HIGH_PERFORMANCE_THRESHOLD}+): {ranges['high_win_rate']:.1f}% ({ranges['high_winner_count']}/{len(ranges['high_performers'])})")
+        print(f"  Mid performers ({self.config.MID_PERFORMANCE_THRESHOLD}-{self.config.HIGH_PERFORMANCE_THRESHOLD-0.1:.1f}): {ranges['mid_win_rate']:.1f}% ({ranges['mid_winner_count']}/{len(ranges['mid_performers'])})")
+        print(f"  Low performers (<{self.config.MID_PERFORMANCE_THRESHOLD}): {ranges['low_win_rate']:.1f}% ({ranges['low_winner_count']}/{len(ranges['low_performers'])})")
+
         print(f"Elimination Rates:")
-        print(f"  High performers ({self.config.HIGH_PERFORMANCE_THRESHOLD}+): {high_elim_rate:.1f}% ({high_elim_count}/{len(high_performers)})")
-        print(f"  Mid performers ({self.config.MID_PERFORMANCE_THRESHOLD}-{self.config.HIGH_PERFORMANCE_THRESHOLD-0.1:.1f}): {mid_elim_rate:.1f}% ({mid_elim_count}/{len(mid_performers)})")
-        print(f"  Low performers (<{self.config.MID_PERFORMANCE_THRESHOLD}): {low_elim_rate:.1f}% ({low_elim_count}/{len(low_performers)})")
+        print(f"  High performers ({self.config.HIGH_PERFORMANCE_THRESHOLD}+): {ranges['high_elim_rate']:.1f}% ({ranges['high_elim_count']}/{len(ranges['high_performers'])})")
+        print(f"  Mid performers ({self.config.MID_PERFORMANCE_THRESHOLD}-{self.config.HIGH_PERFORMANCE_THRESHOLD-0.1:.1f}): {ranges['mid_elim_rate']:.1f}% ({ranges['mid_elim_count']}/{len(ranges['mid_performers'])})")
+        print(f"  Low performers (<{self.config.MID_PERFORMANCE_THRESHOLD}): {ranges['low_elim_rate']:.1f}% ({ranges['low_elim_count']}/{len(ranges['low_performers'])})")
     
     def _print_elimination_analysis_by_round(self, output_df: pd.DataFrame) -> None:
         """Print elimination analysis by round showing average contestant strength and elimination performance"""
@@ -1327,9 +1474,9 @@ class GBBOAnalyzer:
             # Calculate overall average performance for comparison
             overall_avg = output_df['Strength_Score'].mean()
 
-            # First, determine which themes have 3+ episode appearances (not contestant performances)
+            # First, determine which themes have enough episode appearances (not contestant performances)
             theme_episode_counts = episodes_df['Parsed_Theme'].value_counts()
-            qualifying_themes = theme_episode_counts[theme_episode_counts >= 3].index
+            qualifying_themes = theme_episode_counts[theme_episode_counts >= self.THEME_MIN_APPEARANCES].index
 
             # Filter merged data to only include qualifying themes
             merged_df_filtered = merged_df[merged_df[theme_column].isin(qualifying_themes)]
@@ -1372,13 +1519,13 @@ class GBBOAnalyzer:
 
             for i, (theme, row) in enumerate(theme_stats.iterrows(), 1):
                 # Determine difficulty level based on difference from average
-                if row['Avg_Difference'] <= -0.5:
+                if row['Avg_Difference'] <= self.DIFFICULTY_VERY_HARD_THRESHOLD:
                     difficulty = "Very Hard"
-                elif row['Avg_Difference'] <= -0.2:
+                elif row['Avg_Difference'] <= self.DIFFICULTY_HARD_THRESHOLD:
                     difficulty = "Hard"
-                elif row['Avg_Difference'] < 0.2:
+                elif row['Avg_Difference'] < self.DIFFICULTY_EASY_THRESHOLD:
                     difficulty = "Average"
-                elif row['Avg_Difference'] < 0.5:
+                elif row['Avg_Difference'] < self.DIFFICULTY_VERY_EASY_THRESHOLD:
                     difficulty = "Easy"
                 else:
                     difficulty = "Very Easy"
@@ -1679,7 +1826,7 @@ class GBBOAnalyzer:
             eliminations = len(group[group['Result'] == 'Eliminated'])
             
             # Check if they reached quarterfinalist level
-            reached_quarters = max_round >= 7
+            reached_quarters = max_round >= self.MIN_QUARTERFINALIST_ROUND
             
             # Get elimination status
             elim_status = self._get_elimination_status(series, group)
@@ -1793,7 +1940,8 @@ class GBBOAnalyzer:
             self.generate_performance_analysis(output_df)
             self.print_accuracy_metrics(output_df)
             self.print_baker_performance(output_df)
-            
+            self.print_star_baker_analysis(output_df)
+
             # Generate variance analysis
             self.print_variance_analysis(output_df)
             

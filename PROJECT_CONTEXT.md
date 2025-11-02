@@ -388,11 +388,47 @@ This four-part modular structure provides:
 - **Enhanced Collaboration**: Teams can work on different analysis phases simultaneously
 - **Reproducible Research**: Each part has clearly defined inputs and outputs
 
+### Code Quality Improvements
+
+**Recent Refactoring (analyzer.py)**:
+The main analyzer module has undergone significant refactoring to improve code quality and maintainability:
+
+1. **Extracted Constants** - Replaced magic numbers with named class constants:
+   - `SOFTMAX_TEMPERATURE = 2.0` for probability calculations
+   - `MIN_QUARTERFINALIST_ROUND = 7` for quarterfinalist qualification
+   - `THEME_MIN_APPEARANCES = 3` for theme analysis threshold
+   - Difficulty threshold constants for theme classification
+
+2. **Helper Methods** - Extracted reusable helper functions:
+   - `_format_handshake_info()` - Centralized handshake string formatting (eliminated ~20 lines of duplication)
+   - `_calculate_performance_ranges()` - Performance range statistics calculation (eliminated 60+ lines of duplication)
+   - `_calculate_brier_score()`, `_calculate_log_loss()`, `_calculate_calibration_error()` - Promoted nested functions to reusable static methods
+
+3. **Comprehensive Documentation** - Added detailed docstrings to all helper methods:
+   - Parameter documentation with types
+   - Return value descriptions
+   - Usage context and examples
+
+4. **DRY Principle** - Eliminated major code duplication:
+   - ~140 lines of duplicate code removed
+   - Single source of truth for calculations
+   - Consistent formatting across all outputs
+
+**Impact**:
+- Better maintainability through centralized logic
+- Improved readability with self-documenting code
+- Easier testing with extracted, reusable methods
+- 100% output validation ensures no behavioral changes
+
 ### Development Guidelines:
+- **Code Quality**: Follow DRY (Don't Repeat Yourself) principles - extract duplicate code into reusable helpers
+- **Documentation**: Provide comprehensive docstrings with parameter types and return values
+- **Constants**: Use named constants instead of magic numbers for better maintainability
 - **Unicode Characters**: Always use ASCII characters in console output (*, X, >) to avoid encoding errors
 - **Error Handling**: All modules include proper exception handling and validation
 - **Type Safety**: Comprehensive type hints throughout for IDE support and documentation
 - **Configuration**: Centralized settings in config.py for easy maintenance
+- **Output Validation**: Validate that refactoring maintains identical output to baseline
 
 ## Key Questions Addressed
 - **Which scoring components best predict weekly winners/eliminations?** ✓ Technical challenge performance is most critical for first half reviews; showstopper bakes are most important overall
