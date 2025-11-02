@@ -2,10 +2,6 @@
 
 **Note:** This data will use Netflix series numbers. I apologize in advance for those upset by this. It will also only use the Netflix seasons as the judges are consistent and I don't know what "the Roku Channel" is.
 
-I am a software engineer/data nerd who stumbled across Bake-Off recently, and like all things in my life, I sought to quantify the seemingly unquantifiable. Does substance come before style? Is the technical more important than the signature? Was Jurgen's semifinal elimination the greatest travesty in Bake-Off history? Can we actually figure any of this out with any degree of accuracy?
-
-The answers to the preceding are: kinda, yes, yes (and it's true without data), and I think so.
-
 ## Data Gathering
 
 Each episode is composed of the signature, technical, and showstopper bakes.
@@ -26,7 +22,7 @@ I have also tracked handshakes received in the signature and showstopper bakes.
 
 I pulled technical scores and high/low reviews and star bakers/eliminations from Wikipedia.
 
-This data is all available in [data.csv](data_collection/judging/human/data.csv).
+To create a more uniform grading experience, I ran various show transcripts through an LLM to do grading, but the LLM's grading proved to have lower accuracy than human grading.
 
 ## Model Weighting
 
@@ -84,7 +80,7 @@ The highest strength score of the week wins star baker about 62% of the time. Th
 
 ## Analysis
 
-Everything that comes after this is based on the above assumptions about relative bake importance.
+Everything that comes after this is based on the above assumptions about relative bake importance. Series 13 data will be added after the conclusion of that season.
 
 ### Series Finalists Analysis
 
@@ -130,7 +126,7 @@ Poor Steph. The clear favorite and then imploding in the finale while David shoc
 | 2 | Crystelle | 7.56/10 | 6.72/10 | |
 | 3 | Chigs | 7.52/10 | 7.63/10 | |
 
-The model thinks Chigs put in the best finale performance, but in a close finale, Giuseppe's season long dominance may have put him ahead.  
+The model thinks Chigs put in the best finale performance, but in a close episode, Giuseppe's season long dominance may have put him ahead.  
 
 #### Series 10 (Winner: Syabira)
 
@@ -201,8 +197,6 @@ Season 9 with Jurgen, Crystelle, Chigs, and Giuseppe was ridiculously stacked. A
 
 Season 11 looks pretty weak in comparison with Matty being the weakest series winner. But even the strongest Season 11 competitor, Josh, would have been a middling champion.
 
-Special callout to Steph who has the current record for star baker wins with 4.
-
 ## Performance Outliers
 
 - **Strongest non-winner:** Sura S8R1 (9.50/10)
@@ -212,7 +206,7 @@ Special callout to Steph who has the current record for star baker wins with 4.
 
 Matty's finale performance was the worst performance by any episode winner. Jurgen's semifinal elimination was the best performance to have resulted in elimination from the competition.
 
-Manon survived a disastrous week 6 performance somehow resulting in the elimination of Dan instead who seemed to have outperformed her that week and over the course of the competition to that point. This may actually be a worse elimination decision than the Jurgen one. 
+Manon survived a disastrous week 6 performance somehow resulting in the elimination of Dan instead who seemed to have outperformed her that week and over the course of the competition to that point. 
 
 ### Who is the flavor/bake/technical/signature/showstopper king/queen?
 
@@ -306,4 +300,16 @@ Just for funsies I also pulled all the episode titles from Wikipedia and looked 
 
 I grouped several one-off weeks into groups like ingredients (Pudding, Spice, Vegan, etc.), temporal (The 20's, The 80's, etc.), or ethnic (Japanese, German, etc.). You can see the mappings [here](data_collection/scraping/gbbo_episodes.csv)
 
-In chocolate, the most difficult theme, almost 60% of contestants perform below their average. Bread comes in on the slightly harder part of average.
+In chocolate, the most difficult theme, almost 60% of contestants perform below their average. Bread comes in on the slightly harder part of average. Patisserie, the semi-final, actually comes up as the easiest. Remember this is the difference of a baker from their average, so already strong bakers who make it to the semi-final, still tend to exceed expectations. 
+
+## Data in GitHub
+
+The human graded data used to train the model is in [data.csv](data_collection/judging/human/data.csv).
+
+[GBBO Complete Analysis](analysis/reports/gbbo_complete_analysis.csv) contains the weekly strength score and result for each contestant each episode. 
+
+[GBBO Contestant Summary](analysis/reports/gbbo_complete_analysis_contestant_summary.csv) contains summary data for each client. It's like the GBBO Complete Analysis file rolled up to the contestant level. 
+
+[GBBO Results](analysis/reports/gbbo_results.csv) contains contestant performance data pulled from Wikipedia. 
+
+Week by week analysis for past seasons is [also available](monte_carlo/predictions_output/season_markdown). 
