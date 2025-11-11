@@ -1,48 +1,48 @@
 {
   "metadata": {
-    "created_at": "2025-10-25T10:04:35.312174",
+    "created_at": "2025-11-11T08:06:35.067475",
     "input_file": "../data_collection/judging/human/data.csv",
     "model_type": "logistic_regression",
-    "total_records": 603,
-    "series_range": "5-12",
-    "contestants": 90
+    "total_records": 678,
+    "series_range": "5-13",
+    "contestants": 101
   },
   "model_performance": {
-    "second_half_review_accuracy": 0.9281767955801105,
-    "second_half_review_count": 362
+    "second_half_review_accuracy": 0.926829268292683,
+    "second_half_review_count": 410
   },
   "correlations": {
-    "Signature Bake": 0.4437145464987271,
-    "Signature Flavor": 0.22508528375338918,
-    "Signature Looks": 0.4123638884322151,
-    "Signature Handshake": 0.30840033311532955,
-    "Tech_Normalized": 0.4831855377681383,
-    "Showstopper Bake": 0.5795150649511707,
-    "Showstopper Flavor": 0.4391462792816894,
-    "Showstopper Looks": 0.5754463356864031,
-    "Showstopper Handshake": 0.1203233194058271,
-    "First Two Total": 0.5831317097523996,
-    "Showstopper Total": 0.725426905008771
+    "Signature Bake": 0.4187677157609926,
+    "Signature Flavor": 0.2423817050233024,
+    "Signature Looks": 0.39367684972401207,
+    "Signature Handshake": 0.2925497483144031,
+    "Tech_Normalized": 0.46504774260605697,
+    "Showstopper Bake": 0.5846909432044357,
+    "Showstopper Flavor": 0.4465877277406736,
+    "Showstopper Looks": 0.5732500221849441,
+    "Showstopper Handshake": 0.133737278025595,
+    "First Two Total": 0.5742863693781556,
+    "Showstopper Total": 0.7311706585584966
   },
   "individual_weights": {
-    "signature_bake": 0.6913224502760441,
-    "signature_flavor": 0.24028824912620697,
-    "signature_looks": 0.8158141869348983,
-    "signature_handshake": 0.6140607654715843,
-    "tech_normalized": 3.176003713844082,
-    "showstopper_bake": 1.0503690311291674,
-    "showstopper_flavor": 1.3624634526359138,
-    "showstopper_looks": 1.4108756334875754,
-    "showstopper_handshake": 0.18815718536760664
+    "signature_bake": 0.7430186574893937,
+    "signature_flavor": 0.3234034568874195,
+    "signature_looks": 0.8010148740050735,
+    "signature_handshake": 0.5790143167732753,
+    "tech_normalized": 3.263939366195956,
+    "showstopper_bake": 1.0799812270100886,
+    "showstopper_flavor": 1.5553969875932718,
+    "showstopper_looks": 1.502024698731741,
+    "showstopper_handshake": 0.2586558363438321
   },
   "component_groups": {
-    "signature_total": 2.3614856518087337,
-    "tech_weight": 3.176003713844082,
-    "showstopper_total": 4.011865302620263
+    "signature_total": 2.446451305155162,
+    "tech_weight": 3.263939366195956,
+    "showstopper_total": 4.396058749678934
   },
   "traditional_ratios": {
-    "first_two_bakes": 5.5374893656528155,
-    "showstopper": 4.011865302620263,
-    "showstopper_vs_first_two": 0.7244917394342127
+    "first_two_bakes": 5.710390671351118,
+    "showstopper": 4.396058749678934,
+    "showstopper_vs_first_two": 0.7698350257774563
   }
 }
