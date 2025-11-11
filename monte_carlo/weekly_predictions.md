@@ -342,3 +342,33 @@ The finals present a clear hierarchy: **Jasmine** (70.8%) is the overwhelming fa
 **Aaron's Path to Victory:** Needs both Jasmine and Tom to collapse while he delivers a career-best performance exceeding his Week 5 Star Baker performance (8.50). His 6.6% probability reflects the model's assessment that this scenario—while possible—is highly improbable.
 
 The finals will determine whether Jasmine fulfills her statistical destiny or if one of the greatest late-season collapses in the data will deny her the championship she has dominated since Week 6. The numbers suggest Jasmine's coronation is inevitable, but as Lesley's Week 7 elimination proved, even overwhelming statistical favorites can fall when the pressure is highest.
+
+---
+
+## Week 10 (Finals)
+
+**Final Three Contestants:** 3 | **Season Avg Strength:** 6.98
+
+| Rank | Contestant | Avg Str | Variance | Week Score | Star | High | Low |
+|------|------------|---------|----------|------------|------|------|-----|
+| 1 | Jasmine | 8.07 | 1.37 | 6.48 | 6 | 9 | 0 |
+| 2 | Tom | 7.22 | 1.85 | 8.63 | 1 | 5 | 2 |
+| 3 | Aaron | 6.04 | 1.61 | 4.06 | 1 | 3 | 4 |
+
+### Week 10 Commentary: Season 13 Finals - Jasmine Wins
+
+The Season 13 finals delivered a dramatic conclusion: **Tom** produced the week's strongest performance (8.63) in a stunning late-season revival, but **Jasmine** claimed the overall championship based on her dominant season-long body of work.
+
+**Jasmine** won Series 13 with a solid finals performance (6.48), securing her tenth consecutive positive showstopper review—a perfect 10/10 record that no other contestant came close to matching. Her championship résumé speaks for itself: 8.07 season average (highest of all finalists), six Star Baker awards (more than all other finalists combined), and remarkable consistency demonstrated by 1.37 variance. While her 6.48 finals score was below her season average, it proved sufficient against the competition, and the judges recognized her sustained excellence throughout the season.
+
+**Tom** delivered the performance of his life in the finals with 8.63—his highest score since Week 4 and a vindication of his early-season potential. His finals masterclass featured a perfect showstopper (three positive reviews) and the week's best technical performance (1st place). This represented a complete reversal from his Week 8-9 struggles (5.40 and 5.28), proving he could still deliver championship-caliber baking under maximum pressure. However, his mid-to-late season inconsistency (variance jumped from 0.13 to 1.85 across the season) likely cost him the title—the judges appeared to favor Jasmine's sustained excellence over Tom's peaks and valleys.
+
+**Aaron** struggled in the finals with a 4.06 performance, his second-lowest score of the season. With negative reviews in both the signature and showstopper challenges and a second-place technical finish, Aaron's finals performance reflected his season-long profile: capable of occasional brilliance (Week 5's 8.50 Star Baker performance) but prone to disappointing showings when consistency mattered most. His four low reviews across the season (most among the finalists) ultimately positioned him as a distant third.
+
+### The Statistical Narrative Fulfilled
+
+Jasmine's championship validates the statistical predictions from Week 6 onward. Despite Tom's stunning finals performance, the judges' decision to crown Jasmine reflects recognition of the complete season arc—her progression from high-variance contender (2.88 variance in Week 2) to dominant favorite (1.37 variance by finals), her unprecedented showstopper perfection (10/10 positive reviews), and her six Star Baker awards representing consistent weekly excellence.
+
+Tom's 8.63 finals performance serves as a bittersweet coda to his season—proof that he possessed championship capability, but delivered his masterpiece one week too late. Had he maintained his early-season consistency (0.13 variance through Week 4) throughout the middle weeks, the title might have been his.
+
+The finals result demonstrates that in the Great British Bake Off, sustained excellence across the full season ultimately trumps singular brilliant performances—a fitting conclusion to a season defined by Jasmine's remarkable reliability under pressure.
