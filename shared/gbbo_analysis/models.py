@@ -110,8 +110,7 @@ class GBBOModelTrainer:
         if self.second_model is None:
             raise ValueError("Second model must be trained before analyzing weights")
         
-        print(f"\nCOMPONENT WEIGHT ANALYSIS")
-        print("-" * 40)
+        print(f"\n## COMPONENT WEIGHT ANALYSIS")
         
         # Get weights from the model
         individual_weights = self.get_model_weights()
@@ -131,9 +130,11 @@ class GBBOModelTrainer:
         ]
         bake_groups_sorted = sorted(bake_groups, key=lambda x: x[1], reverse=True)
         
-        print("Bake Group Importance (Total Weight):")
+        print("\n### Bake Group Importance (Total Weight)")
+        print("| Rank | Bake Group | Weight | Percentage |")
+        print("|------|------------|--------|------------|")
         for i, (name, weight) in enumerate(bake_groups_sorted, 1):
-            print(f"  {i}. {name:18}: {weight:.3f} ({weight/overall_total:.1%})")
+            print(f"| {i} | {name} | {weight:.3f} | {weight/overall_total:.1%} |")
         
         # Print component breakdowns
         self._print_component_breakdown("Signature Bake Components", individual_weights, 
@@ -148,15 +149,17 @@ class GBBOModelTrainer:
         first_two_weight = signature_total_weight + tech_weight
         weight_ratio = showstopper_total_weight / first_two_weight if first_two_weight > 0 else 0
         
-        print(f"\nTraditional Bake Comparison:")
-        print(f"  First Two Bakes:  {first_two_weight:.3f} ({first_two_weight/overall_total:.1%})")
-        print(f"  Showstopper:      {showstopper_total_weight:.3f} ({showstopper_total_weight/overall_total:.1%})")
-        print(f"  Ratio: {weight_ratio:.2f} (showstopper vs first two bakes)")
+        print(f"\n### Traditional Bake Comparison")
+        print("| Bake Group | Weight | Percentage |")
+        print("|------------|--------|------------|")
+        print(f"| First Two Bakes | {first_two_weight:.3f} | {first_two_weight/overall_total:.1%} |")
+        print(f"| Showstopper | {showstopper_total_weight:.3f} | {showstopper_total_weight/overall_total:.1%} |")
+        print(f"\n**Ratio:** {weight_ratio:.2f} (showstopper vs first two bakes)")
     
     def _print_component_breakdown(self, title: str, weights: Dict[str, float], 
                                  component_keys: List[str], total_weight: float) -> None:
         """Helper method to print component breakdown with variance analysis"""
-        print(f"\n{title}:")
+        print(f"\n### {title}")
         
         # Create readable names and column mapping
         name_map = {
@@ -191,9 +194,9 @@ class GBBOModelTrainer:
         components_sorted = sorted(components, key=lambda x: x[1], reverse=True)
         
         if has_variance_data:
-            # Print header with variance columns
-            print(f"{'Component':<18} {'Weight':<8} {'Mean':<6} {'Variance':<9} {'%-1':<6} {'%0':<6} {'%+1':<6}")
-            print("-" * 65)
+            # Print markdown table with variance columns
+            print("| Component | Weight | Mean | Variance | %-1 | %0 | %+1 |")
+            print("|-----------|--------|------|----------|-----|----|----|")
             
             for name, weight, key in components_sorted:
                 percentage = weight / total_weight * 100 if total_weight > 0 else 0
@@ -214,9 +217,9 @@ class GBBOModelTrainer:
                         pct_zero = (values == 0).sum() / total_count * 100
                         pct_pos = (values == 1).sum() / total_count * 100
                         
-                        print(f"{name:<18} {weight:<8.3f} {mean_val:<6.2f} {variance:<9.3f} {pct_neg:<6.1f} {pct_zero:<6.1f} {pct_pos:<6.1f}")
+                        print(f"| {name} | {weight:.3f} | {mean_val:.2f} | {variance:.3f} | {pct_neg:.1f}% | {pct_zero:.1f}% | {pct_pos:.1f}% |")
                     else:
-                        print(f"{name:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {'N/A':<6} {'N/A':<6}")
+                        print(f"| {name} | {weight:.3f} | N/A | N/A | N/A | N/A | N/A |")
                 elif key in ['signature_handshake', 'showstopper_handshake'] and col_name in self.df.columns:
                     # For handshakes, show weight and distribution (they're binary: 0 or 1)
                     values = self.df[col_name].dropna()
@@ -225,18 +228,19 @@ class GBBOModelTrainer:
                         pct_zero = (values == 0).sum() / total_count * 100
                         pct_pos = (values == 1).sum() / total_count * 100
                         
-                        print(f"{name:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {pct_zero:<6.1f} {pct_pos:<6.1f}")
+                        print(f"| {name} | {weight:.3f} | N/A | N/A | N/A | {pct_zero:.1f}% | {pct_pos:.1f}% |")
                     else:
-                        print(f"{name:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {'N/A':<6} {'N/A':<6}")
+                        print(f"| {name} | {weight:.3f} | N/A | N/A | N/A | N/A | N/A |")
                 else:
                     # For other components not in the data
-                    print(f"{name:<18} {weight:<8.3f} {'N/A':<6} {'N/A':<9} {'N/A':<6} {'N/A':<6} {'N/A':<6}")
+                    print(f"| {name} | {weight:.3f} | N/A | N/A | N/A | N/A | N/A |")
         else:
-            # Simple format for components without variance data
+            # Simple markdown table for components without variance data
+            print("| Component | Weight | Percentage |")
+            print("|-----------|--------|------------|")
             for name, weight, key in components_sorted:
                 percentage = weight / total_weight * 100 if total_weight > 0 else 0
-                category = "signature" if "Signature" in name else "showstopper"
-                print(f"    {name:18}: {weight:.3f} ({percentage:.1f}% of {category})")
+                print(f"| {name} | {weight:.3f} | {percentage:.1f}% |")
     
     def analyze_component_variance(self) -> None:
         """This method is now integrated into analyze_component_weights - no longer used"""

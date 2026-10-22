@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "created_at": "2025-11-11T08:06:35.067475",
+    "created_at": "2025-11-11T19:48:22.918480",
     "input_file": "../data_collection/judging/human/data.csv",
     "model_type": "logistic_regression",
     "total_records": 678,
@@ -12,37 +12,37 @@
     "second_half_review_count": 410
   },
   "correlations": {
-    "Signature Bake": 0.4187677157609926,
-    "Signature Flavor": 0.2423817050233024,
-    "Signature Looks": 0.39367684972401207,
-    "Signature Handshake": 0.2925497483144031,
-    "Tech_Normalized": 0.46504774260605697,
-    "Showstopper Bake": 0.5846909432044357,
-    "Showstopper Flavor": 0.4465877277406736,
-    "Showstopper Looks": 0.5732500221849441,
-    "Showstopper Handshake": 0.133737278025595,
-    "First Two Total": 0.5742863693781556,
-    "Showstopper Total": 0.7311706585584966
+    "Signature Bake": 0.41876771576099286,
+    "Signature Flavor": 0.2423817050233021,
+    "Signature Looks": 0.3936768497240125,
+    "Signature Handshake": 0.2925497483144032,
+    "Tech_Normalized": 0.4650477426060566,
+    "Showstopper Bake": 0.5846909432044356,
+    "Showstopper Flavor": 0.4465877277406731,
+    "Showstopper Looks": 0.5732500221849431,
+    "Showstopper Handshake": 0.1337372780255949,
+    "First Two Total": 0.5742863693781554,
+    "Showstopper Total": 0.7311706585584963
   },
   "individual_weights": {
-    "signature_bake": 0.7430186574893937,
-    "signature_flavor": 0.3234034568874195,
-    "signature_looks": 0.8010148740050735,
-    "signature_handshake": 0.5790143167732753,
-    "tech_normalized": 3.263939366195956,
-    "showstopper_bake": 1.0799812270100886,
-    "showstopper_flavor": 1.5553969875932718,
-    "showstopper_looks": 1.502024698731741,
-    "showstopper_handshake": 0.2586558363438321
+    "signature_bake": 0.7430186574893936,
+    "signature_flavor": 0.3234034568874198,
+    "signature_looks": 0.8010148740050722,
+    "signature_handshake": 0.5790143167732723,
+    "tech_normalized": 3.2639393661959506,
+    "showstopper_bake": 1.0799812270100853,
+    "showstopper_flavor": 1.5553969875932712,
+    "showstopper_looks": 1.5020246987317403,
+    "showstopper_handshake": 0.2586558363438329
   },
   "component_groups": {
-    "signature_total": 2.446451305155162,
-    "tech_weight": 3.263939366195956,
-    "showstopper_total": 4.396058749678934
+    "signature_total": 2.4464513051551577,
+    "tech_weight": 3.2639393661959506,
+    "showstopper_total": 4.39605874967893
   },
   "traditional_ratios": {
-    "first_two_bakes": 5.710390671351118,
-    "showstopper": 4.396058749678934,
-    "showstopper_vs_first_two": 0.7698350257774563
+    "first_two_bakes": 5.710390671351108,
+    "showstopper": 4.39605874967893,
+    "showstopper_vs_first_two": 0.7698350257774569
   }
 }

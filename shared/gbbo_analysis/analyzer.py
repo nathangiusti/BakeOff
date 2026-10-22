@@ -543,17 +543,21 @@ class GBBOAnalyzer:
         Displays the 5 highest and 5 lowest strength scores across all performances,
         marking star baker wins (*) and eliminations (X).
         """
-        print(f"\nTop 5 Performances:")
+        print(f"\n### Top 5 Performances")
+        print("| Contestant | Series | Round | Score | Result |")
+        print("|------------|--------|-------|-------|--------|")
         top_5 = output_df.nlargest(5, 'Strength_Score')
         for _, row in top_5.iterrows():
-            winner_str = " *" if row['Result'] == 'Winner' else ""
-            print(f"  {row['Contestant']:12} S{row['Series']}R{row['Round']:2}: {row['Strength_Score']:.2f}/10{winner_str}")
+            result_str = "Star Baker" if row['Result'] == 'Winner' else row['Result']
+            print(f"| {row['Contestant']} | S{row['Series']} | R{row['Round']} | {row['Strength_Score']:.2f}/10 | {result_str} |")
         
-        print(f"\nBottom 5 Performances:")
+        print(f"\n### Bottom 5 Performances")
+        print("| Contestant | Series | Round | Score | Result |")
+        print("|------------|--------|-------|-------|--------|")
         bottom_5 = output_df.nsmallest(5, 'Strength_Score')
         for _, row in bottom_5.iterrows():
-            elim_str = " X" if row['Result'] == 'Eliminated' else ""
-            print(f"  {row['Contestant']:12} S{row['Series']}R{row['Round']:2}: {row['Strength_Score']:.2f}/10{elim_str}")
+            result_str = "Eliminated" if row['Result'] == 'Eliminated' else row['Result']
+            print(f"| {row['Contestant']} | S{row['Series']} | R{row['Round']} | {row['Strength_Score']:.2f}/10 | {result_str} |")
     
     def _print_prediction_accuracy_subsection(self, output_df: pd.DataFrame) -> None:
         """Print how accurately strength scores predict winners, eliminations, and reviews"""
@@ -817,7 +821,7 @@ class GBBOAnalyzer:
             print(f"  Average strength difference when wrong: {avg_strength_diff:.2f} points")
         
         # Show all finalists and their rankings by series
-        print(f"\nFinalist Rankings by Average Strength:")
+        print(f"\n### Finalist Rankings by Average Strength")
         for series in sorted(finalist_df['Series'].unique()):
             series_finalists = finalist_df[finalist_df['Series'] == series].copy()
             series_sorted = series_finalists.sort_values('Average_Strength', ascending=False)
@@ -827,13 +831,15 @@ class GBBOAnalyzer:
             finalist_strengths = [(row['Contestant'], row['Average_Strength']) for _, row in series_sorted.iterrows()]
             probabilities = self.calculate_finalist_win_probabilities(finalist_strengths, method='softmax')
 
-            print(f"  Series {series} (Winner: {winner}):")
+            print(f"\n**Series {series} (Winner: {winner})**")
+            print("| Rank | Contestant | Avg Strength | Final Score | Win Chance | Winner |")
+            print("|------|------------|--------------|-------------|------------|--------|")
+            
             for i, (_, finalist) in enumerate(series_sorted.iterrows(), 1):
-                winner_mark = " *" if finalist['Is_Winner'] else ""
+                winner_mark = "*" if finalist['Is_Winner'] else ""
                 win_prob = probabilities[finalist['Contestant']] * 100
                 final_score = finalist['Final_Round_Score']
-                print(f"    {i}. {finalist['Contestant']:12}: {finalist['Average_Strength']:.2f}/10 avg, {final_score:.2f}/10 final ({win_prob:.1f}% win chance){winner_mark}")
-            print()
+                print(f"| {i} | {finalist['Contestant']} | {finalist['Average_Strength']:.2f}/10 | {final_score:.2f}/10 | {win_prob:.1f}% | {winner_mark} |")
         
         # Calculate and display series rankings by overall average strength - moved to bottom
         self._print_series_by_overall_strength(output_df)
@@ -942,9 +948,9 @@ class GBBOAnalyzer:
         # Sort by probability (highest first)
         sorted_finalists = sorted(probabilities.items(), key=lambda x: x[1], reverse=True)
         
-        print(f"\nRanked by Win Probability:")
-        print(f"{'Rank':<5} {'Contestant':<15} {'Avg Strength':<12} {'Win Probability':<15} {'Odds':<10}")
-        print("-" * 65)
+        print(f"\n### Ranked by Win Probability")
+        print("| Rank | Contestant | Avg Strength | Win Probability | Odds |")
+        print("|------|------------|--------------|----------------|------|")
         
         for i, (contestant, probability) in enumerate(sorted_finalists, 1):
             # Find the contestant's average strength
@@ -957,7 +963,7 @@ class GBBOAnalyzer:
             else:
                 odds_str = "∞:1"
             
-            print(f"{i:<5} {contestant:<15} {avg_strength:<12.2f} {probability*100:<14.1f}% {odds_str:<10}")
+            print(f"| {i} | {contestant} | {avg_strength:.2f} | {probability*100:.1f}% | {odds_str} |")
         
         # Display method explanation
         print(f"\nMethod Explanation ({method}):")
@@ -1011,19 +1017,22 @@ class GBBOAnalyzer:
             all_results[method] = probabilities
         
         # Display comparison table
-        print(f"\n{'Contestant':<15} {'Strength':<10} {'Softmax':<10} {'Normalized':<12} {'Exponential':<12}")
-        print("-" * 70)
+        print(f"\n### Probability Calculation Methods Comparison")
+        print("| Contestant | Strength | Softmax | Normalized | Exponential |")
+        print("|------------|----------|---------|------------|-------------|")
         
         for contestant, strength in sorted(finalist_strengths, key=lambda x: x[1], reverse=True):
             softmax_prob = all_results['softmax'][contestant] * 100
             normalized_prob = all_results['normalized'][contestant] * 100
             exponential_prob = all_results['exponential'][contestant] * 100
             
-            print(f"{contestant:<15} {strength:<10.2f} {softmax_prob:<9.1f}% {normalized_prob:<11.1f}% {exponential_prob:<11.1f}%")
+            print(f"| {contestant} | {strength:.2f} | {softmax_prob:.1f}% | {normalized_prob:.1f}% | {exponential_prob:.1f}% |")
     
     def _print_series_by_overall_strength(self, output_df: pd.DataFrame) -> None:
         """Print series ranked by average strength of all performances in that series"""
-        print(f"\nSeries Ranked by Overall Average Strength:")
+        print(f"\n### Series Ranked by Overall Average Strength")
+        print("| Rank | Series | Winner | Avg Strength | Performances |")
+        print("|------|--------|--------|--------------|--------------|")
         
         series_strength_data = []
         
@@ -1048,7 +1057,7 @@ class GBBOAnalyzer:
         series_strength_df = pd.DataFrame(series_strength_data).sort_values('Average_Series_Strength', ascending=False)
         
         for i, (_, series_data) in enumerate(series_strength_df.iterrows(), 1):
-            print(f"  {i}. Series {series_data['Series']} (Winner: {series_data['Winner']}): {series_data['Average_Series_Strength']:.2f}/10 avg ({series_data['Total_Performances']} performances)")
+            print(f"| {i} | Series {series_data['Series']} | {series_data['Winner']} | {series_data['Average_Series_Strength']:.2f}/10 | {series_data['Total_Performances']} |")
     
     def _print_performance_outliers(self, output_df: pd.DataFrame) -> None:
         """Print performance outliers and edge cases
@@ -1084,7 +1093,9 @@ class GBBOAnalyzer:
     
     def _print_series_winners_analysis(self, output_df: pd.DataFrame) -> None:
         """Print series winners analysis"""
-        print(f"\nSeries Winners (by average strength):")
+        print(f"\n### Series Winners (by average strength)")
+        print("| Rank | Contestant | Series | Avg Strength | Star Wins | Handshakes |")
+        print("|------|------------|--------|--------------|-----------|------------|")
         
         # Find series winners from our pre-calculated stats
         final_rounds = output_df.groupby('Series')['Round'].max().reset_index()
@@ -1125,8 +1136,7 @@ class GBBOAnalyzer:
                 show_handshakes=winner['Show_Handshakes']
             )
 
-            print(f"  {i}. {winner['Contestant']:12} (S{winner['Series']}): {winner['Average_Strength']:.2f}/10 avg "
-                  f"({winner['Star_Baker_Wins']} star baker wins{handshake_info})")
+            print(f"| {i} | {winner['Contestant']} | S{winner['Series']} | {winner['Average_Strength']:.2f} | {winner['Star_Baker_Wins']} | {handshake_info} |")
         
         # Top non-series-winners
         self._print_top_non_winners(output_df, set((w['Contestant'], w['Series']) for w in series_winners))
@@ -1138,7 +1148,9 @@ class GBBOAnalyzer:
             output_df: DataFrame with performance data
             series_winner_names: Set of (contestant, series) tuples for series winners to exclude
         """
-        print(f"\nTop Non-Series-Winners (by average strength):")
+        print(f"\n### Top Non-Series-Winners (by average strength)")
+        print("| Rank | Contestant | Series | Avg Strength | Star Wins | Handshakes | Status |")
+        print("|------|------------|--------|--------------|-----------|------------|--------|")
         
         # Use pre-calculated contestant stats
         contestant_averages = self.contestant_stats_df.copy()
@@ -1166,8 +1178,7 @@ class GBBOAnalyzer:
                 show_handshakes=contestant['Show_Handshakes']
             )
 
-            print(f"  {i:2}. {contestant['Contestant']:12} (S{contestant['Series']}): {contestant['Average_Strength']:.2f}/10 avg "
-                  f"({contestant['Star_Baker_Wins']} wins{handshake_info}, {contestant['elimination_status']})")
+            print(f"| {i} | {contestant['Contestant']} | S{contestant['Series']} | {contestant['Average_Strength']:.2f} | {contestant['Star_Baker_Wins']} | {handshake_info} | {contestant['elimination_status']} |")
     
     def _print_performance_insights(self, output_df: pd.DataFrame) -> None:
         """Print performance insights by strength score ranges
@@ -1244,10 +1255,9 @@ class GBBOAnalyzer:
             round_summary[round_num]['count'] += 1
         
         # Print round-by-round analysis
-        print(f"Round-by-Round Elimination Patterns:")
-        print(f"{'Round':<6} {'Eliminations':<12} {'Avg Contestant':<15} {'Avg Elimination':<15} {'Performance':<15}")
-        print(f"{'':6} {'':12} {'Strength':<15} {'Performance':<15} {'Drop':<15}")
-        print("-" * 75)
+        print(f"\n### Round-by-Round Elimination Patterns")
+        print("| Round | Eliminations | Avg Contestant Strength | Avg Elimination Performance | Performance Drop |")
+        print("|-------|--------------|-------------------------|------------------------------|------------------|")
         
         for round_num in sorted(round_summary.keys()):
             data = round_summary[round_num]
@@ -1256,7 +1266,7 @@ class GBBOAnalyzer:
             performance_drop = avg_strength - avg_elimination_perf
             count = data['count']
             
-            print(f"R{round_num:<5} {count:<12} {avg_strength:<15.2f} {avg_elimination_perf:<15.2f} {performance_drop:<15.2f}")
+            print(f"| R{round_num} | {count} | {avg_strength:.2f} | {avg_elimination_perf:.2f} | {performance_drop:.2f} |")
         
         # Overall elimination statistics
         all_avg_strengths = []
@@ -1339,8 +1349,7 @@ class GBBOAnalyzer:
     
     def print_quarterfinalists_rankings(self, output_df: pd.DataFrame) -> None:
         """Print top 5 rankings for quarterfinalists+ across different categories"""
-        print("\nTOP 5 QUARTERFINALIST+ RANKINGS")
-        print("-" * 40)
+        print("\n## TOP 5 QUARTERFINALIST+ RANKINGS")
         
         qf_df = self.quarterfinalist_stats_df
         
@@ -1359,10 +1368,13 @@ class GBBOAnalyzer:
         ]
         
         for col, title, score_name in categories:
-            print(f"\n{title}:")
+            print(f"\n### {title}")
+            print("| Rank | Contestant | Series | Score |")
+            print("|------|------------|--------|-------|")
+            
             top_5 = qf_df.nlargest(5, col)
             for i, (_, row) in enumerate(top_5.iterrows(), 1):
-                print(f"  {i}. {row['contestant']:12} (S{int(row['series'])}): {row[col]:.2f} avg {score_name.lower()}")
+                print(f"| {i} | {row['contestant']} | S{int(row['series'])} | {row[col]:.2f} |")
             
             # Calculate and display overall average from ALL bakers (not just quarterfinalists)
             # Skip average calculation for technical
@@ -1391,12 +1403,11 @@ class GBBOAnalyzer:
                     all_bakers_data.append(avg_value)
                 
                 overall_avg_all_bakers = sum(all_bakers_data) / len(all_bakers_data)
-                print(f"     Overall average (all bakers): {overall_avg_all_bakers:.2f}")
+                print(f"**Overall average (all bakers):** {overall_avg_all_bakers:.2f}")
 
     def print_variance_analysis(self, output_df: pd.DataFrame) -> None:
         """Print performance variance analysis for contestants."""
-        print("\nPERFORMACE VARIANCE ANALYSIS")
-        print("----------------------------------------")
+        print("\n## PERFORMANCE VARIANCE ANALYSIS")
         
         variance_df = self.variance_stats_df
         
@@ -1406,28 +1417,34 @@ class GBBOAnalyzer:
         
         # Top 5 highest variance (most inconsistent)
         highest_variance = variance_df.nlargest(5, 'variance')
-        print("Top 5 Most Inconsistent Contestants (Highest Variance):")
+        print("### Top 5 Most Inconsistent Contestants (Highest Variance)")
+        print("| Contestant | Series | Variance | Avg | Rounds | Stars | High | Low | Handshakes |")
+        print("|------------|--------|----------|-----|--------|-------|------|-----|------------|")
+        
         for _, row in highest_variance.iterrows():
-            handshake_info = f", {int(row['total_handshakes'])} handshakes" if row['total_handshakes'] > 0 else ""
+            handshakes = int(row['total_handshakes']) if row['total_handshakes'] > 0 else 0
             
-            print(f"  {row['contestant']:12} (S{int(row['series'])}): {row['variance']:.2f} variance "
-                  f"(avg: {row['mean_performance']:.2f}, {int(row['num_rounds'])} rounds, "
-                  f"{int(row['star_baker_wins'])} star bakers, {int(row['positive_reviews'])} high reviews, "
-                  f"{int(row['negative_reviews'])} low reviews{handshake_info})")
+            print(f"| {row['contestant']} | S{int(row['series'])} | {row['variance']:.2f} | "
+                  f"{row['mean_performance']:.2f} | {int(row['num_rounds'])} | "
+                  f"{int(row['star_baker_wins'])} | {int(row['positive_reviews'])} | "
+                  f"{int(row['negative_reviews'])} | {handshakes} |")
         
         # Top 5 lowest variance among quarterfinalists+ only
         quarterfinalists_df = variance_df[variance_df['reached_quarters'] == True]
         
         if len(quarterfinalists_df) >= 5:
             lowest_variance_quarters = quarterfinalists_df.nsmallest(5, 'variance')
-            print(f"\nTop 5 Most Consistent Contestants (Lowest Variance, Quarterfinalists+):")
+            print(f"\n### Top 5 Most Consistent Contestants (Lowest Variance, Quarterfinalists+)")
+            print("| Contestant | Series | Variance | Avg | Rounds | Stars | High | Low | Handshakes |")
+            print("|------------|--------|----------|-----|--------|-------|------|-----|------------|")
+            
             for _, row in lowest_variance_quarters.iterrows():
-                handshake_info = f", {int(row['total_handshakes'])} handshakes" if row['total_handshakes'] > 0 else ""
+                handshakes = int(row['total_handshakes']) if row['total_handshakes'] > 0 else 0
                 
-                print(f"  {row['contestant']:12} (S{int(row['series'])}): {row['variance']:.2f} variance "
-                      f"(avg: {row['mean_performance']:.2f}, {int(row['num_rounds'])} rounds, "
-                      f"{int(row['star_baker_wins'])} star bakers, {int(row['positive_reviews'])} high reviews, "
-                      f"{int(row['negative_reviews'])} low reviews{handshake_info})")
+                print(f"| {row['contestant']} | S{int(row['series'])} | {row['variance']:.2f} | "
+                      f"{row['mean_performance']:.2f} | {int(row['num_rounds'])} | "
+                      f"{int(row['star_baker_wins'])} | {int(row['positive_reviews'])} | "
+                      f"{int(row['negative_reviews'])} | {handshakes} |")
         else:
             print(f"\nTop {len(quarterfinalists_df)} Most Consistent Contestants (Lowest Variance, Quarterfinalists+):")
             for _, row in quarterfinalists_df.nsmallest(len(quarterfinalists_df), 'variance').iterrows():
@@ -1508,14 +1525,13 @@ class GBBOAnalyzer:
             # Sort by difficulty (lowest average = most difficult)
             theme_stats = theme_stats.sort_values('Avg_Difference')
 
-            print(f"\n" + "=" * 70)
-            print("THEME WEEK ANALYSIS (3+ Appearances)")
-            print("=" * 70)
+            print(f"\n")
+            print("## THEME WEEK ANALYSIS (3+ Appearances)")
             if theme_column == 'Parsed_Theme':
                 print("Using normalized themes (Cake/Cakes -> Cake, Patisserie/Pâtisserie -> Patisserie)")
-            print(f"Overall average performance: {overall_avg:.2f}/10")
-            print(f"\n{'Rank':<4} {'Theme':<15} {'Avg Diff':<10} {'% Under':<10} {'Count':<6} {'Difficulty':<12}")
-            print("-" * 70)
+            print(f"**Overall average performance:** {overall_avg:.2f}/10")
+            print(f"\n| Rank | Theme | Avg Diff | % Under | Count | Difficulty |")
+            print("|------|-------|----------|---------|-------|------------|")
 
             for i, (theme, row) in enumerate(theme_stats.iterrows(), 1):
                 # Determine difficulty level based on difference from average
@@ -1530,8 +1546,7 @@ class GBBOAnalyzer:
                 else:
                     difficulty = "Very Easy"
 
-                print(f"{i:<4} {str(theme):<15} {row['Avg_Difference']:>+.2f}{'':4} "
-                      f"{row['Underperform_Pct']:>5.1f}%{'':4} {int(row['Count']):<6} {difficulty:<12}")
+                print(f"| {i} | {str(theme)} | {row['Avg_Difference']:+.2f} | {row['Underperform_Pct']:.1f}% | {int(row['Count'])} | {difficulty} |")
 
             # Analysis insights
             most_difficult = theme_stats.index[0]
@@ -1611,27 +1626,17 @@ class GBBOAnalyzer:
 
     def analyze_current_season(self) -> None:
         """Analyze current season using Monte Carlo simulation"""
-        current_file = '../../data_collection/judging/human/current.csv'
+        current_file = Path(__file__).parent.parent.parent / self.config.CURRENT_FILE
 
-        if not Path(current_file).exists():
+        if not current_file.exists():
             return  # Silently skip if no current season data
 
         try:
-            # Load current season data
+            # Load current season data (same columns as data.csv)
             current_df = pd.read_csv(current_file)
-
-            # Map column names to match our internal naming
-            column_mapping = {
-                'S - Bake': 'Signature Bake',
-                'S - Flavor': 'Signature Flavor',
-                'S - Looks': 'Signature Looks',
-                'Handshake 1': 'Signature Handshake',
-                'F - Bake': 'Showstopper Bake',
-                'F - Flavor': 'Showstopper Flavor',
-                'F - Looks': 'Showstopper Looks',
-                'Handshake 2': 'Showstopper Handshake'
-            }
-            current_df = current_df.rename(columns=column_mapping)
+            if current_df.empty:
+                return  # Header only: season hasn't started yet
+            current_series = int(current_df['Series'].iloc[0])
 
             # Fill missing values with 0
             columns_to_fill = (self.config.SIGNATURE_COLS + self.config.SHOWSTOPPER_COLS +
@@ -1710,17 +1715,17 @@ class GBBOAnalyzer:
             stats_df = pd.DataFrame(contestant_stats)
 
             # Run Monte Carlo simulation
-            s13_avg = stats_df['Avg_Strength'].mean()
+            season_avg = stats_df['Avg_Strength'].mean()
             current_round = stats_df['Rounds'].max()
 
             print(f"\n" + "=" * 80)
-            print("SEASON 13 FINALIST PREDICTION (MONTE CARLO SIMULATION)")
+            print(f"SEASON {current_series} FINALIST PREDICTION (MONTE CARLO SIMULATION)")
             print("=" * 80)
 
-            print(f"\nSeason 13 Stats:")
+            print(f"\nSeason {current_series} Stats:")
             print(f"  Current Round: {current_round}")
             print(f"  Active Contestants: {(~stats_df['Eliminated']).sum()}")
-            print(f"  Season Avg Strength: {s13_avg:.2f}")
+            print(f"  Season Avg Strength: {season_avg:.2f}")
 
             print("\nRunning Monte Carlo simulation (10,000 iterations)...")
             predictions_df = self._monte_carlo_simulation(stats_df, n_simulations=10000, n_finalists=3)
@@ -1730,19 +1735,18 @@ class GBBOAnalyzer:
             stats_df = stats_df.sort_values('Finalist_Probability', ascending=False)
 
             # Display results
-            print("\n" + "=" * 80)
-            print(f"SEASON 13 PREDICTIONS (After Round {current_round})")
-            print("=" * 80)
-            print(f"\n{'Rank':<6}{'Contestant':<13}{'Finals':<9}{'Winner':<9}{'Avg Str':<9}{'Variance':<10}{'Star':<6}{'Pos':<5}{'Neg':<5}{'Status':<12}")
-            print("-" * 90)
+            print("\n")
+            print(f"## SEASON {current_series} PREDICTIONS (After Round {current_round})")
+            print("| Rank | Contestant | Finals | Winner | Avg Str | Variance | Star | Pos | Neg | Status |")
+            print("|------|------------|--------|--------|---------|----------|------|-----|-----|--------|")
 
             for idx, (_, row) in enumerate(stats_df.iterrows(), 1):
                 status = "ELIMINATED" if row['Eliminated'] else "Active"
-                print(f"{idx:<6}{row['Contestant']:<13}{row['Finalist_Probability']:.1f}%    "
-                      f"{row['Winner_Probability']:.1f}%    "
-                      f"{row['Avg_Strength']:.2f}     {row['Variance']:.2f}     "
-                      f"{row['Star_Bakers']:<6}{row['Positive_Reviews']:<5}"
-                      f"{row['Negative_Reviews']:<5}{status:<12}")
+                print(f"| {idx} | {row['Contestant']} | {row['Finalist_Probability']:.1f}% | "
+                      f"{row['Winner_Probability']:.1f}% | "
+                      f"{row['Avg_Strength']:.2f} | {row['Variance']:.2f} | "
+                      f"{row['Star_Bakers']} | {row['Positive_Reviews']} | "
+                      f"{row['Negative_Reviews']} | {status} |")
 
             # Top 3 prediction
             active_contestants = stats_df[~stats_df['Eliminated']].head(3)

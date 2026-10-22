@@ -1,5 +1,7 @@
+import argparse
 import re
 import time
+from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 
 import pandas as pd
@@ -10,6 +12,15 @@ from bs4 import BeautifulSoup
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 WIKI_BASE_URL = 'https://en.wikipedia.org/wiki/The_Great_British_Bake_Off_series_{}'
 REQUEST_DELAY = 1  # seconds
+
+# Wikipedia numbers the UK series; this project uses the Netflix numbering (Wikipedia series 8 = Netflix series 5)
+WIKI_SERIES_OFFSET = 3
+FIRST_NETFLIX_SERIES = 5
+
+# Default output locations (independent of the folder the script is run from)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+RESULTS_FILE = PROJECT_ROOT / 'analysis/reports/gbbo_results.csv'
+EPISODES_FILE = Path(__file__).resolve().parent / 'gbbo_episodes.csv'
 
 # Result classifications
 RESULT_PATTERNS = {
@@ -48,8 +59,12 @@ class GBBOWikiScraper:
         """Generate Wikipedia URL for a given series number."""
         return WIKI_BASE_URL.format(series_num)
 
+    def scrape_netflix_series(self, netflix_series: int) -> None:
+        """Scrape a series given its Netflix series number (e.g. 14)."""
+        self.scrape_series(netflix_series + WIKI_SERIES_OFFSET)
+
     def scrape_series(self, series_num: int) -> None:
-        """Scrape a single series from Wikipedia."""
+        """Scrape a single series from Wikipedia (Wikipedia series number)."""
         print(f"Scraping Series {series_num}...")
         url = self.get_series_url(series_num)
         
@@ -125,6 +140,10 @@ class GBBOWikiScraper:
         
         if has_baker and has_episodes:
             return True
+
+        # Method 3: Title row ("Elimination chart") above the real header row
+        if len(header_texts) == 1 and self._has_baker_episode_header(rows[1]):
+            return True
         
         # Method 2: Alternative format - "Baker" in header, episodes in first data row
         if has_baker and len(rows) > 1:
@@ -132,6 +151,13 @@ class GBBOWikiScraper:
         
         return False
     
+    @staticmethod
+    def _has_baker_episode_header(row: BeautifulSoup) -> bool:
+        """Check if a row is a 'Baker | 1 | 2 | ...' header row."""
+        texts = [c.get_text(strip=True) for c in row.find_all(['th', 'td'])]
+        return (any('baker' in t.lower() for t in texts) and
+                sum(1 for t in texts if re.match(r'^\d+$', t)) >= 5)
+
     def _check_alternative_format(self, rows: List[BeautifulSoup]) -> bool:
         """Check if table uses alternative format with episodes in first data row."""
         first_data_row = rows[1]
@@ -177,6 +203,13 @@ class GBBOWikiScraper:
             if re.match(r'^\d+$', header) or 'episode' in header.lower() or 'round' in header.lower():
                 episode_indices.append(i)
         
+        # Title row above the real header row (series in progress)
+        if len(headers) == 1 and len(rows) > 2 and self._has_baker_episode_header(rows[1]):
+            sub_headers = [c.get_text(strip=True) for c in rows[1].find_all(['th', 'td'])]
+            episode_indices = [i for i, h in enumerate(sub_headers) if re.match(r'^\d+$', h)]
+            print(f"  Using title-row table format for Series {series_num}")
+            return episode_indices, 2
+
         # Special case for Series 12
         if self._is_series_12_format(headers, rows):
             episode_indices, start_row_idx = self._handle_series_12_format(rows)
@@ -760,8 +793,8 @@ class GBBOWikiScraper:
         # Return title case for consistency
         return str(title).strip().title()
 
-    def scrape_all_series(self, start_series: int = 8, end_series: int = 15) -> None:
-        """Scrape all series from start_series to end_series (inclusive)."""
+    def scrape_all_series(self, start_series: int = 8, end_series: int = 16) -> None:
+        """Scrape Wikipedia series start_series to end_series (inclusive, Wikipedia numbering)."""
         for series_num in range(start_series, end_series + 1):
             self.scrape_series(series_num)
 
@@ -800,45 +833,84 @@ class GBBOWikiScraper:
         print("\nSUCCESS: Basic validation checks passed!")
         return True
 
-    def save_results(self, results_filename: str = 'gbbo_results.csv', 
-                    episodes_filename: str = 'gbbo_episodes.csv') -> None:
-        """Save the scraped data to CSV files."""
+    def save_results(self, results_filename=RESULTS_FILE, episodes_filename=EPISODES_FILE,
+                     merge: bool = False) -> None:
+        """Save the scraped data to CSV files.
+
+        With merge=True, existing rows for the scraped series are replaced and all
+        other series in the files are kept.
+        """
         if self.results_data:
             results_df = pd.DataFrame(self.results_data)
-            # Subtract 3 from series numbers to match other data source labeling
-            results_df['Series'] = results_df['Series'] - 3
-            results_df.to_csv(results_filename, index=False)
-            print(f"Results saved to {results_filename} ({len(results_df)} rows)")
-        
+            # Convert Wikipedia series numbers to Netflix numbering
+            results_df['Series'] = results_df['Series'] - WIKI_SERIES_OFFSET
+            self._write_csv(results_df, results_filename, merge)
+            print(f"Results saved to {results_filename}")
+
         if self.episodes_data:
             episodes_df = pd.DataFrame(self.episodes_data)
-            # Subtract 3 from series numbers to match other data source labeling
-            episodes_df['Series'] = episodes_df['Series'] - 3
+            episodes_df['Series'] = episodes_df['Series'] - WIKI_SERIES_OFFSET
             # Add normalized theme column
             episodes_df['Parsed_Theme'] = episodes_df['Title'].apply(self.normalize_theme)
-            episodes_df.to_csv(episodes_filename, index=False)
-            print(f"Episodes saved to {episodes_filename} ({len(episodes_df)} rows)")
+            self._write_csv(episodes_df, episodes_filename, merge)
+            print(f"Episodes saved to {episodes_filename}")
+
+    @staticmethod
+    def _write_csv(new_df: pd.DataFrame, filename, merge: bool) -> None:
+        """Write a dataframe to CSV; with merge, swap in the new series and leave other lines untouched."""
+        path = Path(filename)
+        if not (merge and path.exists()):
+            new_df.to_csv(path, index=False)
+            return
+
+        # Work on raw lines (not a pandas round trip) so unchanged rows stay byte-for-byte identical
+        lines = path.read_text(encoding='utf-8').splitlines()
+        header, rows = lines[0], [line for line in lines[1:] if line.strip()]
+        replaced = {str(series) for series in new_df['Series'].unique()}
+        kept = [row for row in rows if row.split(',')[0] not in replaced]
+        new_rows = new_df.to_csv(index=False, header=False, lineterminator='\n').splitlines()
+        merged = sorted(kept + new_rows, key=lambda row: int(row.split(',')[0]))  # stable: keeps within-series order
+        path.write_text('\n'.join([header] + merged) + '\n', encoding='utf-8', newline='')
+
 
 def main() -> None:
     """Main function to run the scraper."""
+    parser = argparse.ArgumentParser(description="Scrape GBBO results and episode themes from Wikipedia")
+    parser.add_argument('--series', type=int, nargs='+',
+                        help='Netflix series number(s) to refresh, e.g. --series 14. Other series in the CSVs are kept.')
+    parser.add_argument('--all', action='store_true',
+                        help=f'Rescrape every series from {FIRST_NETFLIX_SERIES} up to --last and overwrite the CSVs')
+    parser.add_argument('--last', type=int, help='Last Netflix series number (required with --all)')
+    args = parser.parse_args()
+
+    if args.all:
+        if not args.last:
+            parser.error("--all needs --last, e.g. --all --last 14")
+        series_list, merge = list(range(FIRST_NETFLIX_SERIES, args.last + 1)), False
+    elif args.series:
+        series_list, merge = args.series, True
+    else:
+        parser.error("choose --series N [N ...] or --all --last N")
+
     scraper = GBBOWikiScraper()
-    
+
     print("Starting GBBO Wikipedia scraping...")
-    print("Scraping all series 8-15...")
-    
-    scraper.scrape_all_series(8, 16)
-    
+    print(f"Scraping Netflix series {series_list} (Wikipedia series {[n + WIKI_SERIES_OFFSET for n in series_list]})")
+
+    for series in series_list:
+        scraper.scrape_netflix_series(series)
+
     print("\nScraping complete. Validating data...")
     validation_passed = scraper.validate_data()
-    
+
     print("\nSaving results...")
-    scraper.save_results()
-    
+    scraper.save_results(merge=merge)
+
     if validation_passed:
         print("\nSUCCESS: Scraping completed successfully with valid data!")
     else:
         print("\nWARNING: Scraping completed but validation found issues!")
-    
+
     print("Done!")
 
 if __name__ == "__main__":

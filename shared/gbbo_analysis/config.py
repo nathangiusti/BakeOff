@@ -15,6 +15,7 @@ class Config:
     """
     INPUT_FILE: str = 'data_collection/judging/human/data.csv'
     OUTPUT_FILE: str = 'analysis/reports/gbbo_complete_analysis.csv'
+    CURRENT_FILE: str = 'data_collection/judging/human/current.csv'
     
     # Column names
     SIGNATURE_COLS: List[str] = None

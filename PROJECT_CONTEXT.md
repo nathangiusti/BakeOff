@@ -19,42 +19,36 @@ BakeOff/
 │   │   └── gbbo_episodes.csv
 │   ├── judging/
 │   │   ├── human/
-│   │   │   └── data.csv                    # Human-interpreted judging
+│   │   │   ├── data.csv                    # Human-interpreted judging (completed series)
+│   │   └── current.csv                 # Series in progress (same columns as data.csv)
 │   │   ├── claude/
 │   │   │   ├── claude_judging.csv          # Claude AI analysis
 │   │   │   ├── claude_data.csv             # Combined data
 │   │   │   ├── claude_judging_prompt.md
 │   │   │   └── combine_claude_data.py
-│   │   ├── compare_datasets.py
-│   │   └── current.csv                     # Current season data
+│   │   └── compare_datasets.py
 │   ├── transcripts/
 │   │   ├── netflix_transcripts/            # Raw Netflix subtitle files
 │   │   ├── parsed_transcripts/             # Processed transcript text
 │   │   ├── audited_transcripts/            # Judge-scored transcripts
-│   │   ├── claude_todo/                    # Transcripts pending scoring
-│   │   └── parse_transcripts.py            # Transcript processing tool
-│   └── validation/
+│   │   └── parse_transcripts.py            # Transcript processing tool (not used in the live-season workflow)
 │
 ├── correlation_analysis/        # Part 2: Correlation Analysis
 │   ├── train_weights.py                    # Main weight training program
-│   ├── model_weights.json                  # Generated weights
-│   └── weights/                            # Different weight configurations
+│   └── model_weights.json                  # Generated weights
 │
 ├── monte_carlo/                 # Part 3: Monte Carlo Simulations
 │   ├── historical_monte_carlo.py
-│   ├── weekly_predictions.py
-│   └── predictions_output/
-│       ├── weekly_predictions.md
-│       └── season_markdown/
-│           ├── weekly_predictions_s5.md
-│           └── ...
+│   ├── weekly_predictions.py               # Live-season weekly predictions -> output/season_markdown/
+│   └── (outputs written to ../output/season_markdown/)
 │
 ├── analysis/                    # Part 4: Analysis & Reporting
 │   ├── main.py                             # Main analysis program
+│   ├── archive_season.py                   # End of season: current.csv -> data.csv, retrain, re-run
 │   ├── reports/
 │   │   ├── gbbo_complete_analysis.csv
-│   │   └── gbbo_complete_analysis_contestant_summary.csv
-│   └── visualization/
+│   │   ├── gbbo_complete_analysis_contestant_summary.csv
+│   │   └── gbbo_results.csv                # Scraped Wikipedia results
 │
 ├── shared/                      # Shared utilities across all parts
 │   ├── gbbo_analysis/           # Core analysis package
@@ -145,25 +139,51 @@ python main.py --weights ../correlation_analysis/model_weights.json
 - `reports/gbbo_complete_analysis_contestant_summary.csv` - Aggregated statistics
 - Comprehensive console analysis with rankings and insights
 
+## Running a Live Season (e.g. Series 14)
+
+Series 13 and earlier live in `data_collection/judging/human/data.csv`. The season in progress lives in
+`data_collection/judging/human/current.csv`, which has exactly the same columns as `data.csv` (so it can be
+appended to `data.csv` as-is). Transcripts are not part of this workflow.
+
+**Weekly routine**
+1. Watch the episode and add that week's rows to `current.csv` (use the same -1/0/1 scoring as `data.csv`).
+2. Refresh the Wikipedia data for the series (technical ranks, star bakers, eliminations, episode themes):
+   `python data_collection/scraping/wikiscraper.py --series 14`
+   (Netflix numbering; Wikipedia series = Netflix series + 3. Only the named series is replaced in
+   `analysis/reports/gbbo_results.csv` and `data_collection/scraping/gbbo_episodes.csv`.)
+3. Generate the week's predictions:
+   `python monte_carlo/weekly_predictions.py <week>`
+   This writes/updates `output/season_markdown/weekly_predictions_s<series>.md`. Re-running a week replaces its
+   table but keeps any commentary and heading already written; new weeks get a `_TODO: add commentary_` placeholder.
+4. Optional: `cd analysis && python main.py` also prints the current-season prediction.
+
+**End of season**
+- `python analysis/archive_season.py --dry-run` checks that the season is complete (10 rounds, one star baker per
+  round, three finalists) and that the series is not already in `data.csv`.
+- `python analysis/archive_season.py --run-pipeline` appends the season to `data.csv`, resets `current.csv` to a
+  header-only file, retrains `correlation_analysis/model_weights.json`, and re-runs `analysis/main.py`.
+- Still manual: update `readme.md` (finalist table, rankings, theme table), then regenerate the older season
+  markdown if the weights changed (`weekly_predictions.py <week> --series N --input <csv>`).
+
 ## Data Sources and Structure
 
 ### Judging Data Sources
 
 The project uses two primary judging datasets:
 
-1. **Human-Interpreted Judging (`judging_data/data.csv`)**
+1. **Human-Interpreted Judging (`data_collection/judging/human/data.csv`)**
    - Manually scored judge comments based on human interpretation of episode transcripts
-   - Covers Series 5-12 with comprehensive scoring across all baking challenges
+   - Covers Series 5-13 with comprehensive scoring across all baking challenges
    - Uses integer scoring: -1 (negative), 0 (neutral), 1 (positive)
    - Includes handshakes, technical rankings, and judge review classifications
 
-2. **Claude AI Transcript Analysis (`judging_data/claude/claude_judging.csv`)**
+2. **Claude AI Transcript Analysis (`data_collection/judging/claude/claude_judging.csv`)**
    - Automated scoring of judge comments using Claude AI analysis of episode transcripts
    - Generated using structured prompt analysis of judge feedback patterns
    - Uses decimal scoring: -1.0 to 1.0 scale with more granular distinctions
    - Focuses on signature and showstopper bakes (6 scores per contestant per episode)
 
-### Data Structure (judging_data/data.csv - Human Interpreted)
+### Data Structure (data_collection/judging/human/data.csv - Human Interpreted)
 
 ### Column Definitions
 - **Contestant**: Baker's name
@@ -184,8 +204,8 @@ The project uses two primary judging datasets:
 - **Eliminated**: Eliminated this round (1 if eliminated, blank if not)
 
 ### Data Coverage
-- **Series 5-12 included**
-- **603 total contestant-round records across 90 contestants**
+- **Series 5-13 included**
+- **678 total contestant-round records across 101 contestants**
 - Series 5: 13 contestants, 10 rounds
 - Series 6: 12 contestants, 10 rounds  
 - Series 7: 13 contestants, 10 rounds
@@ -235,7 +255,7 @@ The project uses two primary judging datasets:
 - Uses actual min/max scores per round (handles inconsistencies)
 - Accounts for varying contestant numbers per round
 
-**Data File**: `judging_data/data.csv` contains all raw data with descriptive column headers
+**Data File**: `data_collection/judging/human/data.csv` contains all raw data with descriptive column headers
 
 ### Model Results
 **Analysis results and conclusions have been moved to ANALYSIS_RESULTS.md**
@@ -284,29 +304,29 @@ See ANALYSIS_RESULTS.md for complete findings, model performance details, and pr
   - Performance variance statistics
   - Category-specific averages (technical, signature, showstopper, flavor, bake, looks)
 
-### Historical Monte Carlo Analysis (prediction_analysis/historical_monte_carlo.py)
-- **Purpose**: Generates Monte Carlo simulation predictions for historical seasons (5-12) using existing strength scores
-- **Usage**: `cd prediction_analysis && python historical_monte_carlo.py <season> <episode>` (e.g., `cd prediction_analysis && python historical_monte_carlo.py 8 4`)
+### Historical Monte Carlo Analysis (monte_carlo/historical_monte_carlo.py)
+- **Purpose**: Generates Monte Carlo simulation predictions for historical seasons (5-13) using existing strength scores
+- **Usage**: `cd monte_carlo && python historical_monte_carlo.py <season> <episode>` (e.g., `cd monte_carlo && python historical_monte_carlo.py 8 4`)
 - **Command Line Arguments**:
-  - `season`: Season number (5-12)
+  - `season`: Season number (5-13)
   - `episode`: Episode/week number within the season
-  - `--data-path`: Optional path to data file (defaults to '../analysis_output/gbbo_complete_analysis.csv')
+  - `--data-path`: Optional path to data file (defaults to '../analysis/reports/gbbo_complete_analysis.csv')
 - **Output**: Console-only data tables showing:
   - Contestant rankings by finals probability and winner probability
   - Average strength scores, variance, week performance, and achievement counts
   - Top 3 predictions and predicted winner with percentages
 - **Method**: Monte Carlo simulation (10,000 iterations) using contestant performance history through specified week
-- **Usage Context**: Output from this script is used to update markdown files in `prediction_analysis/season_markdown/` folder
+- **Usage Context**: Output from this script is used to update markdown files in `output/season_markdown/` folder
   - Raw data/tables are generated by the script
   - Commentary and insights are added manually by parsing the results with Claude
   - Final markdown files combine both data tables and human-generated analysis
 
 ### Output Reports
-- **Performance Data**: Complete round-by-round strength scores and outcomes (analysis_output/gbbo_complete_analysis.csv)
-- **Contestant Summary**: Aggregated statistics including handshakes, reviews, and final placements (analysis_output/gbbo_complete_analysis_contestant_summary.csv) 
+- **Performance Data**: Complete round-by-round strength scores and outcomes (analysis/reports/gbbo_complete_analysis.csv)
+- **Contestant Summary**: Aggregated statistics including handshakes, reviews, and final placements (analysis/reports/gbbo_complete_analysis_contestant_summary.csv) 
 - **Analysis Insights**: Performance correlations, prediction accuracies, and behavioral patterns
 - **Theme Analysis**: Episode theme difficulty analysis with performance vs expectation metrics
-- **Historical Predictions**: Season-by-season weekly prediction markdown files in `prediction_analysis/season_markdown/` folder
+- **Historical Predictions**: Season-by-season weekly prediction markdown files in `output/season_markdown/` folder
 
 ## Analysis Goals
 1. **Weight Calculation**: Determine relative importance of each scoring component ✓

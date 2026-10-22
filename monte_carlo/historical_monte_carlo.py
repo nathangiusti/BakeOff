@@ -20,7 +20,7 @@ class HistoricalMonteCarloAnalyzer:
     
     def _prepare_data(self):
         """Organize data by series"""
-        for series in range(5, 13):
+        for series in range(5, 14):
             series_df = self.data[self.data['Series'] == series].copy()
             self.series_data[series] = series_df
     
@@ -212,15 +212,15 @@ def print_week_analysis_table(analyzer: HistoricalMonteCarloAnalyzer, series: in
 def main():
     """Main function to handle command line arguments and run analysis"""
     parser = argparse.ArgumentParser(description='Generate Monte Carlo analysis for specific GBBO season/episode')
-    parser.add_argument('season', type=int, help='Season number (5-12)')
+    parser.add_argument('season', type=int, help='Season number (5-13)')
     parser.add_argument('episode', type=int, help='Episode number')
     parser.add_argument('--data-path', default='../analysis/reports/gbbo_complete_analysis.csv', help='Path to data file')
     
     args = parser.parse_args()
     
     # Validate season
-    if args.season < 5 or args.season > 12:
-        print("Error: Season must be between 5 and 12")
+    if args.season < 5 or args.season > 13:
+        print("Error: Season must be between 5 and 13")
         sys.exit(1)
     
     # Initialize analyzer
