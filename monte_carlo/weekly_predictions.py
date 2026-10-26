@@ -134,7 +134,11 @@ def analyze_week(current_df, week_num, calculator, fixed_variance=None, n_simula
             variance = np.var(strength_scores, ddof=1) if rounds_competed > 1 else 0
 
         eliminated = contestant_rounds['Eliminated'].max() == 1
+        # A baker who stops appearing without being eliminated withdrew (not a performance exit)
+        withdrawn = not eliminated and contestant_rounds['Round'].max() < week_num
         elimination_round = contestant_rounds[contestant_rounds['Eliminated'] == 1]['Round'].max() if eliminated else 999
+        if withdrawn:
+            elimination_round = contestant_rounds['Round'].max()
 
         contestant_stats.append({
             'Contestant': contestant,
@@ -144,7 +148,8 @@ def analyze_week(current_df, week_num, calculator, fixed_variance=None, n_simula
             'Star_Bakers': int(contestant_rounds['Winner'].sum()),
             'High_Reviews': int((contestant_rounds['Second Half Review'] == 1).sum()),
             'Low_Reviews': int((contestant_rounds['Second Half Review'] == -1).sum()),
-            'Eliminated': eliminated,
+            'Eliminated': eliminated or withdrawn,
+            'Withdrawn': withdrawn,
             'Elimination_Round': elimination_round
         })
 
@@ -175,7 +180,7 @@ def build_week_section(week_num, results_df, season_avg, commentary, heading=Non
 
     for idx, (_, row) in enumerate(results_df.iterrows(), 1):
         week_score = "-" if pd.isna(row['Week_Score']) else f"{row['Week_Score']:.2f}"
-        status = "ELIM" if row['Eliminated'] else "Active"
+        status = "WITHDREW" if row['Withdrawn'] else "ELIM" if row['Eliminated'] else "Active"
         lines.append(
             f"| {idx} | {row['Contestant']} | {row['Finalist_Probability']:.1f}% | "
             f"{row['Winner_Probability']:.1f}% | {row['Avg_Strength']:.2f} | {row['Variance']:.2f} | "

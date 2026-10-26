@@ -1693,6 +1693,9 @@ class GBBOAnalyzer:
                 rounds_competed = len(contestant_data)
                 star_bakers = int(contestant_data['Winner'].sum())
                 eliminated = contestant_data['Eliminated'].sum() > 0
+                # Stopped appearing without being eliminated = withdrew; out of the simulation either way
+                if not eliminated and contestant_data['Round'].max() < current_df['Round'].max():
+                    eliminated = True
 
                 # Calculate variance (sample variance with ddof=1)
                 variance = contestant_data['Strength_Score'].var(ddof=1) if rounds_competed > 1 else 0

@@ -774,6 +774,12 @@ class GBBOWikiScraper:
         if 'patisserie' in title_lower or 'pâtisserie' in title_lower:
             return 'Patisserie'
 
+        # Singular spellings → plural names used by earlier series
+        if title_lower == 'biscuit':
+            return 'Biscuits'
+        if title_lower == 'dessert':
+            return 'Desserts'
+
         # Ethnic themes → Ethnic
         if title_lower in ['italian', 'danish', 'mexican', 'german', 'japanese']:
             return 'Ethnic'
@@ -783,7 +789,7 @@ class GBBOWikiScraper:
             return 'Temporal'
 
         # Celebration themes → Celebration
-        if title_lower in ['halloween', 'festivals', 'party']:
+        if title_lower in ['halloween', 'festivals', 'party', 'audience choice']:
             return 'Celebration'
 
         # Ingredient themes → Ingredient
